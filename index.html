@@ -122,35 +122,37 @@
   const textX = 50 + 28 * Math.cos(radians);
   const textY = 50 + 28 * Math.sin(radians);
 
-  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+// داخل segments.forEach(...)
+const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
-  // الرقم
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  text.setAttribute("x", textX);
-  text.setAttribute("y", textY);
-  text.setAttribute("fill", segment.textColor);
-  text.setAttribute("font-size", "5");
-  text.setAttribute("text-anchor", "middle");
-  text.setAttribute("dominant-baseline", "middle");
-  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-  text.textContent = segment.label;
-  group.appendChild(text);
+// النص
+const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+text.setAttribute("x", textX);
+text.setAttribute("y", textY);
+text.setAttribute("fill", segment.textColor);
+text.setAttribute("font-size", "5");
+text.setAttribute("text-anchor", "middle");
+text.setAttribute("dominant-baseline", "middle");
+text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+text.textContent = segment.label;
+group.appendChild(text);
 
-  // الصورة فقط للخانات السوداء
-  if (segment.color === "black") {
-    const iconX = textX + 7; // بجانب الرقم
-    const iconY = textY - 3;
+// الصورة لو الخانة سمراء
+if (segment.color === "black") {
+  const iconX = 50 + 25 * Math.cos(radians);
+  const iconY = 50 + 25 * Math.sin(radians);
 
-    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    image.setAttribute("href", "follower-icon.png");
-    image.setAttribute("x", iconX);
-    image.setAttribute("y", iconY);
-    image.setAttribute("width", "6");
-    image.setAttribute("height", "6");
-    group.appendChild(image);
-  }
+  const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+  image.setAttribute("href", "follower-icon.png");
+  image.setAttribute("x", iconX - 3);
+  image.setAttribute("y", iconY - 3);
+  image.setAttribute("width", "6");
+  image.setAttribute("height", "6");
+  image.setAttribute("transform", `rotate(${textAngle}, ${iconX}, ${iconY})`);
+  group.appendChild(image);
+}
 
-  wheel.appendChild(group);
+wheel.appendChild(group);
 });
 
     spinBtn.addEventListener("click", () => {
