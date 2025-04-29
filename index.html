@@ -138,13 +138,12 @@
       wheel.style.transform = `rotate(${currentRotation}deg)`;
       const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
       setTimeout(() => {
-        const resultText = segments[selectedIndex].label.includes("حظ")
-          ? `${username} حظ أوفر!`
-          : `${username} كسبت: ${segments[selectedIndex].label}`;
-        result.textContent = resultText;
-        localStorage.setItem("lastResult", resultText);
-        spinning = false;
-      }, 5000);
+  if (!segments[selectedIndex].label.includes("حظ")) {
+    result.innerHTML = `${username} كسب: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:30px;height:30px;vertical-align:middle;" />`;
+  } else {
+    result.textContent = `${username} ${segments[selectedIndex].label}`;
+  }
+}, 5000);
     });
     window.addEventListener("load", () => {
       const saved = localStorage.getItem("lastResult");
