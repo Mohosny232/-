@@ -94,10 +94,8 @@
       { label: "حظ أوفر", color: "white", textColor: "black" }
     ];
 
-const degrees = currentRotation % 360;
-const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
-
-segments.forEach((segment, i) => {
+    const angle = 360 / segments.length;
+   segments.forEach((segment, i) => {
   const startAngle = i * angle;
   const endAngle = startAngle + angle;
   const largeArc = angle > 180 ? 1 : 0;
