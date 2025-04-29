@@ -118,11 +118,11 @@
   wheel.appendChild(path);
 
   const textAngle = (startAngle + endAngle) / 2;
-  const textX = 50 + 30 * Math.cos((Math.PI * textAngle) / 180);
-  const textY = 50 + 30 * Math.sin((Math.PI * textAngle) / 180);
+  const radians = (Math.PI * textAngle) / 180;
+  const textX = 50 + 30 * Math.cos(radians);
+  const textY = 50 + 30 * Math.sin(radians);
 
-  const textGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  textGroup.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
   const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
   text.setAttribute("x", textX);
@@ -131,22 +131,25 @@
   text.setAttribute("font-size", "5");
   text.setAttribute("text-anchor", "middle");
   text.setAttribute("dominant-baseline", "middle");
+  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
   text.textContent = segment.label;
+  group.appendChild(text);
 
-  textGroup.appendChild(text);
-
-  // لو مش "حظ أوفر"، ضيف صورة
-  if (!segment.label.includes("حظ")) {
+  // فقط للخانات السوداء نضيف صورة
+  if (segment.color === "black") {
     const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    image.setAttributeNS(null, "href", "follower-icon.png");
-    image.setAttribute("x", textX - 5);
-    image.setAttribute("y", textY + 5);
-    image.setAttribute("width", "10");
-    image.setAttribute("height", "10");
-    textGroup.appendChild(image);
+    const iconX = 50 + 22 * Math.cos(radians + 0.3);  // زاوية الصورة
+    const iconY = 50 + 22 * Math.sin(radians + 0.3);
+    image.setAttribute("href", "follower-icon.png");
+    image.setAttribute("x", iconX);
+    image.setAttribute("y", iconY);
+    image.setAttribute("width", "6");
+    image.setAttribute("height", "6");
+    image.setAttribute("transform", `rotate(${textAngle}, ${iconX}, ${iconY})`);
+    group.appendChild(image);
   }
 
-  wheel.appendChild(textGroup);
+  wheel.appendChild(group);
 });
     spinBtn.addEventListener("click", () => {
       const username = document.getElementById("username").value.trim();
