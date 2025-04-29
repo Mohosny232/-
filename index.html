@@ -1,115 +1,111 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>عجلة الحظ</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: sans-serif;
       background: #fff;
+      font-family: 'Tajawal', sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
+
     .wheel-container {
       position: relative;
       width: 300px;
       height: 300px;
-      border-radius: 50%;
-      border: 8px solid #ccc;
-      overflow: hidden;
     }
+
     .wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      position: absolute;
-      transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+      border: 6px solid #ccc;
+      position: relative;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
     }
-    .slice {
+
+    .wheel span {
+      position: absolute;
       width: 50%;
       height: 50%;
-      position: absolute;
-      top: 50%;
       left: 50%;
+      top: 50%;
       transform-origin: 0% 0%;
-      clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
       display: flex;
-      align-items: center;
       justify-content: flex-start;
+      align-items: center;
       padding-left: 10px;
-      font-weight: bold;
       font-size: 14px;
+      font-weight: bold;
     }
+
     .arrow {
       width: 0;
       height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
-      border-bottom: 25px solid red;
+      border-bottom: 30px solid red;
       position: absolute;
       top: -30px;
       left: 50%;
       transform: translateX(-50%);
     }
-    #spinBtn {
-      margin-top: 30px;
-      padding: 12px 30px;
+
+    button {
+      margin-top: 40px;
       background: gold;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
+      color: #fff;
       border: none;
+      padding: 12px 20px;
+      font-size: 16px;
       border-radius: 10px;
       cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="wheel-container">
-    <div class="arrow"></div>
-    <div class="wheel" id="wheel"></div>
+
+  <div class="main">
+    <div class="wheel-container">
+      <div class="arrow"></div>
+      <div class="wheel" id="wheel">
+        <!-- الخانات -->
+        <span style="transform: rotate(0deg); color: white;">1000</span>
+        <span style="transform: rotate(36deg); color: black;">حظ أوفر</span>
+        <span style="transform: rotate(72deg); color: white;">5k</span>
+        <span style="transform: rotate(108deg); color: black;">حظ أوفر</span>
+        <span style="transform: rotate(144deg); color: white;">10k</span>
+        <span style="transform: rotate(180deg); color: black;">حظ أوفر</span>
+        <span style="transform: rotate(216deg); color: white;">50k</span>
+        <span style="transform: rotate(252deg); color: black;">حظ أوفر</span>
+        <span style="transform: rotate(288deg); color: white;">100k</span>
+        <span style="transform: rotate(324deg); color: black;">حظ أوفر</span>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button onclick="spin()">شوف حظك!</button>
+    </div>
   </div>
-  <button id="spinBtn">شوف حظك!</button>
 
   <script>
-    const wheel = document.getElementById('wheel');
-    const spinBtn = document.getElementById('spinBtn');
+    let wheel = document.getElementById("wheel");
     let deg = 0;
-    const items = [
-      { color: '#fff', text: 'حظ أوفر', textColor: '#000' },
-      { color: '#000', text: '1000', textColor: '#fff' },
-      { color: '#fff', text: 'حظ أوفر', textColor: '#000' },
-      { color: '#000', text: '5k', textColor: '#fff' },
-      { color: '#fff', text: 'حظ أوفر', textColor: '#000' },
-      { color: '#000', text: '10k', textColor: '#fff' },
-      { color: '#fff', text: 'حظ أوفر', textColor: '#000' },
-      { color: '#000', text: '50k', textColor: '#fff' },
-      { color: '#fff', text: 'حظ أوفر', textColor: '#000' },
-      { color: '#000', text: '100k', textColor: '#fff' },
-    ];
 
-    // رسم الشرائح
-    items.forEach((item, i) => {
-      const slice = document.createElement('div');
-      slice.className = 'slice';
-      slice.style.background = item.color;
-      slice.style.color = item.textColor;
-      slice.style.transform = `rotate(${i * 36}deg)`;
-      slice.innerText = item.text;
-      wheel.appendChild(slice);
-    });
-
-    spinBtn.addEventListener('click', () => {
-      const spins = Math.floor(Math.random() * 5 + 5); // عدد دورات عشوائي
-      deg += spins * 360 + Math.floor(Math.random() * 360);
+    function spin() {
+      let extra = Math.floor(Math.random() * 360);
+      deg += 360 * 5 + extra;
       wheel.style.transform = `rotate(${deg}deg)`;
-    });
+    }
   </script>
+
 </body>
 </html>
