@@ -139,8 +139,8 @@ group.appendChild(text);
 
 // الصورة لو الخانة سمراء
 if (segment.color === "black") {
-  const iconX = 50 + 25 * Math.cos(radians);
-  const iconY = 50 + 25 * Math.sin(radians);
+  const iconX = textX + 8; // إزاحة لليمين
+  const iconY = textY;     // نفس ارتفاع النص
 
   const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
   image.setAttribute("href", "follower-icon.png");
@@ -148,7 +148,6 @@ if (segment.color === "black") {
   image.setAttribute("y", iconY - 3);
   image.setAttribute("width", "6");
   image.setAttribute("height", "6");
-  image.setAttribute("transform", `rotate(${textAngle}, ${iconX}, ${iconY})`);
   group.appendChild(image);
 }
 
