@@ -3,8 +3,6 @@
   <meta charset="UTF-8">
   <title>عجلة الحظ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="manifest" href="manifest.json">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -75,14 +73,14 @@
   </div>
   <button id="spinBtn">شوف حظك!</button>
   <div id="result"></div>
-  <audio id="spinSound" src="spin.mp3" preload="auto"></audio>
-  <script>
+  <audio id="spinSound" src="spin.mp3" preload="auto"></audio>  <script>
     let spinning = false;
     const wheel = document.getElementById("wheel");
     const spinBtn = document.getElementById("spinBtn");
     const result = document.getElementById("result");
     const sound = document.getElementById("spinSound");
     let currentRotation = 0;
+
     const segments = [
       { label: "1000", color: "black", textColor: "white" },
       { label: "حظ أوفر", color: "white", textColor: "black" },
@@ -95,104 +93,86 @@
       { label: "100k", color: "black", textColor: "white" },
       { label: "حظ أوفر", color: "white", textColor: "black" }
     ];
+
     const angle = 360 / segments.length;
 
-segments.forEach((segment, i) => {
-  const startAngle = i * angle;
-  const endAngle = startAngle + angle;
-  const largeArc = angle > 180 ? 1 : 0;
-  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
-  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
-  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
-  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+    segments.forEach((segment, i) => {
+      const startAngle = i * angle;
+      const endAngle = startAngle + angle;
+      const largeArc = angle > 180 ? 1 : 0;
+      const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+      const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+      const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+      const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
 
-  const pathData = `
-    M 50 50
-    L ${x1} ${y1}
-    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
-    Z
-  `;
+      const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
 
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", pathData);
-  path.setAttribute("fill", segment.color);
-  wheel.appendChild(path);
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      path.setAttribute("fill", segment.color);
+      wheel.appendChild(path);
 
-  const textAngle = (startAngle + endAngle) / 2;
-  const radians = (Math.PI * textAngle) / 180;
-  const textX = 50 + 30 * Math.cos(radians);
-  const textY = 50 + 30 * Math.sin(radians);
+      const textAngle = (startAngle + endAngle) / 2;
+      const radians = (Math.PI * textAngle) / 180;
+      const textX = 50 + 30 * Math.cos(radians);
+      const textY = 50 + 30 * Math.sin(radians);
 
-  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  text.setAttribute("x", textX);
-  text.setAttribute("y", textY);
-  text.setAttribute("fill", segment.textColor);
-  text.setAttribute("font-size", "5");
-  text.setAttribute("text-anchor", "middle");
-  text.setAttribute("dominant-baseline", "middle");
-  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-  text.textContent = segment.label;
-  group.appendChild(text);
+      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text.setAttribute("x", textX);
+      text.setAttribute("y", textY);
+      text.setAttribute("fill", segment.textColor);
+      text.setAttribute("font-size", "5");
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("dominant-baseline", "middle");
+      text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+      text.textContent = segment.label;
+      group.appendChild(text);
 
-  // صورة للخانات السوداء فقط
-  // صورة للخانات السوداء فقط
-if (segment.color === "black") {
-  const iconX = textX - 6;  // ضبط موقع الصورة بجانب الرقم
-  const iconY = textY - 6;
+      if (segment.color === "black") {
+        const iconX = textX - 6;
+        const iconY = textY - 6;
+        const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+        image.setAttribute("href", "follower-icon.png");
+        image.setAttribute("x", iconX);
+        image.setAttribute("y", iconY);
+        image.setAttribute("width", "8");
+        image.setAttribute("height", "8");
+        group.appendChild(image);
+      }
 
-  const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-  image.setAttribute("href", "follower-icon.png");
-  image.setAttribute("x", iconX);
-  image.setAttribute("y", iconY);
-  image.setAttribute("width", "8");
-  image.setAttribute("height", "8");
-  group.appendChild(image);
-}
+      wheel.appendChild(group);
+    });
 
-  wheel.appendChild(group);
-});
+    spinBtn.addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim();
+      if (username === '') {
+        alert("من فضلك اكتب اسمك!");
+        return;
+      }
+      if (spinning) return;
+      spinning = true;
 
-spinBtn.addEventListener("click", () => {
-  const username = document.getElementById("username").value.trim();
-  if (username === '') {
-    alert("من فضلك اكتب اسمك!");
-    return;
-  }
-  if (spinning) return;
-  spinning = true;
-  sound.currentTime = 0;
-  sound.play();
+      sound.currentTime = 0;
+      sound.play();
 
-  const extraRotation = 3600 + Math.floor(Math.random() * 360);
-  currentRotation += extraRotation;
-  wheel.style.transform = `rotate(${currentRotation}deg)`;
+      const extraRotation = 3600 + Math.floor(Math.random() * 360);
+      currentRotation += extraRotation;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-  const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
+      const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
 
-  setTimeout(() => {
-    const isWin = !segments[selectedIndex].label.includes("حظ");
-    const resultText = isWin
-      ? `${username} كسبت: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
-      : `${username} حظ أوفر!`;
-
-    result.innerHTML = resultText;
-    localStorage.setItem("lastResult", resultText);
-    spinning = false;
-  }, 5000);
-});
-
-window.addEventListener("load", () => {
-  const saved = localStorage.getItem("lastResult");
-  if (saved) result.innerHTML = saved;
-});
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js").then(() => {
-    console.log("Service Worker Registered");
-  });
-});
+      setTimeout(() => {
+        const isWin = !segments[selectedIndex].label.includes("حظ");
+        const resultText = isWin
+          ? `${username} كسبت: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
+          : `${username} حظ أوفر!`;
+        result.innerHTML = resultText;
+        localStorage.setItem("lastResult", resultText);
+        spinning = false;
+      }, 5000);
+    });
   </script>
 </body>
 </html>
