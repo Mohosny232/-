@@ -1,111 +1,134 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>عجلة الحظ</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fff;
       margin: 0;
       padding: 0;
-      background: #fff;
-      font-family: 'Tajawal', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
     }
 
     .wheel-container {
       position: relative;
       width: 300px;
       height: 300px;
+      margin: 100px auto 20px;
     }
 
     .wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 6px solid #ccc;
-      position: relative;
+      border: 5px solid #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
       transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
     }
 
-    .wheel span {
+    .pointer {
       position: absolute;
-      width: 50%;
-      height: 50%;
+      top: -20px;
       left: 50%;
-      top: 50%;
-      transform-origin: 0% 0%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-left: 10px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .arrow {
+      transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
-      border-bottom: 30px solid red;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
+      border-bottom: 20px solid red;
+      z-index: 10;
     }
 
-    button {
-      margin-top: 40px;
-      background: gold;
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
+    #spinBtn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 20px;
       font-weight: bold;
+      background-color: #ffc107;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="main">
-    <div class="wheel-container">
-      <div class="arrow"></div>
-      <div class="wheel" id="wheel">
-        <!-- الخانات -->
-        <span style="transform: rotate(0deg); color: white;">1000</span>
-        <span style="transform: rotate(36deg); color: black;">حظ أوفر</span>
-        <span style="transform: rotate(72deg); color: white;">5k</span>
-        <span style="transform: rotate(108deg); color: black;">حظ أوفر</span>
-        <span style="transform: rotate(144deg); color: white;">10k</span>
-        <span style="transform: rotate(180deg); color: black;">حظ أوفر</span>
-        <span style="transform: rotate(216deg); color: white;">50k</span>
-        <span style="transform: rotate(252deg); color: black;">حظ أوفر</span>
-        <span style="transform: rotate(288deg); color: white;">100k</span>
-        <span style="transform: rotate(324deg); color: black;">حظ أوفر</span>
-      </div>
-    </div>
-    <div style="text-align: center;">
-      <button onclick="spin()">شوف حظك!</button>
-    </div>
-  </div>
+<div class="wheel-container">
+  <div class="pointer"></div>
+  <svg class="wheel" id="wheel" viewBox="0 0 100 100">
+    <!-- يتم توليد الخانات ديناميكياً -->
+  </svg>
+</div>
 
-  <script>
-    let wheel = document.getElementById("wheel");
-    let deg = 0;
+<button id="spinBtn">شوف حظك!</button>
 
-    function spin() {
-      let extra = Math.floor(Math.random() * 360);
-      deg += 360 * 5 + extra;
-      wheel.style.transform = `rotate(${deg}deg)`;
-    }
-  </script>
+<script>
+  const wheel = document.getElementById("wheel");
+  const spinBtn = document.getElementById("spinBtn");
+  let currentRotation = 0;
+
+  const segments = [
+    { label: "1000", color: "black", textColor: "white" },
+    { label: "حظ أوفر", color: "white", textColor: "black" },
+    { label: "5k", color: "black", textColor: "white" },
+    { label: "حظ أوفر", color: "white", textColor: "black" },
+    { label: "10k", color: "black", textColor: "white" },
+    { label: "حظ أوفر", color: "white", textColor: "black" },
+    { label: "50k", color: "black", textColor: "white" },
+    { label: "حظ أوفر", color: "white", textColor: "black" },
+    { label: "100k", color: "black", textColor: "white" },
+    { label: "حظ أوفر", color: "white", textColor: "black" }
+  ];
+
+  const angle = 360 / segments.length;
+
+  segments.forEach((segment, i) => {
+    const startAngle = i * angle;
+    const endAngle = startAngle + angle;
+
+    const largeArc = angle > 180 ? 1 : 0;
+    const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+    const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+    const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+    const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+
+    const pathData = `
+      M 50 50
+      L ${x1} ${y1}
+      A 50 50 0 ${largeArc} 1 ${x2} ${y2}
+      Z
+    `;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", pathData);
+    path.setAttribute("fill", segment.color);
+    wheel.appendChild(path);
+
+    const textAngle = (startAngle + endAngle) / 2;
+    const textX = 50 + 30 * Math.cos((Math.PI * textAngle) / 180);
+    const textY = 50 + 30 * Math.sin((Math.PI * textAngle) / 180);
+
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", textX);
+    text.setAttribute("y", textY);
+    text.setAttribute("fill", segment.textColor);
+    text.setAttribute("font-size", "5");
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dominant-baseline", "middle");
+    text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+    text.textContent = segment.label;
+    wheel.appendChild(text);
+  });
+
+  spinBtn.addEventListener("click", () => {
+    const randomRotation = 3600 + Math.floor(Math.random() * 360); // 10 دورات + عشوائي
+    currentRotation += randomRotation;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+  });
+</script>
 
 </body>
 </html>
