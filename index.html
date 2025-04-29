@@ -1,159 +1,159 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <title>عجلة الحظ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>جرب حظك</title>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
   <style>
     body {
-      margin: 0;
-      font-family: 'Tajawal', sans-serif;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: start;
-      min-height: 100vh;
-      padding-top: 40px;
-    }
-
-    input {
-      padding: 12px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 2px solid #ccc;
-      margin-bottom: 20px;
-      width: 80%;
+      font-family: Arial, sans-serif;
       text-align: center;
+      background: #fff;
+      margin: 0;
+      padding: 0;
     }
-
     .wheel-container {
       position: relative;
       width: 300px;
       height: 300px;
-      margin-bottom: 20px;
+      margin: 100px auto 20px;
     }
-
     .wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       border: 5px solid #333;
-      position: relative;
-      overflow: hidden;
-      transition: transform 10s cubic-bezier(0.25, 0.1, 0.25, 1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
     }
-
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      background: black;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .segment.white {
-      background: white;
-      color: black;
-    }
-
     .pointer {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
       width: 0;
       height: 0;
       border-left: 15px solid transparent;
       border-right: 15px solid transparent;
-      border-top: 25px solid red;
-      position: absolute;
-      bottom: -25px;
-      left: 50%;
-      transform: translateX(-50%);
+      border-top: 20px solid red;
       z-index: 10;
     }
-
-    button {
-      padding: 14px 30px;
+    #spinBtn {
+      margin-top: 15px;
+      padding: 12px 24px;
       font-size: 20px;
       font-weight: bold;
-      background: gold;
+      background-color: #ffc107;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
-
+    #username {
+      margin-top: 40px;
+      padding: 10px;
+      width: 250px;
+      font-size: 18px;
+      text-align: center;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+    }
     #result {
       margin-top: 20px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
+      color: #222;
     }
   </style>
 </head>
 <body>
-  <input type="text" id="username" placeholder="اكتب اسمك">
-  
+  <input type="text" id="username" placeholder="اكتب اسمك" />
   <div class="wheel-container">
+    <svg class="wheel" id="wheel" viewBox="0 0 100 100"></svg>
     <div class="pointer"></div>
-    <div class="wheel" id="wheel"></div>
   </div>
-
-  <button onclick="spin()">جرب حظك!</button>
+  <button id="spinBtn">شوف حظك!</button>
   <div id="result"></div>
-
-  <audio id="spinSound" src="wheel.mp3"></audio>
-
+  <audio id="spinSound" src="spin.mp3" preload="auto"></audio>
   <script>
-    const prizes = ['1000', 'حظ أوفر', '5K', 'حظ أوفر', '10K', 'حظ أوفر', '50K', 'حظ أوفر', '100K', 'حظ أوفر'];
-    const colors = ['black', 'white'];
-    const wheel = document.getElementById('wheel');
-
-    function createWheel() {
-      for (let i = 0; i < prizes.length; i++) {
-        const segment = document.createElement('div');
-        segment.className = `segment ${colors[i % 2]}`;
-        segment.style.transform = `rotate(${i * 36}deg) skewY(-54deg)`;
-        segment.textContent = prizes[i];
-        wheel.appendChild(segment);
-      }
-    }
-
-    createWheel();
-
     let spinning = false;
-
-    function spin() {
-      if (spinning) return;
-      const username = document.getElementById('username').value.trim();
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+    const sound = document.getElementById("spinSound");
+    let currentRotation = 0;
+    const segments = [
+      { label: "1000", color: "black", textColor: "white" },
+      { label: "حظ أوفر", color: "white", textColor: "black" },
+      { label: "5k", color: "black", textColor: "white" },
+      { label: "حظ أوفر", color: "white", textColor: "black" },
+      { label: "10k", color: "black", textColor: "white" },
+      { label: "حظ أوفر", color: "white", textColor: "black" },
+      { label: "50k", color: "black", textColor: "white" },
+      { label: "حظ أوفر", color: "white", textColor: "black" },
+      { label: "100k", color: "black", textColor: "white" },
+      { label: "حظ أوفر", color: "white", textColor: "black" }
+    ];
+    const angle = 360 / segments.length;
+    segments.forEach((segment, i) => {
+      const startAngle = i * angle;
+      const endAngle = startAngle + angle;
+      const largeArc = angle > 180 ? 1 : 0;
+      const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+      const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+      const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+      const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+      const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      path.setAttribute("fill", segment.color);
+      wheel.appendChild(path);
+      const textAngle = (startAngle + endAngle) / 2;
+      const textX = 50 + 30 * Math.cos((Math.PI * textAngle) / 180);
+      const textY = 50 + 30 * Math.sin((Math.PI * textAngle) / 180);
+      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      text.setAttribute("x", textX);
+      text.setAttribute("y", textY);
+      text.setAttribute("fill", segment.textColor);
+      text.setAttribute("font-size", "5");
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("dominant-baseline", "middle");
+      text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+      text.textContent = segment.label;
+      wheel.appendChild(text);
+    });
+    spinBtn.addEventListener("click", () => {
+      const username = document.getElementById("username").value.trim();
       if (username === '') {
-        alert('من فضلك أدخل اسمك أولاً');
+        alert("من فضلك اكتب اسمك!");
         return;
       }
-
-      const spinSound = document.getElementById('spinSound');
-      spinSound.currentTime = 0;
-      spinSound.play();
-
+      if (spinning) return;
       spinning = true;
-      const deg = 3600 + Math.floor(Math.random() * 360);
-      wheel.style.transition = 'transform 10s ease-out';
-      wheel.style.transform = `rotate(${deg}deg)`;
-
+      sound.currentTime = 0;
+      sound.play();
+      const extraRotation = 3600 + Math.floor(Math.random() * 360);
+      currentRotation += extraRotation;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+      const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
       setTimeout(() => {
-        const actualDeg = deg % 360;
-        const index = Math.floor(((360 - actualDeg + 18) % 360) / 36);
-        const result = prizes[index];
-        document.getElementById('result').textContent = result === 'حظ أوفر'
-          ? 'حظ أوفر! حاول مرة أخرى'
-          : `مبروك يا ${username}! كسبت ${result} متابع`;
+        const resultText = segments[selectedIndex].label.includes("حظ")
+          ? `${username} حظ أوفر!`
+          : `${username} كسبت: ${segments[selectedIndex].label}`;
+        result.textContent = resultText;
+        localStorage.setItem("lastResult", resultText);
         spinning = false;
-      }, 10000);
+      }, 5000);
+    });
+    window.addEventListener("load", () => {
+      const saved = localStorage.getItem("lastResult");
+      if (saved) result.textContent = saved;
+    });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").then(() => {
+        console.log("Service Worker Registered");
+      });
     }
   </script>
 </body>
