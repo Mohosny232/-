@@ -137,19 +137,19 @@ segments.forEach((segment, i) => {
   group.appendChild(text);
 
   // صورة للخانات السوداء فقط
-  if (segment.color === "black") {
-    const iconX = 50 + 22 * Math.cos(radians);
-    const iconY = 50 + 22 * Math.sin(radians);
+  // صورة للخانات السوداء فقط
+if (segment.color === "black") {
+  const iconX = textX - 6;  // ضبط موقع الصورة بجانب الرقم
+  const iconY = textY - 6;
 
-    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    image.setAttribute("href", "follower-icon.png");
-    image.setAttribute("x", iconX - 3);
-    image.setAttribute("y", iconY - 3);
-    image.setAttribute("width", "6");
-    image.setAttribute("height", "6");
-    image.setAttribute("transform", `rotate(${textAngle}, ${iconX}, ${iconY})`);
-    group.appendChild(image);
-  }
+  const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+  image.setAttribute("href", "follower-icon.png");
+  image.setAttribute("x", iconX);
+  image.setAttribute("y", iconY);
+  image.setAttribute("width", "8");
+  image.setAttribute("height", "8");
+  group.appendChild(image);
+}
 
   wheel.appendChild(group);
 });
