@@ -171,8 +171,8 @@ segments.forEach((segment, i) => {
       currentRotation += extraRotation;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-      const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
-
+      const degrees = currentRotation % 360;
+      const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
       setTimeout(() => {
         const isWin = !segments[selectedIndex].label.includes("حظ");
         const resultText = isWin
