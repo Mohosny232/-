@@ -96,7 +96,8 @@
       { label: "حظ أوفر", color: "white", textColor: "black" }
     ];
     const angle = 360 / segments.length;
-    segments.forEach((segment, i) => {
+
+segments.forEach((segment, i) => {
   const startAngle = i * angle;
   const endAngle = startAngle + angle;
   const largeArc = angle > 180 ? 1 : 0;
@@ -135,14 +136,15 @@
   text.textContent = segment.label;
   group.appendChild(text);
 
-  // فقط للخانات السوداء نضيف صورة
+  // صورة للخانات السوداء فقط
   if (segment.color === "black") {
+    const iconX = 50 + 22 * Math.cos(radians);
+    const iconY = 50 + 22 * Math.sin(radians);
+
     const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    const iconX = 50 + 22 * Math.cos(radians + 0.3);  // زاوية الصورة
-    const iconY = 50 + 22 * Math.sin(radians + 0.3);
     image.setAttribute("href", "follower-icon.png");
-    image.setAttribute("x", iconX);
-    image.setAttribute("y", iconY);
+    image.setAttribute("x", iconX - 3);
+    image.setAttribute("y", iconY - 3);
     image.setAttribute("width", "6");
     image.setAttribute("height", "6");
     image.setAttribute("transform", `rotate(${textAngle}, ${iconX}, ${iconY})`);
@@ -151,40 +153,46 @@
 
   wheel.appendChild(group);
 });
-    spinBtn.addEventListener("click", () => {
-      const username = document.getElementById("username").value.trim();
-      if (username === '') {
-        alert("من فضلك اكتب اسمك!");
-        return;
-      }
-      if (spinning) return;
-      spinning = true;
-      sound.currentTime = 0;
-      sound.play();
-      const extraRotation = 3600 + Math.floor(Math.random() * 360);
-      currentRotation += extraRotation;
-      wheel.style.transform = `rotate(${currentRotation}deg)`;
-      const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
-      setTimeout(() => {
-  const isWin = !segments[selectedIndex].label.includes("حظ");
-  const resultText = isWin
-    ? `${username} كسبت: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
-    : `${username} حظ أوفر!`;
 
-  result.innerHTML = resultText;
-  localStorage.setItem("lastResult", resultText);
-  spinning = false;
-}, 5000);
-    });
-    window.addEventListener("load", () => {
-      const saved = localStorage.getItem("lastResult");
-      if (saved) result.textContent = saved;
-    });
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").then(() => {
-        console.log("Service Worker Registered");
-      });
-    }
+spinBtn.addEventListener("click", () => {
+  const username = document.getElementById("username").value.trim();
+  if (username === '') {
+    alert("من فضلك اكتب اسمك!");
+    return;
+  }
+  if (spinning) return;
+  spinning = true;
+  sound.currentTime = 0;
+  sound.play();
+
+  const extraRotation = 3600 + Math.floor(Math.random() * 360);
+  currentRotation += extraRotation;
+  wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+  const selectedIndex = segments.length - 1 - Math.floor(((currentRotation % 360) / angle)) % segments.length;
+
+  setTimeout(() => {
+    const isWin = !segments[selectedIndex].label.includes("حظ");
+    const resultText = isWin
+      ? `${username} كسبت: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
+      : `${username} حظ أوفر!`;
+
+    result.innerHTML = resultText;
+    localStorage.setItem("lastResult", resultText);
+    spinning = false;
+  }, 5000);
+});
+
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("lastResult");
+  if (saved) result.innerHTML = saved;
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").then(() => {
+    console.log("Service Worker Registered");
+  });
+});
   </script>
 </body>
 </html>
