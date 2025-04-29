@@ -97,32 +97,57 @@
     ];
     const angle = 360 / segments.length;
     segments.forEach((segment, i) => {
-      const startAngle = i * angle;
-      const endAngle = startAngle + angle;
-      const largeArc = angle > 180 ? 1 : 0;
-      const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
-      const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
-      const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
-      const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
-      const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", pathData);
-      path.setAttribute("fill", segment.color);
-      wheel.appendChild(path);
-      const textAngle = (startAngle + endAngle) / 2;
-      const textX = 50 + 30 * Math.cos((Math.PI * textAngle) / 180);
-      const textY = 50 + 30 * Math.sin((Math.PI * textAngle) / 180);
-      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      text.setAttribute("x", textX);
-      text.setAttribute("y", textY);
-      text.setAttribute("fill", segment.textColor);
-      text.setAttribute("font-size", "5");
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("dominant-baseline", "middle");
-      text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-      text.textContent = segment.label;
-      wheel.appendChild(text);
-    });
+  const startAngle = i * angle;
+  const endAngle = startAngle + angle;
+  const largeArc = angle > 180 ? 1 : 0;
+  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+
+  const pathData = `
+    M 50 50
+    L ${x1} ${y1}
+    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
+    Z
+  `;
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", pathData);
+  path.setAttribute("fill", segment.color);
+  wheel.appendChild(path);
+
+  const textAngle = (startAngle + endAngle) / 2;
+  const textX = 50 + 30 * Math.cos((Math.PI * textAngle) / 180);
+  const textY = 50 + 30 * Math.sin((Math.PI * textAngle) / 180);
+
+  const textGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  textGroup.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  text.setAttribute("x", textX);
+  text.setAttribute("y", textY);
+  text.setAttribute("fill", segment.textColor);
+  text.setAttribute("font-size", "5");
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("dominant-baseline", "middle");
+  text.textContent = segment.label;
+
+  textGroup.appendChild(text);
+
+  // لو مش "حظ أوفر"، ضيف صورة
+  if (!segment.label.includes("حظ")) {
+    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttributeNS(null, "href", "follower-icon.png");
+    image.setAttribute("x", textX - 5);
+    image.setAttribute("y", textY + 5);
+    image.setAttribute("width", "10");
+    image.setAttribute("height", "10");
+    textGroup.appendChild(image);
+  }
+
+  wheel.appendChild(textGroup);
+});
     spinBtn.addEventListener("click", () => {
       const username = document.getElementById("username").value.trim();
       if (username === '') {
