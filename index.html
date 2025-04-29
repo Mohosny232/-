@@ -94,56 +94,66 @@
       { label: "حظ أوفر", color: "white", textColor: "black" }
     ];
 
-    const angle = 360 / segments.length;
+const degrees = currentRotation % 360;
+const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
 
-    segments.forEach((segment, i) => {
-      const startAngle = i * angle;
-      const endAngle = startAngle + angle;
-      const largeArc = angle > 180 ? 1 : 0;
-      const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
-      const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
-      const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
-      const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+segments.forEach((segment, i) => {
+  const startAngle = i * angle;
+  const endAngle = startAngle + angle;
+  const largeArc = angle > 180 ? 1 : 0;
 
-      const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
+  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
 
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", pathData);
-      path.setAttribute("fill", segment.color);
-      wheel.appendChild(path);
+  const pathData = `
+    M 50 50
+    L ${x1} ${y1}
+    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
+    Z
+  `;
 
-      const textAngle = (startAngle + endAngle) / 2;
-      const radians = (Math.PI * textAngle) / 180;
-      const textX = 50 + 30 * Math.cos(radians);
-      const textY = 50 + 30 * Math.sin(radians);
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", pathData);
+  path.setAttribute("fill", segment.color);
+  wheel.appendChild(path);
 
-      const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const textAngle = (startAngle + endAngle) / 2;
+  const radians = (Math.PI * textAngle) / 180;
+  const textX = 50 + 28 * Math.cos(radians);
+  const textY = 50 + 28 * Math.sin(radians);
 
-      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      text.setAttribute("x", textX);
-      text.setAttribute("y", textY);
-      text.setAttribute("fill", segment.textColor);
-      text.setAttribute("font-size", "5");
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("dominant-baseline", "middle");
-      text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-      text.textContent = segment.label;
-      group.appendChild(text);
+  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
-      if (segment.color === "black") {
-        const iconX = textX - 6;
-        const iconY = textY - 6;
-        const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-        image.setAttribute("href", "follower-icon.png");
-        image.setAttribute("x", iconX);
-        image.setAttribute("y", iconY);
-        image.setAttribute("width", "8");
-        image.setAttribute("height", "8");
-        group.appendChild(image);
-      }
+  // الرقم
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  text.setAttribute("x", textX);
+  text.setAttribute("y", textY);
+  text.setAttribute("fill", segment.textColor);
+  text.setAttribute("font-size", "5");
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("dominant-baseline", "middle");
+  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+  text.textContent = segment.label;
+  group.appendChild(text);
 
-      wheel.appendChild(group);
-    });
+  // الصورة فقط للخانات السوداء
+  if (segment.color === "black") {
+    const iconX = textX + 7; // بجانب الرقم
+    const iconY = textY - 3;
+
+    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttribute("href", "follower-icon.png");
+    image.setAttribute("x", iconX);
+    image.setAttribute("y", iconY);
+    image.setAttribute("width", "6");
+    image.setAttribute("height", "6");
+    group.appendChild(image);
+  }
+
+  wheel.appendChild(group);
+});
 
     spinBtn.addEventListener("click", () => {
       const username = document.getElementById("username").value.trim();
