@@ -179,32 +179,25 @@ wheel.appendChild(group);
       const degrees = currentRotation % 360;
       const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
       setTimeout(() => {
-  // حساب الزاوية النهائية للدوران (الزاوية بين 0 و 360)
+  // حساب الزاوية النهائية بعد الدوران
   const finalRotation = currentRotation % 360;
-  
-  // حساب زاوية كل خانة
-  const segmentAngle = 360 / segments.length;
 
-  // تحديد الخانة التي يتوقف عندها السهم بناءً على الزاوية
-  // نضيف نصف زاوية القطاع لضبط التوقف بشكل دقيق
-  const selectedIndex = Math.floor(((finalRotation + segmentAngle / 2) % 360) / segmentAngle);
+  // عكس اتجاه العجلة لأن السهم في الأسفل ويشير للأعلى
+  const adjustedRotation = (360 - finalRotation + angle / 2) % 360;
+
+  // تحديد الخانة بناءً على الزاوية المعدّلة
+  const selectedIndex = Math.floor(adjustedRotation / angle);
   const selectedSegment = segments[selectedIndex];
 
-  // التحقق إذا كانت الخانة هي فوز أو "حظ"
+  const username = document.getElementById("username").value.trim();
   const isWin = !selectedSegment.label.includes("حظ");
 
-  // بناء النص بناءً على النتيجة (استخدام الرقم أو النص المحدد)
   const resultText = isWin
     ? `${username} كسبت: ${selectedSegment.label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
     : `${username} حظ أوفر!`;
 
-  // عرض النتيجة في العنصر الخاص بالنتيجة
   result.innerHTML = resultText;
-
-  // تخزين النتيجة في الـ localStorage
   localStorage.setItem("lastResult", resultText);
-
-  // تغيير حالة الدوران
   spinning = false;
 }, 10000);
     });
