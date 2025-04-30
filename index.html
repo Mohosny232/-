@@ -179,14 +179,33 @@ wheel.appendChild(group);
       const degrees = currentRotation % 360;
       const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
       setTimeout(() => {
-        const isWin = !segments[selectedIndex].label.includes("حظ");
-        const resultText = isWin
-          ? `${username} كسبت: ${segments[selectedIndex].label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
-          : `${username} حظ أوفر!`;
-        result.innerHTML = resultText;
-        localStorage.setItem("lastResult", resultText);
-        spinning = false;
-      }, 10000);
+  // حساب الزاوية النهائية للدوران (الزاوية بين 0 و 360)
+  const finalRotation = currentRotation % 360;
+  
+  // حساب زاوية كل خانة
+  const segmentAngle = 360 / segments.length;
+
+  // تحديد الخانة التي يتوقف عندها السهم بناءً على الزاوية
+  const selectedIndex = Math.floor(((360 - finalRotation + segmentAngle / 2) % 360) / segmentAngle);
+  const selectedSegment = segments[selectedIndex];
+
+  // التحقق إذا كانت الخانة هي فوز أو "حظ"
+  const isWin = !selectedSegment.label.includes("حظ");
+  
+  // بناء النص بناءً على النتيجة
+  const resultText = isWin
+    ? `${username} كسبت: ${selectedSegment.label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;" />`
+    : `${username} حظ أوفر!`;
+
+  // عرض النتيجة في العنصر الخاص بالنتيجة
+  result.innerHTML = resultText;
+
+  // تخزين النتيجة في الـ localStorage
+  localStorage.setItem("lastResult", resultText);
+
+  // تغيير حالة الدوران
+  spinning = false;
+}, 10000);
     });
   </script>
 </body>
