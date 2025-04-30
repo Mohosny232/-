@@ -23,20 +23,20 @@
       border-radius: 50%;
       border: 5px solid #333;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      transition: transform 10s ease-out;
     }
     .pointer {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%) rotate(180deg);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 20px solid red; /* البداية تكون باللون الأحمر */
-  z-index: 10;
-  transition: border-top 0.3s ease; /* إضافة تأثير لتغيير اللون بشكل ناعم */
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 20px solid red;
+      z-index: 10;
+      transition: border-top 0.3s ease;
     }
     #spinBtn {
       margin-top: 15px;
@@ -74,100 +74,14 @@
   </div>
   <button id="spinBtn">شوف حظك!</button>
   <div id="result"></div>
-  <audio id="spinSound" src="spin.mp3" preload="auto"></audio> 
-  
+  <audio id="spinSound" src="spin.mp3" preload="auto"></audio>
   <script>
     let spinning = false;
     const wheel = document.getElementById("wheel");
     const spinBtn = document.getElementById("spinBtn");
     const result = document.getElementById("result");
     const sound = document.getElementById("spinSound");
-    let currentRotation = 0;
-
-    const segments = [
-      { label: "1000", color: "black", textColor: "white" },
-      { label: "حظ أوفر", color: "white", textColor: "black" },
-      { label: "5k", color: "black", textColor: "white" },
-      { label: "حظ أوفر", color: "white", textColor: "black" },
-      { label: "10k", color: "black", textColor: "white" },
-      { label: "حظ أوفر", color: "white", textColor: "black" },
-      { label: "50k", color: "black", textColor: "white" },
-      { label: "حظ أوفر", color: "white", textColor: "black" },
-      { label: "100k", color: "black", textColor: "white" },
-      { label: "حظ أوفر", color: "white", textColor: "black" }
-    ];
-
-    const angle = 360 / segments.length;
-   segments.forEach((segment, i) => {
-  const startAngle = i * angle;
-  const endAngle = startAngle + angle;
-  const largeArc = angle > 180 ? 1 : 0;
-
-  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
-  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
-  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
-  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
-
-  const pathData = `
-    M 50 50
-    L ${x1} ${y1}
-    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
-    Z
-  `;
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", pathData);
-  path.setAttribute("fill", segment.color);
-  wheel.appendChild(path);
-
-  const textAngle = (startAngle + endAngle) / 2;
-  const radians = (Math.PI * textAngle) / 180;
-  const textX = 50 + 28 * Math.cos(radians);
-  const textY = 50 + 28 * Math.sin(radians);
-
-// داخل segments.forEach(...)
-const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-
-// النص
-const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-text.setAttribute("x", textX);
-text.setAttribute("y", textY);
-text.setAttribute("fill", segment.textColor);
-text.setAttribute("font-size", "5");
-text.setAttribute("text-anchor", "middle");
-text.setAttribute("dominant-baseline", "middle");
-text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-text.textContent = segment.label;
-group.appendChild(text);
-
-// الصورة لو الخانة سمراء
-if (segment.color === "black") {
-  const iconOffset = -8; // إزاحة لليسار بدل اليمين
-  const iconX = textX + iconOffset * Math.cos(radians);
-  const iconY = textY + iconOffset * Math.sin(radians);
-
-  const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-  image.setAttribute("href", "follower-icon.png");
-  image.setAttribute("x", iconX - 3);
-  image.setAttribute("y", iconY - 3);
-  image.setAttribute("width", "6");
-  image.setAttribute("height", "6");
-
-  // تدوير الصورة بنفس زاوية دوران الرقم (لكي تظهر متناسقة)
-   const angle = radians * (180 / Math.PI); // تحويل للراديان
-image.setAttribute("transform", rotate(${angle} ${iconX} ${iconY}));
-
-group.appendChild(image);
-}
-<script>
-let spinning = false;
-const wheel = document.getElementById("wheel");
-const spinBtn = document.getElementById("spinBtn");
-const result = document.getElementById("result");
-const sound = document.getElementById("spinSound");
-let currentRotation = 0;
-
-const segments = [
+    let currentRotation = 0;const segments = [
   { label: "1000", color: "black", textColor: "white" },
   { label: "حظ أوفر", color: "white", textColor: "black" },
   { label: "5k", color: "black", textColor: "white" },
@@ -185,18 +99,11 @@ segments.forEach((segment, i) => {
   const startAngle = i * angle;
   const endAngle = startAngle + angle;
   const largeArc = angle > 180 ? 1 : 0;
-
   const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
   const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
   const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
   const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
-
-  const pathData = `
-    M 50 50
-    L ${x1} ${y1}
-    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
-    Z
-  `;
+  const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
 
   const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
   path.setAttribute("d", pathData);
@@ -225,7 +132,6 @@ segments.forEach((segment, i) => {
     const iconOffset = -8;
     const iconX = textX + iconOffset * Math.cos(radians);
     const iconY = textY + iconOffset * Math.sin(radians);
-
     const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
     image.setAttribute("href", "follower-icon.png");
     image.setAttribute("x", iconX - 3);
@@ -248,21 +154,16 @@ spinBtn.addEventListener("click", () => {
   }
   if (spinning) return;
   spinning = true;
-
-  const pointer = document.querySelector(".pointer");
-  pointer.style.borderTopColor = "green";
-
+  document.querySelector(".pointer").style.borderTopColor = "green";
   sound.currentTime = 0;
   sound.play();
 
   const extraRotation = 3600 + Math.floor(Math.random() * 360);
   currentRotation += extraRotation;
-  wheel.style.transition = "transform 10s ease-out";
   wheel.style.transform = `rotate(${currentRotation}deg)`;
 
   setTimeout(() => {
-    pointer.style.borderTopColor = "red";
-
+    document.querySelector(".pointer").style.borderTopColor = "red";
     const finalRotation = currentRotation % 360;
     const segmentAngle = 360 / segments.length;
     const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
@@ -275,7 +176,6 @@ spinBtn.addEventListener("click", () => {
       const duration = 2000;
       const steps = 40;
       const increment = Math.ceil(target / steps);
-
       const interval = setInterval(() => {
         count += increment;
         if (count >= target) {
@@ -287,10 +187,10 @@ spinBtn.addEventListener("click", () => {
     } else {
       result.innerHTML = "";
     }
-
     spinning = false;
   }, 10000);
 });
-</script>
+
+  </script>
 </body>
 </html>
