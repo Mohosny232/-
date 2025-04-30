@@ -138,24 +138,16 @@ text.textContent = segment.label;
 group.appendChild(text);
 
 // الصورة لو الخانة سمراء
-if (segment.color === "black" && segment.isSpecial) {  // assuming 'isSpecial' identifies the specific segments
-  const iconOffset = 10; // المسافة بين الصورة والرقم
-  const iconX = textX + iconOffset * Math.cos(radians);
-  const iconY = textY + iconOffset * Math.sin(radians);
+if (segment.color === "black") {
+  const iconX = textX + 8; // إزاحة لليمين
+  const iconY = textY;     // نفس ارتفاع النص
 
-  // إنشاء الصورة
   const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
   image.setAttribute("href", "follower-icon.png");
-  image.setAttribute("x", iconX - 3); // ضبط الموضع الأفقي
-  image.setAttribute("y", iconY - 3); // ضبط الموضع الرأسي
+  image.setAttribute("x", iconX - 3);
+  image.setAttribute("y", iconY - 3);
   image.setAttribute("width", "6");
   image.setAttribute("height", "6");
-
-  // تدوير الصورة بحيث يكون وجهها للأعلى
-  const rotationAngle = radians * (180 / Math.PI); // تحويل الزوايا من راديان إلى درجات
-  image.setAttribute("transform", `rotate(${rotationAngle} ${iconX} ${iconY})`);
-
-  // إضافة الصورة إلى المجموعة
   group.appendChild(image);
 }
 
