@@ -157,66 +157,138 @@ image.setAttribute("transform", rotate(${angle} ${iconX} ${iconY}));
 
 group.appendChild(image);
 }
+<script>
+let spinning = false;
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
+const result = document.getElementById("result");
+const sound = document.getElementById("spinSound");
+let currentRotation = 0;
 
-wheel.appendChild(group);
+const segments = [
+  { label: "1000", color: "black", textColor: "white" },
+  { label: "حظ أوفر", color: "white", textColor: "black" },
+  { label: "5k", color: "black", textColor: "white" },
+  { label: "حظ أوفر", color: "white", textColor: "black" },
+  { label: "10k", color: "black", textColor: "white" },
+  { label: "حظ أوفر", color: "white", textColor: "black" },
+  { label: "50k", color: "black", textColor: "white" },
+  { label: "حظ أوفر", color: "white", textColor: "black" },
+  { label: "100k", color: "black", textColor: "white" },
+  { label: "حظ أوفر", color: "white", textColor: "black" }
+];
+
+const angle = 360 / segments.length;
+segments.forEach((segment, i) => {
+  const startAngle = i * angle;
+  const endAngle = startAngle + angle;
+  const largeArc = angle > 180 ? 1 : 0;
+
+  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
+  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
+  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
+  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
+
+  const pathData = `
+    M 50 50
+    L ${x1} ${y1}
+    A 50 50 0 ${largeArc} 1 ${x2} ${y2}
+    Z
+  `;
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", pathData);
+  path.setAttribute("fill", segment.color);
+  wheel.appendChild(path);
+
+  const textAngle = (startAngle + endAngle) / 2;
+  const radians = (Math.PI * textAngle) / 180;
+  const textX = 50 + 28 * Math.cos(radians);
+  const textY = 50 + 28 * Math.sin(radians);
+
+  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  text.setAttribute("x", textX);
+  text.setAttribute("y", textY);
+  text.setAttribute("fill", segment.textColor);
+  text.setAttribute("font-size", "5");
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("dominant-baseline", "middle");
+  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
+  text.textContent = segment.label;
+  group.appendChild(text);
+
+  if (segment.color === "black") {
+    const iconOffset = -8;
+    const iconX = textX + iconOffset * Math.cos(radians);
+    const iconY = textY + iconOffset * Math.sin(radians);
+
+    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttribute("href", "follower-icon.png");
+    image.setAttribute("x", iconX - 3);
+    image.setAttribute("y", iconY - 3);
+    image.setAttribute("width", "6");
+    image.setAttribute("height", "6");
+    const iconAngle = radians * (180 / Math.PI);
+    image.setAttribute("transform", `rotate(${iconAngle}, ${iconX}, ${iconY})`);
+    group.appendChild(image);
+  }
+
+  wheel.appendChild(group);
 });
 
 spinBtn.addEventListener("click", () => {
+  const username = document.getElementById("username").value.trim();
+  if (username === '') {
+    alert("من فضلك اكتب اسمك!");
+    return;
+  }
+  if (spinning) return;
+  spinning = true;
 
-const username = document.getElementById("username").value.trim();
-if (username === '') {
-alert("من فضلك اكتب اسمك!");
-return;
-}
-if (spinning) return;
-spinning = true;
+  const pointer = document.querySelector(".pointer");
+  pointer.style.borderTopColor = "green";
 
-// تغيير السهم إلى اللون الأخضر أثناء الدوران
-const pointer = document.querySelector(".pointer");
-pointer.style.borderTopColor = "green";
+  sound.currentTime = 0;
+  sound.play();
 
-sound.currentTime = 0;
-sound.play();
+  const extraRotation = 3600 + Math.floor(Math.random() * 360);
+  currentRotation += extraRotation;
+  wheel.style.transition = "transform 10s ease-out";
+  wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-const extraRotation = 3600 + Math.floor(Math.random() * 360);
-currentRotation += extraRotation;
-wheel.style.transition = "transform 10s ease-out";
-wheel.style.transform = rotate(${currentRotation}deg);
+  setTimeout(() => {
+    pointer.style.borderTopColor = "red";
 
-setTimeout(() => {
-pointer.style.borderTopColor = "red"; // رجع السهم أحمر
+    const finalRotation = currentRotation % 360;
+    const segmentAngle = 360 / segments.length;
+    const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
+    const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
+    const selectedSegment = segments[selectedIndex];
 
-const finalRotation = currentRotation % 360;
-const segmentAngle = 360 / segments.length;
-const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
-const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
-const selectedSegment = segments[selectedIndex];
+    if (!selectedSegment.label.includes("حظ")) {
+      let count = 0;
+      const target = parseInt(selectedSegment.label.replace(/k/gi, "000"));
+      const duration = 2000;
+      const steps = 40;
+      const increment = Math.ceil(target / steps);
 
-if (!selectedSegment.label.includes("حظ")) {
-// عداد المتابعين
-let count = 0;
-const target = parseInt(selectedSegment.label.replace("k", "000").replace("K", "000"));
-const duration = 2000; // 2 ثانية
-const steps = 40;
-const increment = Math.ceil(target / steps);
+      const interval = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          count = target;
+          clearInterval(interval);
+        }
+        result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;
+      }, duration / steps);
+    } else {
+      result.innerHTML = "";
+    }
 
-const username = document.getElementById("username").value.trim();  
-const interval = setInterval(() => {  
-  count += increment;  
-  if (count >= target) {  
-    count = target;  
-    clearInterval(interval);  
-  }  
-  result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;  
-}, duration / steps);
-
-} else {
-result.innerHTML = ""; // لا يظهر شيء
-}
-
-spinning = false;
-}, 10000);
+    spinning = false;
+  }, 10000);
 });
-  </script>
+</script>
 </body>
 </html>
