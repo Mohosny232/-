@@ -139,7 +139,7 @@ group.appendChild(text);
 
 // الصورة لو الخانة سمراء
 if (segment.color === "black") {
-  const iconOffset = -6; // إزاحة لليسار بدل اليمين
+  const iconOffset = -8; // إزاحة لليسار بدل اليمين
   const iconX = textX + iconOffset * Math.cos(radians);
   const iconY = textY + iconOffset * Math.sin(radians);
 
@@ -174,8 +174,8 @@ wheel.appendChild(group);
 
       const extraRotation = 3600 + Math.floor(Math.random() * 360);
       currentRotation += extraRotation;
+      wheel.style.transition = "transform 10s ease-out";
       wheel.style.transform = `rotate(${currentRotation}deg)`;
-
       const degrees = currentRotation % 360;
       const selectedIndex = Math.floor((360 - degrees + angle / 2) % 360 / angle);
       setTimeout(() => {
@@ -186,7 +186,7 @@ wheel.appendChild(group);
         result.innerHTML = resultText;
         localStorage.setItem("lastResult", resultText);
         spinning = false;
-      }, 5000);
+      }, 10000);
     });
   </script>
 </body>
