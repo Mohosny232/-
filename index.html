@@ -153,15 +153,13 @@ if (segment.color === "black") {
 
   // تدوير الصورة بنفس زاوية دوران الرقم (لكي تظهر متناسقة)
   const angle = radians * (180 / Math.PI); // تحويل للراديان
-  image.setAttribute("transform", `rotate(${angle} ${iconX} ${iconY})`);
+image.setAttribute("transform", `rotate(${angle} ${iconX} ${iconY})`);
 
-  group.appendChild(image);
-}
+group.appendChild(image);
 
 wheel.appendChild(group);
-});
 
-    spinBtn.addEventListener("click", () => {
+spinBtn.addEventListener("click", () => {
   const username = document.getElementById("username").value.trim();
   if (username === '') {
     alert("من فضلك اكتب اسمك!");
@@ -177,44 +175,46 @@ wheel.appendChild(group);
   sound.currentTime = 0;
   sound.play();
 
-  const extraRotation = 3600 + Math.floor(Math.random() * 360);
+  const extraRotation = 3600 + Math.floor(Math.random() * 360); // إضافة التدوير العشوائي
   currentRotation += extraRotation;
   wheel.style.transition = "transform 10s ease-out";
-  wheel.style.transform = `rotate(${currentRotation}deg)`;
+  wheel.style.transform = `rotate(${currentRotation}deg)`; // تحريك العجلة
 
   setTimeout(() => {
-  pointer.style.borderTopColor = "red"; // رجع السهم أحمر
+    pointer.style.borderTopColor = "red"; // رجع السهم أحمر بعد التوقف
 
-  const finalRotation = currentRotation % 360;
-  const segmentAngle = 360 / segments.length;
-  const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
-  const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
-  const selectedSegment = segments[selectedIndex];
+    const finalRotation = currentRotation % 360; // تحديد زاوية التوقف
+    const segmentAngle = 360 / segments.length; // حساب زاوية كل قطاع
 
-  if (!selectedSegment.label.includes("حظ")) {
-    // عداد المتابعين
-    let count = 0;
-    const target = parseInt(selectedSegment.label.replace("k", "000").replace("K", "000"));
-    const duration = 2000; // 2 ثانية
-    const steps = 40;
-    const increment = Math.ceil(target / steps);
+    // تحديد الزاوية العادية للقطاع الذي سيوقف فيه السهم
+    const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
+    const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
+    const selectedSegment = segments[selectedIndex];
 
-    const username = document.getElementById("username").value.trim();
-    const interval = setInterval(() => {
-      count += increment;
-      if (count >= target) {
-        count = target;
-        clearInterval(interval);
-      }
-      result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;
-    }, duration / steps);
-  } else {
-    result.innerHTML = ""; // لا يظهر شيء
-  }
+    if (!selectedSegment.label.includes("حظ")) {
+      // عداد المتابعين
+      let count = 0;
+      const target = parseInt(selectedSegment.label.replace("k", "000").replace("K", "000"));
+      const duration = 2000; // مدة التحريك 2 ثانية
+      const steps = 40;
+      const increment = Math.ceil(target / steps);
 
-  spinning = false;
-}, 10000);
-  });    
+      const username = document.getElementById("username").value.trim();
+      const interval = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          count = target;
+          clearInterval(interval);
+        }
+        result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;
+      }, duration / steps);
+    } else {
+      result.innerHTML = ""; // لا يظهر شيء في حال كان القطاع حظ
+    }
+
+    spinning = false;
+  }, 10000); // تأخير 10 ثواني لحين التوقف
+});
   </script>
 </body>
 </html>
