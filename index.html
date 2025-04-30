@@ -152,66 +152,70 @@ if (segment.color === "black") {
   image.setAttribute("height", "6");
 
   // تدوير الصورة بنفس زاوية دوران الرقم (لكي تظهر متناسقة)
-  const angle = radians * (180 / Math.PI); // تحويل للراديان
-image.setAttribute("transform", `rotate(${angle} ${iconX} ${iconY})`);
+   const angle = radians * (180 / Math.PI); // تحويل للراديان
+image.setAttribute("transform", rotate(${angle} ${iconX} ${iconY}));
 
 group.appendChild(image);
+}
 
 wheel.appendChild(group);
+});
 
 spinBtn.addEventListener("click", () => {
-  const username = document.getElementById("username").value.trim();
-  if (username === '') {
-    alert("من فضلك اكتب اسمك!");
-    return;
-  }
-  if (spinning) return;
-  spinning = true;
 
-  // تغيير السهم إلى اللون الأخضر أثناء الدوران
-  const pointer = document.querySelector(".pointer");
-  pointer.style.borderTopColor = "green";
+const username = document.getElementById("username").value.trim();
+if (username === '') {
+alert("من فضلك اكتب اسمك!");
+return;
+}
+if (spinning) return;
+spinning = true;
 
-  sound.currentTime = 0;
-  sound.play();
+// تغيير السهم إلى اللون الأخضر أثناء الدوران
+const pointer = document.querySelector(".pointer");
+pointer.style.borderTopColor = "green";
 
-  const extraRotation = 3600 + Math.floor(Math.random() * 360);
-  currentRotation += extraRotation;
-  wheel.style.transition = "transform 10s ease-out";
-  wheel.style.transform = `rotate(${currentRotation}deg)`;
+sound.currentTime = 0;
+sound.play();
 
-  setTimeout(() => {
-    pointer.style.borderTopColor = "red"; // رجع السهم أحمر
+const extraRotation = 3600 + Math.floor(Math.random() * 360);
+currentRotation += extraRotation;
+wheel.style.transition = "transform 10s ease-out";
+wheel.style.transform = rotate(${currentRotation}deg);
 
-    const finalRotation = currentRotation % 360;
-    const segmentAngle = 360 / segments.length;
-    const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
-    const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
-    const selectedSegment = segments[selectedIndex];
+setTimeout(() => {
+pointer.style.borderTopColor = "red"; // رجع السهم أحمر
 
-    if (!selectedSegment.label.includes("حظ")) {
-      // عداد المتابعين
-      let count = 0;
-      const target = parseInt(selectedSegment.label.replace("k", "000").replace("K", "000"));
-      const duration = 2000; // 2 ثانية
-      const steps = 40;
-      const increment = Math.ceil(target / steps);
+const finalRotation = currentRotation % 360;
+const segmentAngle = 360 / segments.length;
+const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
+const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
+const selectedSegment = segments[selectedIndex];
 
-      const username = document.getElementById("username").value.trim();
-      const interval = setInterval(() => {
-        count += increment;
-        if (count >= target) {
-          count = target;
-          clearInterval(interval);
-        }
-        result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;
-      }, duration / steps);
-    } else {
-      result.innerHTML = ""; // لا يظهر شيء
-    }
+if (!selectedSegment.label.includes("حظ")) {
+// عداد المتابعين
+let count = 0;
+const target = parseInt(selectedSegment.label.replace("k", "000").replace("K", "000"));
+const duration = 2000; // 2 ثانية
+const steps = 40;
+const increment = Math.ceil(target / steps);
 
-    spinning = false;
-  }, 10000);
+const username = document.getElementById("username").value.trim();  
+const interval = setInterval(() => {  
+  count += increment;  
+  if (count >= target) {  
+    count = target;  
+    clearInterval(interval);  
+  }  
+  result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;  
+}, duration / steps);
+
+} else {
+result.innerHTML = ""; // لا يظهر شيء
+}
+
+spinning = false;
+}, 10000);
 });
   </script>
 </body>
