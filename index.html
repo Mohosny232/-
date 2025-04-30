@@ -139,8 +139,9 @@ group.appendChild(text);
 
 // الصورة لو الخانة سمراء
 if (segment.color === "black") {
-  const iconX = textX + 8; // إزاحة لليمين
-  const iconY = textY;     // نفس ارتفاع النص
+  const iconOffset = 10; // مسافة بين الصورة والرقم
+  const iconX = textX + iconOffset * Math.cos(radians);
+  const iconY = textY + iconOffset * Math.sin(radians);
 
   const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
   image.setAttribute("href", "follower-icon.png");
