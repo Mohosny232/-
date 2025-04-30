@@ -169,38 +169,30 @@ wheel.appendChild(group);
   }
   if (spinning) return;
   spinning = true;
-
-  // تغيير السهم إلى اللون الأخضر عند التشغيل
-  const pointer = document.querySelector(".pointer");
-  pointer.style.borderTopColor = "green"; // أخضر أثناء الدوران
-
   sound.currentTime = 0;
   sound.play();
 
+  const segmentAngle = 360 / segments.length;
   const extraRotation = 3600 + Math.floor(Math.random() * 360);
   currentRotation += extraRotation;
-  wheel.style.transition = "transform 10s ease-out";
   wheel.style.transform = `rotate(${currentRotation}deg)`;
 
+  // ننتظر انتهاء الدوران
   setTimeout(() => {
-    // بعد التوقف، نغير السهم إلى اللون الأحمر
-    pointer.style.borderTopColor = "red"; // أحمر عند التوقف
-
-    // حساب الزاوية النهائية للدوران
     const finalRotation = currentRotation % 360;
-const segmentAngle = 360 / segments.length;
-const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
-const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
-const selectedSegment = segments[selectedIndex];
+    // عجلة SVG بتدور عكس عقارب الساعة، فلازم نعكس الزاوية
+    const pointerAngle = (finalRotation + segmentAngle / 2) % 360;
+    const selectedIndex = Math.floor(pointerAngle / segmentAngle);
+    const selectedSegment = segments[selectedIndex];
 
-const isWin = !selectedSegment.label.includes("حظ");
-const resultText = isWin
-  ? `${username} كسبت: ${selectedSegment.label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`
-  : `${username} حظ أوفر!`;
+    const isWin = !selectedSegment.label.includes("حظ");
+    const resultText = isWin
+      ? `${username} كسبت: ${selectedSegment.label} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`
+      : `${username} حظ أوفر!`;
 
-result.innerHTML = resultText;
-localStorage.setItem("lastResult", resultText);
-spinning = false;
+    result.innerHTML = resultText;
+    localStorage.setItem("lastResult", resultText);
+    spinning = false;
   }, 10000);
     });
   </script>
