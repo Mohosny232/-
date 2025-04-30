@@ -139,8 +139,9 @@ group.appendChild(text);
 
 // الصورة لو الخانة سمراء
 if (segment.color === "black") {
-  const iconX = textX + 8; // إزاحة لليمين
-  const iconY = textY;     // نفس ارتفاع النص
+  const iconOffset = -10; // إزاحة لليسار بدل اليمين
+  const iconX = textX + iconOffset * Math.cos(radians);
+  const iconY = textY + iconOffset * Math.sin(radians);
 
   const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
   image.setAttribute("href", "follower-icon.png");
@@ -148,6 +149,11 @@ if (segment.color === "black") {
   image.setAttribute("y", iconY - 3);
   image.setAttribute("width", "6");
   image.setAttribute("height", "6");
+
+  // تدوير الصورة بنفس زاوية دوران الرقم (لكي تظهر متناسقة)
+  const angle = radians * (180 / Math.PI); // تحويل للراديان
+  image.setAttribute("transform", `rotate(${angle} ${iconX} ${iconY})`);
+
   group.appendChild(image);
 }
 
