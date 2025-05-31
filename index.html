@@ -1,196 +1,99 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>عجلة الحظ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الرصيد الوهمي</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      background: #f4f4f4;
+      color: #000;
       text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
       background: #fff;
-      margin: 0;
-      padding: 0;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .wheel-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 100px auto 20px;
-    }
-    .wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 5px solid #333;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      transition: transform 10s ease-out;
-    }
-    .pointer {
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%) rotate(180deg);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 20px solid red;
-      z-index: 10;
-      transition: border-top 0.3s ease;
-    }
-    #spinBtn {
-      margin-top: 15px;
-      padding: 12px 24px;
+
+    .title {
       font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .big-balance {
+      font-size: 30px;
       font-weight: bold;
-      background-color: #ffc107;
+      color: #ff0050;
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .label {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    .coins {
+      font-size: 22px;
+      color: #ff9900;
+      margin-top: 10px;
+    }
+
+    .button {
+      margin-top: 15px;
+      background: #ff0050;
       color: white;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #username {
-      margin-top: 40px;
-      padding: 10px;
-      width: 250px;
-      font-size: 18px;
-      text-align: center;
+      padding: 10px 20px;
+      font-size: 16px;
       border-radius: 10px;
-      border: 2px solid #ccc;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #222;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <input type="text" id="username" placeholder="اكتب اسمك" />
-  <div class="wheel-container">
-    <svg class="wheel" id="wheel" viewBox="0 0 100 100"></svg>
-    <div class="pointer"></div>
+
+  <div class="container">
+    <div class="title">إجمالي الأرباح</div>
+    <div class="big-balance" id="total-balance">809829.23 USD</div>
+
+    <div class="section">
+      <div class="label">الرصيد الحالي</div>
+      <div class="value">EGP 168.37</div>
+      <div class="value">≈ USD 0.98</div>
+    </div>
+
+    <div class="section">
+      <div class="label">عدد العملات المحسوبة حسب سعر الوردة (0.2$)</div>
+      <div class="coins" id="coin-count">جارِ الحساب...</div>
+    </div>
+
+    <button class="button">سحب الأرباح</button>
   </div>
-  <button id="spinBtn">شوف حظك!</button>
-  <div id="result"></div>
-  <audio id="spinSound" src="spin.mp3" preload="auto"></audio>
+
   <script>
-    let spinning = false;
-    const wheel = document.getElementById("wheel");
-    const spinBtn = document.getElementById("spinBtn");
-    const result = document.getElementById("result");
-    const sound = document.getElementById("spinSound");
-    let currentRotation = 0;const segments = [
-  { label: "1000", color: "black", textColor: "white" },
-  { label: "حظ أوفر", color: "white", textColor: "black" },
-  { label: "5k", color: "black", textColor: "white" },
-  { label: "حظ أوفر", color: "white", textColor: "black" },
-  { label: "10k", color: "black", textColor: "white" },
-  { label: "حظ أوفر", color: "white", textColor: "black" },
-  { label: "50k", color: "black", textColor: "white" },
-  { label: "حظ أوفر", color: "white", textColor: "black" },
-  { label: "100k", color: "black", textColor: "white" },
-  { label: "حظ أوفر", color: "white", textColor: "black" }
-];
-
-const angle = 360 / segments.length;
-segments.forEach((segment, i) => {
-  const startAngle = i * angle;
-  const endAngle = startAngle + angle;
-  const largeArc = angle > 180 ? 1 : 0;
-  const x1 = 50 + 50 * Math.cos((Math.PI * startAngle) / 180);
-  const y1 = 50 + 50 * Math.sin((Math.PI * startAngle) / 180);
-  const x2 = 50 + 50 * Math.cos((Math.PI * endAngle) / 180);
-  const y2 = 50 + 50 * Math.sin((Math.PI * endAngle) / 180);
-  const pathData = `M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`;
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("d", pathData);
-  path.setAttribute("fill", segment.color);
-  wheel.appendChild(path);
-
-  const textAngle = (startAngle + endAngle) / 2;
-  const radians = (Math.PI * textAngle) / 180;
-  const textX = 50 + 28 * Math.cos(radians);
-  const textY = 50 + 28 * Math.sin(radians);
-
-  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  text.setAttribute("x", textX);
-  text.setAttribute("y", textY);
-  text.setAttribute("fill", segment.textColor);
-  text.setAttribute("font-size", "5");
-  text.setAttribute("text-anchor", "middle");
-  text.setAttribute("dominant-baseline", "middle");
-  text.setAttribute("transform", `rotate(${textAngle}, ${textX}, ${textY})`);
-  text.textContent = segment.label;
-  group.appendChild(text);
-
-  if (segment.color === "black") {
-    const iconOffset = -8;
-    const iconX = textX + iconOffset * Math.cos(radians);
-    const iconY = textY + iconOffset * Math.sin(radians);
-    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    image.setAttribute("href", "follower-icon.png");
-    image.setAttribute("x", iconX - 3);
-    image.setAttribute("y", iconY - 3);
-    image.setAttribute("width", "6");
-    image.setAttribute("height", "6");
-    const iconAngle = radians * (180 / Math.PI);
-    image.setAttribute("transform", `rotate(${iconAngle}, ${iconX}, ${iconY})`);
-    group.appendChild(image);
-  }
-
-  wheel.appendChild(group);
-});
-
-spinBtn.addEventListener("click", () => {
-  const username = document.getElementById("username").value.trim();
-  if (username === '') {
-    alert("من فضلك اكتب اسمك!");
-    return;
-  }
-  if (spinning) return;
-  spinning = true;
-  document.querySelector(".pointer").style.borderTopColor = "green";
-  sound.currentTime = 0;
-  sound.play();
-
-  const extraRotation = 3600 + Math.floor(Math.random() * 360);
-  currentRotation += extraRotation;
-  wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-  setTimeout(() => {
-    document.querySelector(".pointer").style.borderTopColor = "red";
-    const finalRotation = currentRotation % 360;
-    const segmentAngle = 360 / segments.length;
-    const normalizedAngle = (360 - finalRotation + segmentAngle / 2) % 360;
-    const selectedIndex = Math.floor(normalizedAngle / segmentAngle);
-    const selectedSegment = segments[selectedIndex];
-
-    if (!selectedSegment.label.includes("حظ")) {
-      let count = 0;
-      const target = parseInt(selectedSegment.label.replace(/k/gi, "000"));
-      const duration = 2000;
-      const steps = 40;
-      const increment = Math.ceil(target / steps);
-      const interval = setInterval(() => {
-        count += increment;
-        if (count >= target) {
-          count = target;
-          clearInterval(interval);
-        }
-        result.innerHTML = `${username} كسبت: ${count.toLocaleString()} <img src="follower-icon.png" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;" />`;
-      }, duration / steps);
-    } else {
-      result.innerHTML = "";
-    }
-    spinning = false;
-  }, 10000);
-});
-
+    // حساب عدد العملات
+    const total = 809829.23;
+    const flowerPrice = 0.2;
+    const coins = total / flowerPrice;
+    document.getElementById("coin-count").innerText = Math.floor(coins).toLocaleString('en-US') + " عملة";
   </script>
+
 </body>
 </html>
