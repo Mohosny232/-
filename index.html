@@ -54,24 +54,29 @@
   .transfer-btn:hover {
     background-color: #0056b3;
   }
-.euro-amount {
+.euro-box {
   position: absolute;
-  top: 30%;
+  top: 35%;
   right: 190px;
-  direction: ltr;
-  text-align: right;
-  color: #fff;
-  font-size: 28px;
-  font-weight: bold;
-  font-family: 'Tajawal', sans-serif;
-  z-index: 99;
+  background: white; /* خلفية بيضاء */
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: inline-block;
+  z-index: 10;
 }
 
-.euro-amount .currency {
-  font-size: 20px;
-  font-weight: normal;
-  margin-left: 4px; /* بدل margin-right */
-      }
+.euro-amount {
+  color: black; /* لون الرقم */
+  font-size: 26px;
+  font-weight: bold;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.currency {
+  color: black; /* لون EUR */
+  font-size: 18px;
+  margin-left: 4px;
+}
 
     .fake-pay-info {
       position: absolute;
