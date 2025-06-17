@@ -93,3 +93,16 @@
 
 </body>
 </html>
+<script>
+  // القيمة الأصلية (أو ممكن تجيبها من localStorage لو متغيرة)
+  let originalBalance = 2507472; // ← غير الرقم حسب الرصيد الأصلي
+
+  // تحقق إذا في خصم محفوظ في localStorage
+  const deducted = localStorage.getItem("paypalAmount");
+  if (deducted) {
+    const newBalance = originalBalance - parseFloat(deducted);
+    document.getElementById("main-balance").innerText = newBalance.toLocaleString();
+  } else {
+    document.getElementById("main-balance").innerText = originalBalance.toLocaleString();
+  }
+</script>
