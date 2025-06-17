@@ -105,6 +105,19 @@
         submitBtn.textContent = 'متابعة';
       }
     });
+    
+  document.getElementById("submit-btn").addEventListener("click", function () {
+    const amount = document.getElementById("amount").value;
+    if (amount) {
+      // نحفظ المبلغ في localStorage
+      localStorage.setItem("paypalAmount", amount);
+      // ننتقل للصفحة التالتة
+      window.location.href = "page3.html";
+    } else {
+      alert("من فضلك أدخل المبلغ أولاً");
+    }
+  });
+
   </script>
 </body>
 </html>
