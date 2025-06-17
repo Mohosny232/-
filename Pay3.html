@@ -74,26 +74,18 @@
     </div>
   </div>
 
+<!-- Pay3.html -->
+
 <script>
-  window.addEventListener("DOMContentLoaded", function () {
-    const amount = localStorage.getItem("paypalAmount");
+  const amount = localStorage.getItem("paypalAmount");
 
-    if (amount) {
-      // عرض المبلغ الأسود
-      const blackValue = document.getElementById("amount-black");
-      if (blackValue) {
-        blackValue.innerText = `${amount} EUR`;
-      }
-
-      // عرض المبلغ الرمادي
-      const grayValue = document.getElementById("amount-gray");
-      if (grayValue) {
-        grayValue.innerText = amount; // فقط الرقم بدون اليورو
-      }
-    } else {
-      console.warn("لم يتم العثور على مبلغ في localStorage");
-    }
-  });
+  if (amount) {
+    document.getElementById("amount-black").innerText = `${amount} EUR`;
+    document.getElementById("amount-gray").innerText = amount;
+  } else {
+    document.getElementById("amount-black").innerText = "لا يوجد مبلغ محدد";
+    document.getElementById("amount-gray").innerText = "--";
+  }
 </script>
 </body>
 </html>
