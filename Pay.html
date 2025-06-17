@@ -126,17 +126,13 @@
       }
     });
 
-
-  document.getElementById("submit-btn").addEventListener("click", function () {
-    const amount = document.getElementById("amount").value.trim();
-    if (amount && !isNaN(amount)) {
-      localStorage.setItem("paypalAmount", amount);
-      window.location.href = "Pay3.html";
-    } else {
-      alert("من فضلك أدخل مبلغ صالح");
-    }
-  });
-
+    // عند الضغط على الزر
+    submitBtn.addEventListener('click', () => {
+      const amount = parseFloat(amountInput.value);
+      if (!amount || amount <= 0) {
+        alert("من فضلك أدخل المبلغ أولاً");
+        return;
+      }
 
       // إضافة الخصم الجديد إلى الإجمالي
       totalDeducted += amount;
