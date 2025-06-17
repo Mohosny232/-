@@ -79,19 +79,16 @@
     const amount = localStorage.getItem("paypalAmount");
 
     if (amount) {
-      // عرض المبلغ الأسود في الأعلى
       const blackValue = document.getElementById("amount-black");
       if (blackValue) {
         blackValue.innerText = `${amount} EUR`;
       }
 
-      // عرض المبلغ الرمادي في الأسفل
       const grayValue = document.getElementById("amount-gray");
       if (grayValue) {
-        grayValue.innerText = `${amount} EUR`;
+        grayValue.innerText = `${amount}`; // ← بدون EUR
       }
     } else {
-      // لو مفيش مبلغ مخزَّن، ممكن تعرض رسالة أو قيمة افتراضية
       console.warn("لم يتم العثور على مبلغ في localStorage");
     }
   });
