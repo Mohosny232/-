@@ -75,7 +75,6 @@
     <h2>سحب أموال</h2>
 
     <label>EUR: <span id="eur-balance"></span></label>
-    
 
     <label for="amount">المبلغ</label>
     <input type="text" id="amount" placeholder="أدخل المبلغ">
@@ -94,32 +93,29 @@
     <button class="button" id="submit-btn">متابعة</button>
   </div>
 
-  <!-- payh.html -->
-
 <script>
-  const balanceDisplay = document.getElementById("balance-amount");
+  // عرض الرصيد الحالي بجانب EUR عند تحميل الصفحة
+  const eurBalanceSpan = document.getElementById("eur-balance");
   const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-  balanceDisplay.innerText = currentBalance.toLocaleString();
+  eurBalanceSpan.innerText = currentBalance.toLocaleString();
 
+  // عند الضغط على متابعة
   document.getElementById("submit-btn").addEventListener("click", function () {
     const amount = parseFloat(document.getElementById("amount").value);
-    const eurBalance = localStorage.getItem("currentBalance");
-if (eurBalance) {
-  document.getElementById("eur-balance").innerText = parseFloat(eurBalance).toLocaleString();
-}
+
     if (!amount || amount <= 0 || amount > currentBalance) {
       alert("أدخل مبلغ صحيح أقل من الرصيد المتاح");
       return;
     }
 
-    // خصم المبلغ وتحديث الرصيد
+    // خصم المبلغ وتحديث البيانات
     const newBalance = currentBalance - amount;
-    localStorage.setItem("paypalAmount", amount); // للمبلغ المسحوب
-    localStorage.setItem("currentBalance", newBalance); // رصيد بعد الخصم
+    localStorage.setItem("paypalAmount", amount); // تخزين المبلغ المسحوب
+    localStorage.setItem("currentBalance", newBalance); // تحديث الرصيد
 
     // الانتقال للصفحة التالتة
     window.location.href = "Pay3.html";
   });
 </script>
 </body>
-</html>
+  </html>
