@@ -62,6 +62,12 @@
     .readonly {
       background-color: #f7f7f7;
     }
+
+    .balance {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -69,7 +75,7 @@
     <h2>سحب أموال</h2>
 
     <label>USD المتاح</label>
-    <div style="margin-bottom: 10px;">2.465.567 USD</div>
+    <div class="balance" id="available-balance">2,507,472 USD</div>
 
     <label for="amount">المبلغ</label>
     <input type="text" id="amount" placeholder="أدخل المبلغ">
@@ -89,43 +95,52 @@
   </div>
 
   <script>
-  
-  document.getElementById("submit-btn").addEventListener("click", function () {
-    window.location.href = "Pay3.html";
-  });
-
     const amountInput = document.getElementById('amount');
     const submitBtn = document.getElementById('submit-btn');
+    const balanceDisplay = document.getElementById('available-balance');
 
+    const originalBalance = 2507472;
+
+    // احضر القيمة المخصومة المحفوظة (لو فيه)
+    let totalDeducted = parseFloat(localStorage.getItem("paypalAmount") || "0");
+
+    // تحديث الرصيد المعروض
+    function updateDisplayedBalance(deduction = 0) {
+      const newBalance = originalBalance - totalDeducted - deduction;
+      balanceDisplay.innerText = `${newBalance.toLocaleString()} USD`;
+    }
+
+    // أول مرة الصفحة تتفتح، نعرض الرصيد بعد الخصم المحفوظ
+    updateDisplayedBalance();
+
+    // عند الكتابة في خانة المبلغ
     amountInput.addEventListener('input', () => {
-      const amount = amountInput.value.trim();
-      if (amount) {
-        submitBtn.textContent = `متابعة سحب ${amount} USD`;
+      const val = parseFloat(amountInput.value) || 0;
+      updateDisplayedBalance(val);
+
+      // تحديث الزر
+      if (val > 0) {
+        submitBtn.textContent = `متابعة سحب ${val} USD`;
       } else {
         submitBtn.textContent = 'متابعة';
       }
     });
-    
-  document.getElementById("submit-btn").addEventListener("click", function () {
-    const amount = document.getElementById("amount").value;
-    if (amount) {
-      // نحفظ المبلغ في localStorage
-      localStorage.setItem("paypalAmount", amount);
-      // ننتقل للصفحة التالتة
-      window.location.href = "Pay3.html";
-    } else {
-      alert("من فضلك أدخل المبلغ أولاً");
-    }
-  });
-  const originalBalance = 2507472; // ← نفس الرصيد الأصلي
-  const deducted = localStorage.getItem("paypalAmount");
-  if (deducted) {
-    const newBalance = originalBalance - parseFloat(deducted);
-    document.getElementById("payh-balance").innerText = newBalance.toLocaleString();
-  } else {
-    document.getElementById("payh-balance").innerText = originalBalance.toLocaleString();
-  }
 
+    // عند الضغط على الزر
+    submitBtn.addEventListener('click', () => {
+      const amount = parseFloat(amountInput.value);
+      if (!amount || amount <= 0) {
+        alert("من فضلك أدخل المبلغ أولاً");
+        return;
+      }
+
+      // إضافة الخصم الجديد إلى الإجمالي
+      totalDeducted += amount;
+      localStorage.setItem("paypalAmount", totalDeducted);
+
+      // الذهاب للصفحة التالية
+      window.location.href = "Pay3.html";
+    });
   </script>
 </body>
 </html>
