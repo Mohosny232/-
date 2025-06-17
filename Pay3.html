@@ -79,20 +79,21 @@
     const amount = localStorage.getItem("paypalAmount");
 
     if (amount) {
+      // عرض المبلغ الأسود
       const blackValue = document.getElementById("amount-black");
       if (blackValue) {
         blackValue.innerText = `${amount} EUR`;
       }
 
+      // عرض المبلغ الرمادي
       const grayValue = document.getElementById("amount-gray");
       if (grayValue) {
-        grayValue.innerText = `${amount}`; // ← بدون EUR
+        grayValue.innerText = amount; // فقط الرقم بدون اليورو
       }
     } else {
       console.warn("لم يتم العثور على مبلغ في localStorage");
     }
   });
 </script>
-
 </body>
 </html>
