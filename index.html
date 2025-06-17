@@ -104,17 +104,12 @@
 <!-- index.html -->
 <script>
   const originalBalance = 2507472;
-
-  // لو في خصم قديم، نخصمه
   const deducted = parseFloat(localStorage.getItem("paypalAmount")) || 0;
-
-  // نحسب الرصيد الجديد
   const updatedBalance = originalBalance - deducted;
 
-  // نعرض الرصيد الجديد
   document.getElementById("main-balance").innerText = updatedBalance.toLocaleString();
 
-  // نحفظ الرصيد الجديد علشان يظهر في الصفحة التانية كمان
+  // تخزين الرصيد بعد الخصم
   localStorage.setItem("currentBalance", updatedBalance);
 </script>
 </body>
