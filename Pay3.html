@@ -74,16 +74,28 @@
     </div>
   </div>
 
-  <script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
     const amount = localStorage.getItem("paypalAmount");
 
     if (amount) {
-      document.getElementById("amount-black").textContent = amount + " EUR";
-      document.getElementById("amount-gray").textContent = amount;
+      // عرض المبلغ الأسود في الأعلى
+      const blackValue = document.getElementById("amount-black");
+      if (blackValue) {
+        blackValue.innerText = `${amount} EUR`;
+      }
+
+      // عرض المبلغ الرمادي في الأسفل
+      const grayValue = document.getElementById("amount-gray");
+      if (grayValue) {
+        grayValue.innerText = `${amount} EUR`;
+      }
     } else {
-      document.getElementById("amount-black").textContent = "0 EUR";
+      // لو مفيش مبلغ مخزَّن، ممكن تعرض رسالة أو قيمة افتراضية
+      console.warn("لم يتم العثور على مبلغ في localStorage");
     }
-  </script>
+  });
+</script>
 
 </body>
 </html>
