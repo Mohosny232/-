@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سحب أموال</title>
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      text-align: right;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #555;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .button {
+      background-color: #0070ba;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #005ea6;
+    }
+
+    .readonly {
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>سحب أموال</h2>
+
+    <label>USD المتاح</label>
+    <div style="margin-bottom: 10px;">13.96 USD</div>
+
+    <label for="amount">المبلغ</label>
+    <input type="text" id="amount" placeholder="أدخل المبلغ">
+
+    <label for="username">اسم المستخدم</label>
+    <input type="text" id="username" placeholder="اكتب اسم المستخدم">
+
+    <label>الرسوم:</label>
+    <input type="text" value="US$5.00 USD" class="readonly" readonly>
+
+    <label>Visa</label>
+    <input type="text" placeholder="•••• •••• •••• 1234" class="readonly" readonly>
+
+    <p class="note">قد تستغرق تحولات البطاقات من 5 إلى 7 أيام عمل حسب البطاقة التي تستخدمها</p>
+
+    <button class="button" id="submit-btn">متابعة</button>
+  </div>
+
+  <script>
+    const amountInput = document.getElementById('amount');
+    const submitBtn = document.getElementById('submit-btn');
+
+    amountInput.addEventListener('input', () => {
+      const amount = amountInput.value.trim();
+      if (amount) {
+        submitBtn.textContent = `متابعة سحب ${amount} USD`;
+      } else {
+        submitBtn.textContent = 'متابعة';
+      }
+    });
+  </script>
+</body>
+</html>
