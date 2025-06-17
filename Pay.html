@@ -74,7 +74,7 @@
   <div class="container">
     <h2>سحب أموال</h2>
 
-    <label>USD المتاح</label>
+    <label>EUR: <span id="eur-balance"></span></label>
     
 
     <label for="amount">المبلغ</label>
@@ -95,10 +95,6 @@
   </div>
 
   <!-- payh.html -->
-<div id="balance">الرصيد الحالي: <span id="balance-amount"></span> EUR</div>
-
-<input type="text" id="amount" placeholder="أدخل المبلغ">
-<button id="submit-btn">متابعة</button>
 
 <script>
   const balanceDisplay = document.getElementById("balance-amount");
@@ -112,7 +108,11 @@
       alert("أدخل مبلغ صحيح أقل من الرصيد المتاح");
       return;
     }
-
+// تحديث قيمة EUR تلقائياً من localStorage
+const eurBalanceSpan = document.getElementById("eur-balance");
+if (eurBalanceSpan) {
+  eurBalanceSpan.innerText = (parseFloat(localStorage.getItem("currentBalance")) || 0).toLocaleString();
+}
     // خصم المبلغ وتحديث الرصيد
     const newBalance = currentBalance - amount;
     localStorage.setItem("paypalAmount", amount); // للمبلغ المسحوب
