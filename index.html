@@ -101,17 +101,21 @@
 <button onclick="localStorage.clear(); alert('تم المسح'); location.reload();">إعادة ضبط</button>
 </body>
 </html>
+<!-- index.html -->
 <script>
   const originalBalance = 2507472;
 
-  // اقرأ الخصم من localStorage
+  // لو في خصم قديم، نخصمه
   const deducted = parseFloat(localStorage.getItem("paypalAmount")) || 0;
 
-  // احسب الرصيد الجديد
+  // نحسب الرصيد الجديد
   const updatedBalance = originalBalance - deducted;
 
-  // اعرضه داخل العنصر
+  // نعرض الرصيد الجديد
   document.getElementById("main-balance").innerText = updatedBalance.toLocaleString();
+
+  // نحفظ الرصيد الجديد علشان يظهر في الصفحة التانية كمان
+  localStorage.setItem("currentBalance", updatedBalance);
 </script>
 </body>
 </html>
