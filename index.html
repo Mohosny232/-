@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,138 +7,82 @@
   <style>
     body {
       margin: 0;
-      background: #fff;
+      background: #f8f8f8;
       font-family: 'Tajawal', sans-serif;
-      overflow-x: hidden;
     }
 
-    .wrapper {
+    .container {
       position: relative;
       width: 100%;
       max-width: 100%;
     }
 
-    .wrapper img {
+    .container img {
       width: 100%;
       height: auto;
       display: block;
     }
 
-    /* عناصر فوق الصورة */
-    .overlay {
+    .overlay-box {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-  .transfer-btn {
-    position: absolute;
-    top: 40%; /* ← تحكم في المسافة من أعلى */
-    right: 205px; /* ← تحكم في المسافة من اليمين *غير الحواف */
-   font-size: 12px;   /* ← تصغير حجم الخط */
-    background-color: #007bff;
-    color: white;
-    padding: 5px 20px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    z-index: 3;
-    cursor: pointer;
-  }
-
-  .transfer-btn:hover {
-    background-color: #0056b3;
-  }
-.euro-box {
-  position: absolute;
-  top: 200px;
-  right: 190px;
-  background: white; /* خلفية بيضاء */
-  padding: 6px 12px;
-  border-radius: 10px;
-  display: inline-block;
-  z-index: 10;
-}
-
-.euro-amount {
-  color: black; /* لون الرقم */
-  font-size: 26px;
-  font-weight: bold;
-  font-family: 'Tajawal', sans-serif;
-
-
-.image-container {
-  position: relative;
-  width: 100%;
-}
-
-.image-container img {
-  width: 100%;
-  display: block;
-}
-
-.euro-box {
-  position: absolute;
-  top: 40%;      /* ← غير الرقم ده علشان تنقلها لفوق أو تحت */
-  left: 50%;     /* ← وسط الصورة */
-  transform: translate(-50%, -50%); /* يخليها في النص تمامًا */
-  background: white;
-  padding: 8px 14px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-}
-
-.euro-amount {
-  color: black;
-  font-size: 28px;
-  font-weight: bold;
-  font-family: 'Tajawal', sans-serif;
-}
-
-.currency {
-  color: black;
-  font-size: 20px;
-  margin-left: 6px;
-}
-
-
-    .fake-pay-info {
-      position: absolute;
-      bottom: 80px;
-      left: 30px;
-      color: #000;
-      font-size: 24px;
-      font-weight: bold;
-      background-color: rgba(255, 255, 255, 0.8);
+      top: 47%; /* مكان الرصيد */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
       padding: 10px 20px;
       border-radius: 12px;
-      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    
+    .euro-amount {
+      color: black;
+      font-size: 26px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .currency {
+      color: black;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .transfer-btn {
+      position: absolute;
+      top: 56%; /* مكان الزر */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #007bff;
+      color: white;
+      padding: 8px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-decoration: none;
+    }
+
+    .transfer-btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
 
-  <!-- الزر هنا -->
-  <div class="wrapper">
-  <div class="image-container">
-    <img src="payhosny.jpg" alt="صورة التحويل" />
-    <div class="euro-box">
-      <span class="euro-amount">2,507,472</span>
+  <div class="container">
+    <img src="payhosny.jpg" alt="PayPal UI" />
+
+    <div class="overlay-box">
+      <span class="euro-amount">0.00</span>
       <span class="currency">EUR</span>
     </div>
+
+    <a href="pays.html" class="transfer-btn">Transfer Funds</a>
   </div>
-  </div>
-  <!-- الصورة -->
-  <img src="payhosny.jpg" alt="صورة PayPal الوهمية" />
 
 </body>
-
-
 </html>
