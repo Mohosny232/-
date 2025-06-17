@@ -70,13 +70,43 @@
   font-size: 26px;
   font-weight: bold;
   font-family: 'Tajawal', sans-serif;
+
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  display: block;
+}
+
+.euro-box {
+  position: absolute;
+  top: 40%;      /* ← غير الرقم ده علشان تنقلها لفوق أو تحت */
+  left: 50%;     /* ← وسط الصورة */
+  transform: translate(-50%, -50%); /* يخليها في النص تمامًا */
+  background: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.euro-amount {
+  color: black;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: 'Tajawal', sans-serif;
 }
 
 .currency {
-  color: black; /* لون EUR */
-  font-size: 18px;
-  margin-left: 4px;
+  color: black;
+  font-size: 20px;
+  margin-left: 6px;
 }
+
 
     .fake-pay-info {
       position: absolute;
@@ -95,12 +125,17 @@
   </style>
 </head>
 <body>
-<div class="wrapper">
+
   <!-- الزر هنا -->
-  <a href="Pay.html" class="transfer-btn">Transfer Funds</a>
-<div class="euro-amount">
-  2,507,472 <span class="currency">EUR</span>
-</div>
+  <div class="wrapper">
+  <div class="image-container">
+    <img src="payhosny.jpg" alt="صورة التحويل" />
+    <div class="euro-box">
+      <span class="euro-amount">2,507,472</span>
+      <span class="currency">EUR</span>
+    </div>
+  </div>
+  </div>
   <!-- الصورة -->
   <img src="payhosny.jpg" alt="صورة PayPal الوهمية" />
 
