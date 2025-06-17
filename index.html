@@ -34,20 +34,26 @@
       height: 100%;
       pointer-events: none;
     }
-.transfer-btn {
-  display: block;
-  width: 200px;
-  margin: 30px auto 0 auto;
-  text-align: center;
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-      }
+
+  .transfer-btn {
+    position: absolute;
+    top: 30px; /* ← تحكم في المسافة من أعلى */
+    right: 30px; /* ← تحكم في المسافة من اليمين */
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    z-index: 3;
+    cursor: pointer;
+  }
+
+  .transfer-btn:hover {
+    background-color: #0056b3;
+  }
+
     .fake-pay-info {
       position: absolute;
       bottom: 80px;
@@ -65,11 +71,12 @@
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <img src="payhosny.jpg" alt="صورة PayPal وهمية" />
-  </div>
-<button class="button" id="submit-btn">متابعة</button>
-<a href="pay.html" class="button" id="transfer-btn" style="margin-top: 10px; text-align: center;">Transfer Funds</a>
+<div class="wrapper">
+  <!-- الزر هنا -->
+  <a href="pays.html" class="transfer-btn">Transfer Funds</a>
+
+  <!-- الصورة -->
+  <img src="hoosny.jpg" alt="الصورة" />
 </body>
 
 </html>
