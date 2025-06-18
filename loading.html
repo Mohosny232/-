@@ -33,15 +33,20 @@
   <div class="loader"></div>
 
   <script>
-    // بعد ثانيتين، روح للصفحة التالية
+  window.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById("loader");
+
     setTimeout(function () {
-      const next = localStorage.getItem("nextPage");
-      if (next) {
-        window.location.href = next;
-      } else {
-        window.location.href = "index.html"; // صفحة افتراضية لو مفيش حاجة محفوظة
+      loader.style.display = "none";
+
+      // تحويل تلقائي فقط لو في nextPage
+      const nextPage = localStorage.getItem("nextPage");
+      if (nextPage) {
+        window.location.href = nextPage;
+        localStorage.removeItem("nextPage"); // امسحه بعد الاستخدام
       }
-    }, 2000);
+    }, 2000); // وقت التحميل
+  });
   </script>
 </body>
 </html>
