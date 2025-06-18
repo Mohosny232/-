@@ -100,29 +100,27 @@
 </body>
 </html>
 <!-- index.html -->
+<h2>الرصيد الحالي:</h2>
+<div id="main-balance"></div>
+<button onclick="resetBalance()">إعادة القيم</button>
+
 <script>
-const originalBalance = 2507472;
-  const deducted = parseFloat(localStorage.getItem("paypalAmount")) || 0;
-  const updatedBalance = originalBalance - deducted;
+  const defaultBalance = 2507472;
 
-  document.getElementById("main-balance").innerText = updatedBalance.toLocaleString();
-
-  // تخزين الرصيد بعد الخصم
-  localStorage.setItem("currentBalance", updatedBalance);
-
-  
-  
-  
-
-  function goToPay() {
-    // نعيّن الصفحة التالية
-    localStorage.setItem("nextPage", "Pay.html");
-
-    // ننتقل فورًا إلى صفحة اللودينج
-    window.location.replace("loading.html");
+  // تحميل الرصيد من localStorage أو تعيينه لأول مرة
+  let currentBalance = localStorage.getItem("currentBalance");
+  if (!currentBalance) {
+    localStorage.setItem("currentBalance", defaultBalance);
+    currentBalance = defaultBalance;
   }
 
+  document.getElementById("main-balance").innerText = parseFloat(currentBalance).toLocaleString();
 
+  function resetBalance() {
+    localStorage.setItem("currentBalance", defaultBalance);
+    alert("تمت إعادة تعيين الرصيد.");
+    location.reload();
+  }
 </script>
 </body>
 </html>
