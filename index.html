@@ -103,7 +103,7 @@
 </html>
 <!-- index.html -->
 <script>
-  const originalBalance = 2507472;
+const originalBalance = 2507472;
   const deducted = parseFloat(localStorage.getItem("paypalAmount")) || 0;
   const updatedBalance = originalBalance - deducted;
 
@@ -111,6 +111,12 @@
 
   // تخزين الرصيد بعد الخصم
   localStorage.setItem("currentBalance", updatedBalance);
+
+  document.getElementById("transfer-btn").addEventListener("click", function () {
+    localStorage.setItem("nextPage", "pay.html");
+    window.location.href = "loading.html";
+  });
+
 </script>
 </body>
 </html>
