@@ -114,11 +114,11 @@
     document.getElementById("main-balance").innerText = parseFloat(currentBalance).toLocaleString();
 
     // عند الضغط على زر Transfer Funds
-    document.getElementById("goToPay").addEventListener("click", function (e) {
-      e.preventDefault();
-      localStorage.setItem("nextPage", "Pay.html");
-      window.location.href = "loading.html"; // ينقلك لصفحة اللودينج
-    });
+     function goToPay() {
+    localStorage.setItem("nextPage", "Pay.html");
+    window.location.href = "loading.html";
+  }
+</script>
   </script>
 </body>
 </html>
