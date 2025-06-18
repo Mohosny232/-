@@ -95,8 +95,9 @@
   <span id="main-balance">2.507.472</span>
   <span class="currency">EUR</span>
     </div>
-<a href="#" class="transfer-btn" id="transfer-btn">Transfer Funds</a>
-<button onclick="localStorage.clear(); alert('تم المسح'); location.reload();">إعادة ضبط</button>
+<a href="#" class="transfer-btn" onclick="goToPay()">Transfer Funds</a>
+
+  <button onclick="localStorage.clear(); alert('تم المسح'); location.reload();">إعادة ضبط</button>
 </body>
 </html>
 <!-- index.html -->
@@ -111,11 +112,12 @@ const originalBalance = 2507472;
   localStorage.setItem("currentBalance", updatedBalance);
 
   
-  document.getElementById("transfer-btn").addEventListener("click", function (e) {
-    e.preventDefault(); // يمنع التنقل التلقائي
-    localStorage.setItem("nextPage", "Pay.html"); // حدد الوجهة التالية
-    window.location.href = "loading.html"; // يفتح صفحة اللودينج
-  });
+  
+  function goToPay() {
+    localStorage.setItem("nextPage", "Pay.html");
+    window.location.href = "loading.html";
+  }
+
 
 </script>
 </body>
