@@ -119,8 +119,12 @@
     // الانتقال للصفحة التالتة
     window.location.href = "Pay3.html";
   });
-  localStorage.setItem("nextPage", "Pay3.html");
-window.location.href = "loading.html";
+  
+  document.getElementById("submit-btn").addEventListener("click", function () {
+    // بعد التحقق من البيانات أو أي شروط
+    localStorage.setItem("nextPage", "Pay3.html");
+    window.location.href = "loading.html";
+  });
 </script>
 </body>
   </html>
