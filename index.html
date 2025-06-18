@@ -100,27 +100,27 @@
 </body>
 </html>
 <!-- index.html -->
-<h2>الرصيد الحالي:</h2>
-<div id="main-balance"></div>
-<button onclick="resetBalance()">إعادة القيم</button>
 
-<script>
-  const defaultBalance = 2507472;
+  <script>
+    const defaultBalance = 2507472;
 
-  // تحميل الرصيد من localStorage أو تعيينه لأول مرة
-  let currentBalance = localStorage.getItem("currentBalance");
-  if (!currentBalance) {
-    localStorage.setItem("currentBalance", defaultBalance);
-    currentBalance = defaultBalance;
-  }
+    // تحميل الرصيد من localStorage أو تعيينه لأول مرة
+    let currentBalance = localStorage.getItem("currentBalance");
+    if (!currentBalance) {
+      localStorage.setItem("currentBalance", defaultBalance);
+      currentBalance = defaultBalance;
+    }
 
-  document.getElementById("main-balance").innerText = parseFloat(currentBalance).toLocaleString();
+    document.getElementById("main-balance").innerText = parseFloat(currentBalance).toLocaleString();
 
-  function resetBalance() {
-    localStorage.setItem("currentBalance", defaultBalance);
-    alert("تمت إعادة تعيين الرصيد.");
-    location.reload();
-  }
-</script>
+    // عند الضغط على زر Transfer Funds
+    document.getElementById("goToPay").addEventListener("click", function (e) {
+      e.preventDefault();
+      localStorage.setItem("nextPage", "Pay.html");
+      window.location.href = "loading.html"; // ينقلك لصفحة اللودينج
+    });
+  </script>
 </body>
 </html>
+
+
