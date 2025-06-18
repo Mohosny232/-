@@ -153,6 +153,15 @@
     navigator.serviceWorker.register('service-worker.js');
   }
 
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // هنا ممكن تظهر زر "أضف للتطبيق"
+    alert("تقدر تضيف التطبيق الآن إلى الشاشة الرئيسية");
+    deferredPrompt.prompt();
+  });
+
   </script>
 </body>
 </html>
