@@ -62,7 +62,11 @@
     .readonly {
       background-color: #f7f7f7;
     }
-
+#eur-balance {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+    }
     .balance {
       font-weight: bold;
       margin-bottom: 15px;
@@ -114,6 +118,18 @@
     }
   });
 
+  // كل ما المستخدم يكتب مبلغ يتم تحديث الرصيد بشكل ديناميكي
+  amountInput.addEventListener("input", () => {
+    const entered = parseFloat(amountInput.value);
+    if (!isNaN(entered) && entered > 0 && entered <= currentBalance) {
+      const newBalance = currentBalance - entered;
+      updateDisplayedBalance(newBalance);
+    } else {
+      updateDisplayedBalance(currentBalance); // يرجع للأصلي لو مدخل غير صالح
+    }
+  });
+
+  //
   // عند الضغط على زر المتابعة
   submitBtn.addEventListener("click", function () {
     const amount = parseFloat(amountInput.value);
