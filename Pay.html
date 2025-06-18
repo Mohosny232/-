@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سحب أموال</title>
+  <title>Withdraw Funds</title>
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
       background-color: #fff;
       margin: 0;
       padding: 20px;
-      direction: rtl;
+      direction: ltr;
       text-align: center;
     }
 
     .container {
       max-width: 400px;
       margin: auto;
-      text-align: right;
+      text-align: left;
     }
 
     h2 {
@@ -62,11 +62,13 @@
     .readonly {
       background-color: #f7f7f7;
     }
-#eur-balance {
-  font-weight: bold;
-  font-size: 15px;
-  color: #333;
+
+    #eur-balance {
+      font-weight: bold;
+      font-size: 15px;
+      color: black;
     }
+
     .balance {
       font-weight: bold;
       margin-bottom: 15px;
@@ -75,82 +77,78 @@
   </style>
 </head>
 <body>
- <script>
-  localStorage.removeItem("nextPage");
- </script>
+  <script>
+    localStorage.removeItem("nextPage");
+  </script>
+
   <div class="container">
-    <h2>سحب أموال</h2>
+    <h2>Withdraw Funds</h2>
 
     <label>EUR: <span id="eur-balance"></span></label>
 
-    <label for="amount">المبلغ</label>
-    <input type="text" id="amount" placeholder="أدخل المبلغ">
+    <label for="amount">Amount</label>
+    <input type="text" id="amount" placeholder="Enter amount">
 
-    <label for="username">اسم المستخدم</label>
-    <input type="text" id="username" placeholder="اكتب اسم المستخدم">
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Enter your username">
 
-    <label>الرسوم:</label>
+    <label>Service Fee:</label>
     <input type="text" value="US$5.00 USD" class="readonly" readonly>
 
     <label>Visa</label>
     <input type="text" placeholder="•••• •••• •••• 5278" class="readonly" readonly>
 
-    <p class="note">قد تستغرق تحولات البطاقات من 5 إلى 7 أيام عمل حسب البطاقة التي تستخدمها</p>
+    <p class="note">Card transfers may take 5 to 7 business days depending on your card.</p>
 
-    <button class="button" id="submit-btn">متابعة</button>
+    <button class="button" id="submit-btn">Continue</button>
   </div>
 
-<script>
-  const balanceDisplay = document.getElementById("eur-balance");
-  const submitBtn = document.getElementById("submit-btn");
-  const amountInput = document.getElementById("amount");
+  <script>
+    const balanceDisplay = document.getElementById("eur-balance");
+    const submitBtn = document.getElementById("submit-btn");
+    const amountInput = document.getElementById("amount");
 
-  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-  balanceDisplay.innerText = currentBalance.toLocaleString();
+    const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+    balanceDisplay.innerText = currentBalance.toLocaleString();
 
-  // تحديث الزر عند كتابة مبلغ
-  amountInput.addEventListener("input", function () {
-    const enteredAmount = parseFloat(amountInput.value);
-    if (!isNaN(enteredAmount) && enteredAmount > 0) {
-      submitBtn.innerText = `متابعة ${enteredAmount} EUR`;
-    } else {
-      submitBtn.innerText = "متابعة";
-    }
-  });
+    amountInput.addEventListener("input", function () {
+      const enteredAmount = parseFloat(amountInput.value);
+      if (!isNaN(enteredAmount) && enteredAmount > 0) {
+        submitBtn.innerText = `Continue ${enteredAmount} EUR`;
+      } else {
+        submitBtn.innerText = "Continue";
+      }
+    });
 
-  // كل ما المستخدم يكتب مبلغ يتم تحديث الرصيد بشكل ديناميكي
-  amountInput.addEventListener("input", () => {
-    const entered = parseFloat(amountInput.value);
-    if (!isNaN(entered) && entered > 0 && entered <= currentBalance) {
-      const newBalance = currentBalance - entered;
-      updateDisplayedBalance(newBalance);
-    } else {
-      updateDisplayedBalance(currentBalance); // يرجع للأصلي لو مدخل غير صالح
-    }
-  });
+    amountInput.addEventListener("input", () => {
+      const entered = parseFloat(amountInput.value);
+      if (!isNaN(entered) && entered > 0 && entered <= currentBalance) {
+        const newBalance = currentBalance - entered;
+        updateDisplayedBalance(newBalance);
+      } else {
+        updateDisplayedBalance(currentBalance);
+      }
+    });
 
-  // دالة لتحديث الرصيد المعروض
-  function updateDisplayedBalance(balance) {
-    balanceDisplay.innerText = balance.toLocaleString();
-  }
-
-  // عند الضغط على زر المتابعة
-  submitBtn.addEventListener("click", function () {
-    const amount = parseFloat(amountInput.value);
-
-    if (!amount || amount <= 0 || amount > currentBalance) {
-      alert("أدخل مبلغ صحيح أقل من الرصيد المتاح");
-      return;
+    function updateDisplayedBalance(balance) {
+      balanceDisplay.innerText = balance.toLocaleString();
     }
 
-    const newBalance = currentBalance - amount;
-    localStorage.setItem("paypalAmount", amount);           // المبلغ اللي هيتعرض في الصفحة التالتة
-    localStorage.setItem("currentBalance", newBalance);     // الرصيد الجديد
-    localStorage.setItem("nextPage", "Pay3.html");          // الصفحة اللي هتتفتح بعد اللودينج
+    submitBtn.addEventListener("click", function () {
+      const amount = parseFloat(amountInput.value);
 
-    window.location.href = "loading.html";                  // يروح لصفحة اللودينج
-  });
+      if (!amount || amount <= 0 || amount > currentBalance) {
+        alert("Please enter a valid amount less than your available balance.");
+        return;
+      }
 
+      const newBalance = currentBalance - amount;
+      localStorage.setItem("paypalAmount", amount);
+      localStorage.setItem("currentBalance", newBalance);
+      localStorage.setItem("nextPage", "Pay3.html");
+
+      window.location.href = "loading.html";
+    });
   </script>
 </body>
 </html>
