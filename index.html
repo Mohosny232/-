@@ -149,17 +149,29 @@
     }
   });
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-
+  
   let deferredPrompt;
+
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    // هنا ممكن تظهر زر "أضف للتطبيق"
-    alert("تقدر تضيف التطبيق الآن إلى الشاشة الرئيسية");
-    deferredPrompt.prompt();
+    const addBtn = document.createElement('button');
+    addBtn.textContent = "📲 أضف التطبيق إلى الشاشة الرئيسية";
+    addBtn.style.position = "fixed";
+    addBtn.style.bottom = "20px";
+    addBtn.style.left = "20px";
+    addBtn.style.zIndex = "9999";
+    addBtn.style.padding = "10px";
+    addBtn.style.backgroundColor = "#0070ba";
+    addBtn.style.color = "white";
+    addBtn.style.border = "none";
+    addBtn.style.borderRadius = "8px";
+    document.body.appendChild(addBtn);
+
+    addBtn.addEventListener('click', () => {
+      addBtn.style.display = "none";
+      deferredPrompt.prompt();
+    });
   });
 
   </script>
