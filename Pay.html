@@ -101,23 +101,22 @@
   </div>
 
 <script>
-  const defaultBalance = 2507472;
-  const balanceSpan = document.getElementById("eur-balance");
+  const balanceDisplay = document.getElementById("eur-balance");
+  const submitBtn = document.getElementById("submit-btn");
   const amountInput = document.getElementById("amount");
 
-  // تحميل الرصيد من localStorage أو تعيينه لأول مرة
-  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-  if (!currentBalance) {
-    localStorage.setItem("currentBalance", defaultBalance);
-    currentBalance = defaultBalance;
-  }
+  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+  balanceDisplay.innerText = currentBalance.toLocaleString();
 
-  // تحديث عرض الرصيد
-  function updateDisplayedBalance(balance) {
-    balanceSpan.innerText = balance.toLocaleString();
-  }
-
-  updateDisplayedBalance(currentBalance);
+  // تحديث الزر عند كتابة مبلغ
+  amountInput.addEventListener("input", function () {
+    const enteredAmount = parseFloat(amountInput.value);
+    if (!isNaN(enteredAmount) && enteredAmount > 0) {
+      submitBtn.innerText = `متابعة ${enteredAmount} EUR`;
+    } else {
+      submitBtn.innerText = "متابعة";
+    }
+  });
 
   // كل ما المستخدم يكتب مبلغ يتم تحديث الرصيد بشكل ديناميكي
   amountInput.addEventListener("input", () => {
@@ -130,19 +129,25 @@
     }
   });
 
-  // عند الضغط على "متابعة"
-  document.getElementById("submit-btn").addEventListener("click", () => {
+  // دالة لتحديث الرصيد المعروض
+  function updateDisplayedBalance(balance) {
+    balanceDisplay.innerText = balance.toLocaleString();
+  }
+
+  // عند الضغط على زر المتابعة
+  submitBtn.addEventListener("click", function () {
     const amount = parseFloat(amountInput.value);
+
     if (!amount || amount <= 0 || amount > currentBalance) {
       alert("أدخل مبلغ صحيح أقل من الرصيد المتاح");
       return;
     }
 
     const newBalance = currentBalance - amount;
-    localStorage.setItem("paypalAmount", amount);
-    localStorage.setItem("currentBalance", newBalance);
-    window.location.href = "Pay3.html";
+    localStorage.setItem("paypalAmount", amount);           // المبلغ اللي هيتعرض في الصفحة التالتة
+    localStorage.setItem("currentBalance", newBalance);     // الرصيد الجديد
+    localStorage.setItem("nextPage", "Pay3.html");          // الصفحة اللي هتتفتح بعد اللودينج
+
+    window.location.href = "loading.html";                  // يروح لصفحة اللودينج
   });
 </script>
-</body>
-  </html>
