@@ -84,6 +84,24 @@
     .transfer-btn:hover {
       background-color: #0056b3;
     }
+      #reset-button {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: transparent;
+    color: #ccc;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.2;
+    z-index: 9999;
+  }
+
+  #reset-button:hover {
+    opacity: 1;
+    color: red;
+  }
   </style>
 </head>
 <body>
@@ -96,6 +114,7 @@
   <span class="currency">EUR</span>
     </div>
 <a href="#" class="transfer-btn" onclick="goToPay()">Transfer Funds</a>
+<button id="reset-button" title="إعادة الرصيد">H</button>
 
 </body>
 </html>
@@ -118,6 +137,15 @@
     localStorage.setItem("nextPage", "Pay.html");
     window.location.href = "loading.html";
   }
+    document.getElementById("reset-button").addEventListener("click", function () {
+    const confirmReset = confirm("هل تريد إعادة الرصيد إلى القيمة الأصلية؟");
+    if (confirmReset) {
+      const defaultBalance = 2507472;
+      localStorage.setItem("currentBalance", defaultBalance);
+      alert("تمت إعادة تعيين الرصيد.");
+      location.reload();
+    }
+  });
 </script>
   </script>
 </body>
