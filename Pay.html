@@ -78,6 +78,10 @@
       margin-bottom: 15px;
       font-size: 18px;
     }
+    .gray-label {
+  color: #777; /* رمادي ناعم */
+  font-weight: normal;
+  }
   </style>
 </head>
 <body>
@@ -90,17 +94,17 @@
 
     <label><span class="eur-label">EUR:</span> <span id="eur-balance"></span></label>
 
-    <label for="amount">Amount</label>
-    <input type="text" id="amount" placeholder="Enter amount">
+<label class="gray-label">Amount</label>
+<input type="text" id="amount" placeholder="Enter amount">
 
-    <label for="username">Username</label>
-    <input type="text" id="username" placeholder="Enter your username">
+<label for="username" class="gray-label">Username</label>
+<input type="text" id="username" placeholder="Enter username">
 
-    <label>Service Fee:</label>
-    <input type="text" value="US$5.00 USD" class="readonly" readonly>
+<label class="gray-label">Service Fee:</label>
+<input type="text" value="US$5.00 USD" class="readonly" readonly>
 
-    <label>Visa</label>
-    <input type="text" placeholder="•••• •••• •••• 5278" class="readonly" readonly>
+<label class="gray-label">Visa</label>
+<input type="text" placeholder="•••• •••• •••• 5278" class="readonly" readonly>
 
     <p class="note">Card transfers may take 5 to 7 business days depending on your card.</p>
 
