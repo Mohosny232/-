@@ -112,9 +112,14 @@ const originalBalance = 2507472;
 
   
   
+  
+
   function goToPay() {
+    // نعيّن الصفحة التالية
     localStorage.setItem("nextPage", "Pay.html");
-    window.location.href = "loading.html";
+
+    // ننتقل فورًا إلى صفحة اللودينج
+    window.location.replace("loading.html");
   }
 
 
