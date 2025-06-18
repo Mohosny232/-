@@ -107,11 +107,7 @@
   </style>
 </head>
 <body>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-</script>
+
   <div class="container">
     <img src="payhosny.jpg" alt="PayPal UI" />
 
@@ -152,7 +148,11 @@
       location.reload();
     }
   });
-</script>
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+
   </script>
 </body>
 </html>
