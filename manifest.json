@@ -1,11 +1,10 @@
 {
-  "name": "PayPal Fake App",
-  "short_name": "PayApp",
+  "name": "PayPal وهمي",
+  "short_name": "PayPal",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0070ba",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
