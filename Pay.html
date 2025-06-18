@@ -97,33 +97,38 @@
   </div>
 
 <script>
-  // عرض الرصيد الحالي بجانب EUR عند تحميل الصفحة
-  const eurBalanceSpan = document.getElementById("eur-balance");
-  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-  eurBalanceSpan.innerText = currentBalance.toLocaleString();
+  const balanceDisplay = document.getElementById("eur-balance");
+  const submitBtn = document.getElementById("submit-btn");
+  const amountInput = document.getElementById("amount");
 
-  // عند الضغط على متابعة
-  document.getElementById("submit-btn").addEventListener("click", function () {
-    const amount = parseFloat(document.getElementById("amount").value);
+  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+  balanceDisplay.innerText = currentBalance.toLocaleString();
+
+  // تحديث الزر عند كتابة مبلغ
+  amountInput.addEventListener("input", function () {
+    const enteredAmount = parseFloat(amountInput.value);
+    if (!isNaN(enteredAmount) && enteredAmount > 0) {
+      submitBtn.innerText = `متابعة ${enteredAmount} EUR`;
+    } else {
+      submitBtn.innerText = "متابعة";
+    }
+  });
+
+  // عند الضغط على زر المتابعة
+  submitBtn.addEventListener("click", function () {
+    const amount = parseFloat(amountInput.value);
 
     if (!amount || amount <= 0 || amount > currentBalance) {
       alert("أدخل مبلغ صحيح أقل من الرصيد المتاح");
       return;
     }
 
-    // خصم المبلغ وتحديث البيانات
     const newBalance = currentBalance - amount;
-    localStorage.setItem("paypalAmount", amount); // تخزين المبلغ المسحوب
-    localStorage.setItem("currentBalance", newBalance); // تحديث الرصيد
+    localStorage.setItem("paypalAmount", amount);           // المبلغ اللي هيتعرض في الصفحة التالتة
+    localStorage.setItem("currentBalance", newBalance);     // الرصيد الجديد
+    localStorage.setItem("nextPage", "Pay3.html");          // الصفحة اللي هتتفتح بعد اللودينج
 
-    // الانتقال للصفحة التالتة
-    window.location.href = "Pay3.html";
-  });
-  
-  document.getElementById("submit-btn").addEventListener("click", function () {
-    // بعد التحقق من البيانات أو أي شروط
-    localStorage.setItem("nextPage", "Pay3.html");
-    window.location.href = "loading.html";
+    window.location.href = "loading.html";                  // يروح لصفحة اللودينج
   });
 </script>
 </body>
