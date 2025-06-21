@@ -134,36 +134,35 @@
   <span id="notif-message">You sent $25.00 to @user</span>
 </div>
   <script>
-    const balanceDisplay = document.getElementById("eur-balance");
-    const submitBtn = document.getElementById("submit-btn");
-    const amountInput = document.getElementById("amount");
+  const balanceDisplay = document.getElementById("eur-balance");
+  const submitBtn = document.getElementById("submit-btn");
+  const amountInput = document.getElementById("amount");
 
-    const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-    balanceDisplay.innerText = currentBalance.toLocaleString();
+  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+  balanceDisplay.innerText = currentBalance.toLocaleString();
 
-    amountInput.addEventListener("input", function () {
-      const enteredAmount = parseFloat(amountInput.value);
-      if (!isNaN(enteredAmount) && enteredAmount > 0) {
-        submitBtn.innerText = `Continue ${enteredAmount} EUR`;
-      } else {
-        submitBtn.innerText = "Continue";
-      }
-    });
-
-    amountInput.addEventListener("input", () => {
-      const entered = parseFloat(amountInput.value);
-      if (!isNaN(entered) && entered > 0 && entered <= currentBalance) {
-        const newBalance = currentBalance - entered;
-        updateDisplayedBalance(newBalance);
-      } else {
-        updateDisplayedBalance(currentBalance);
-      }
-    });
-
-    function updateDisplayedBalance(balance) {
-      balanceDisplay.innerText = balance.toLocaleString();
+  amountInput.addEventListener("input", function () {
+    const enteredAmount = parseFloat(amountInput.value);
+    if (!isNaN(enteredAmount) && enteredAmount > 0) {
+      submitBtn.innerText = `Continue ${enteredAmount} EUR`;
+    } else {
+      submitBtn.innerText = "Continue";
     }
+  });
 
+  amountInput.addEventListener("input", () => {
+    const entered = parseFloat(amountInput.value);
+    if (!isNaN(entered) && entered > 0 && entered <= currentBalance) {
+      const newBalance = currentBalance - entered;
+      updateDisplayedBalance(newBalance);
+    } else {
+      updateDisplayedBalance(currentBalance);
+    }
+  });
+
+  function updateDisplayedBalance(balance) {
+    balanceDisplay.innerText = balance.toLocaleString();
+  }
 
   submitBtn.addEventListener("click", function () {
     const amount = parseFloat(amountInput.value);
@@ -177,15 +176,10 @@
     // إشعار وهمي
     showNotification(amount, username);
 
-    const newBalance = currentBalance - amount;
-    localStorage.setItem("paypalAmount", amount);
-    localStorage.setItem("currentBalance", newBalance);
-    localStorage.setItem("nextPage", "Pay3.html");
-
-    // الانتقال بعد وقت قصير عشان يبان الإشعار
+    // الانتقال بعد 2 ثانية
     setTimeout(() => {
       window.location.href = "loading.html";
-    }, 2000); // 2 ثانية
+    }, 2000);
 
     function showNotification(amount, username) {
       const notif = document.getElementById("fake-notification");
@@ -197,7 +191,7 @@
       }, 3000);
     }
   });
-
+  
       const newBalance = currentBalance - amount;
       localStorage.setItem("paypalAmount", amount);
       localStorage.setItem("currentBalance", newBalance);
