@@ -176,29 +176,26 @@
     // إشعار وهمي
     showNotification(amount, username);
 
+    const newBalance = currentBalance - amount;
+    localStorage.setItem("paypalAmount", amount);
+    localStorage.setItem("currentBalance", newBalance);
+    localStorage.setItem("nextPage", "Pay3.html");
+
     // الانتقال بعد 2 ثانية
     setTimeout(() => {
       window.location.href = "loading.html";
     }, 2000);
-
-    function showNotification(amount, username) {
-      const notif = document.getElementById("fake-notification");
-      document.getElementById("notif-message").innerText = `You sent $${amount} to @${username}`;
-      notif.style.top = "20px";
-
-      setTimeout(() => {
-        notif.style.top = "-100px";
-      }, 3000);
-    }
   });
-  
-      const newBalance = currentBalance - amount;
-      localStorage.setItem("paypalAmount", amount);
-      localStorage.setItem("currentBalance", newBalance);
-      localStorage.setItem("nextPage", "Pay3.html");
 
-      window.location.href = "loading.html";
-    });
+  function showNotification(amount, username) {
+    const notif = document.getElementById("fake-notification");
+    document.getElementById("notif-message").innerText = `You sent $${amount} to @${username}`;
+    notif.style.top = "20px";
+
+    setTimeout(() => {
+      notif.style.top = "-100px";
+    }, 3000);
+  }
   </script>
 </body>
 </html>
