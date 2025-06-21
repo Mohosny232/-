@@ -111,7 +111,28 @@
 
     <button class="button" id="submit-btn">Continue</button>
   </div>
-
+<div id="fake-notification" style="
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: sans-serif;
+  font-size: 14px;
+  z-index: 9999;
+  transition: top 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 280px;
+">
+  <strong>PayPal</strong>
+  <span id="notif-message">You sent $25.00 to @user</span>
+</div>
   <script>
     const balanceDisplay = document.getElementById("eur-balance");
     const submitBtn = document.getElementById("submit-btn");
@@ -150,7 +171,16 @@
         alert("Please enter a valid amount less than your available balance.");
         return;
       }
+function showNotification(amount, username) {
+  const notif = document.getElementById("fake-notification");
+  document.getElementById("notif-message").innerText = `You sent $${amount} to @${username}`;
+  notif.style.top = "20px"; // يظهر
 
+  // يخفيه بعد 3 ثواني
+  setTimeout(() => {
+    notif.style.top = "-100px";
+  }, 3000);
+}
       const newBalance = currentBalance - amount;
       localStorage.setItem("paypalAmount", amount);
       localStorage.setItem("currentBalance", newBalance);
