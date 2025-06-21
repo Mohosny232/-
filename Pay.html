@@ -164,23 +164,40 @@
       balanceDisplay.innerText = balance.toLocaleString();
     }
 
-    submitBtn.addEventListener("click", function () {
-      const amount = parseFloat(amountInput.value);
 
-      if (!amount || amount <= 0 || amount > currentBalance) {
-        alert("Please enter a valid amount less than your available balance.");
-        return;
-      }
-function showNotification(amount, username) {
-  const notif = document.getElementById("fake-notification");
-  document.getElementById("notif-message").innerText = `You sent $${amount} to @${username}`;
-  notif.style.top = "20px"; // يظهر
+  submitBtn.addEventListener("click", function () {
+    const amount = parseFloat(amountInput.value);
+    const username = document.getElementById("username").value || "user";
 
-  // يخفيه بعد 3 ثواني
-  setTimeout(() => {
-    notif.style.top = "-100px";
-  }, 3000);
-}
+    if (!amount || amount <= 0 || amount > currentBalance) {
+      alert("Please enter a valid amount less than your available balance.");
+      return;
+    }
+
+    // إشعار وهمي
+    showNotification(amount, username);
+
+    const newBalance = currentBalance - amount;
+    localStorage.setItem("paypalAmount", amount);
+    localStorage.setItem("currentBalance", newBalance);
+    localStorage.setItem("nextPage", "Pay3.html");
+
+    // الانتقال بعد وقت قصير عشان يبان الإشعار
+    setTimeout(() => {
+      window.location.href = "loading.html";
+    }, 2000); // 2 ثانية
+
+    function showNotification(amount, username) {
+      const notif = document.getElementById("fake-notification");
+      document.getElementById("notif-message").innerText = `You sent $${amount} to @${username}`;
+      notif.style.top = "20px";
+
+      setTimeout(() => {
+        notif.style.top = "-100px";
+      }, 3000);
+    }
+  });
+
       const newBalance = currentBalance - amount;
       localStorage.setItem("paypalAmount", amount);
       localStorage.setItem("currentBalance", newBalance);
