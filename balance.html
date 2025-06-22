@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Balance Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0; padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 320px;
+    }
+
+    /* اسم المستخدم والعلامة الزرقاء فوق الخانة */
+    .user-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background-color: #0070ba; /* أزرق بيبال */
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+      user-select: none;
+    }
+
+    /* صندوق الإدخال */
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px 50px 12px 12px; /* عشان مساحة كلمة EUR باليمين */
+      font-size: 20px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease;
+    }
+
+    /* كلمة EUR على يمين المربع */
+    .currency-label {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: bold;
+      color: #0070bacc; /* أزرق شفاف */
+      pointer-events: none;
+      user-select: none;
+      font-size: 18px;
+    }
+
+    /* تغير لون حدود الادخال لما نكتب */
+    input[type="number"]:focus, input[type="number"]:not(:placeholder-shown) {
+      border-color: #003d82; /* أزرق غامق */
+    }
+
+    /* زر كبير */
+    #submitBtn {
+      width: 100%;
+      padding: 14px;
+      background-color: #0070ba66; /* أزرق شفاف */
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: not-allowed;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    /* زر فعال */
+    #submitBtn.active {
+      background-color: #003d82; /* أزرق غامق */
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="user-label">
+      <div id="usernameDisplay">Username</div>
+      <div id="userAvatar" class="user-avatar">U</div>
+    </div>
+
+    <div class="input-wrapper">
+      <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
+      <div class="currency-label">EUR</div>
+    </div>
+
+    <button id="submitBtn" disabled>EUR 0.00</button>
+  </div>
+
+  <script>
+    // استلام اسم المستخدم من localStorage (مثلاً من صفحة send.html)
+    const username = localStorage.getItem('selectedUsername') || "Username";
+
+    // عرض الاسم وأول حرف للـ avatar
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const userAvatar = document.getElementById('userAvatar');
+    usernameDisplay.textContent = username;
+    userAvatar.textContent = username.charAt(0).toUpperCase();
+
+    // تحكم في الزر والنص داخل الزر حسب قيمة الإدخال
+    const balanceInput = document.getElementById('balanceInput');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function updateButton() {
+      const val = parseFloat(balanceInput.value);
+      if (!isNaN(val) && val > 0) {
+        submitBtn.classList.add('active');
+        submitBtn.disabled = false;
+        submitBtn.textContent = `EUR ${val.toFixed(2)}`;
+      } else {
+        submitBtn.classList.remove('active');
+        submitBtn.disabled = true;
+        submitBtn.textContent = "EUR 0.00";
+      }
+    }
+
+    balanceInput.addEventListener('input', updateButton);
+
+    // مثال حدث عند الضغط على الزر
+    submitBtn.addEventListener('click', () => {
+      if (!submitBtn.disabled) {
+        alert(`You entered: EUR ${parseFloat(balanceInput.value).toFixed(2)} for user ${username}`);
+        // هنا تقدر تعمل الانتقال للصفحة التالية أو أي شيء آخر
+      }
+    });
+  </script>
+</body>
+</html>
