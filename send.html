@@ -177,22 +177,39 @@ function updateNextButton() {
     nextBtn.disabled = true;
   }
 }
-
-inputBox.addEventListener('input', () => {
-  const value = inputBox.value.toLowerCase();
-  suggestionBox.innerHTML = '';
+inputBox.addEventListener("input", () => {
+  const value = inputBox.value.trim().toLowerCase();
+  suggestionBox.innerHTML = "";
 
   updateNextButton();
 
   if (value.length === 0) return;
 
+  // أولاً، أضف الاسم اللي المستخدم كتبه كأول اقتراح
+  const userItem = document.createElement("div");
+  userItem.className = "suggestion-item";
+  userItem.innerHTML = `
+    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+    <div>
+      <div><strong>${value}</strong></div>
+      <div style="font-size: 13px; color: gray;">${value}</div>
+    </div>
+  `;
+  userItem.addEventListener("click", () => {
+    inputBox.value = value;
+    suggestionBox.innerHTML = "";
+    updateNextButton();
+  });
+  suggestionBox.appendChild(userItem);
+
+  // بعد كده نعرض الأسماء العشوائية المطابقة
   const filtered = names.filter(n =>
     n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
   );
 
   filtered.forEach(person => {
-    const item = document.createElement('div');
-    item.className = 'suggestion-item';
+    const item = document.createElement("div");
+    item.className = "suggestion-item";
     item.innerHTML = `
       <div class="suggestion-avatar">${person.name[0]}</div>
       <div>
@@ -200,17 +217,14 @@ inputBox.addEventListener('input', () => {
         <div style="font-size: 13px; color: gray;">${person.username}</div>
       </div>
     `;
-
-    item.addEventListener('click', () => {
+    item.addEventListener("click", () => {
       inputBox.value = person.username;
-      suggestionBox.innerHTML = '';
+      suggestionBox.innerHTML = "";
       updateNextButton();
     });
-
     suggestionBox.appendChild(item);
   });
-});
-
+});  
 nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
