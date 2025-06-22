@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Send Payment - Fake PayPal</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: Arial, sans-serif;
       background-color: #fff;
     }
@@ -55,16 +54,17 @@
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     .suggestions-box {
       margin-top: 8px;
-      
       border: 1px solid #ccc;
       border-radius: 12px;
       max-height: 180px;
       overflow-y: auto;
-      
+      background: white;
+      box-sizing: border-box;
     }
 
     .suggestion-item {
@@ -74,41 +74,48 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      user-select: none;
     }
 
     .suggestion-item:hover {
-      
+      background-color: #f0f0f0;
     }
 
     .suggestion-avatar {
       width: 30px;
       height: 30px;
-      
+      background-color: #0070ba;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      flex-shrink: 0;
     }
-    .btn {
-  padding: 12px 30px;
-  border: none;
-  border-radius: 25px;
-  background-color: #003d82; /* ← أزرق غامق */
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: background-color 0.3s ease;
-}
 
-.btn.disabled {
-  background-color: gray;      /* اللون الرمادي */
-  cursor: not-allowed;         /* مؤشر ممنوع */
-  box-shadow: none;
-}
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      background-color: #003d82; /* أزرق غامق */
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      display: block;
+      width: 120px;
+      margin: 20px auto 0 auto;
+      user-select: none;
+    }
+
+    .btn.disabled {
+      background-color: gray;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
   </style>
 </head>
 <body>
@@ -119,93 +126,100 @@
     <div class="overlay-content">
       <h2>Send to</h2>
       <div class="input-section">
-        <input type="text" id="recipient" placeholder="Username, email, or phone">
+        <input type="text" id="recipient" placeholder="Username, email, or phone" autocomplete="off" />
         <div id="suggestions" class="suggestions-box"></div>
       </div>
     </div>
-  
-  <!-- هنا تظهر الاقتراحات -->
-</div>
+  </div>
 
-<button id="nextBtn" class="btn disabled" disabled>Next</button>
+  <button id="nextBtn" class="btn disabled" disabled>Next</button>
 
   <script>
-   
-  const names = [
-  { name: "Alice Brown", username: "aliceb" },        // A
-  { name: "Brian Clark", username: "bclark" },        // B
-  { name: "Catherine Davis", username: "catd" },      // C
-  { name: "David Edwards", username: "davide" },      // D
-  { name: "Emma Foster", username: "emmaf" },         // E
-  { name: "Frank Green", username: "frankg" },        // F
-  { name: "Grace Harris", username: "graceh" },       // G
-  { name: "Henry Irvine", username: "henryi" },       // H
-  { name: "Isla Johnson", username: "islaj" },        // I
-  { name: "Jack King", username: "jackk" },           // J
-  { name: "Kara Lewis", username: "karal" },          // K
-  { name: "Liam Miller", username: "liamm" },         // L
-  { name: "Mia Nelson", username: "mian" },            // M
-  { name: "Noah Owens", username: "noaho" },          // N
-  { name: "Olivia Perez", username: "oliviap" },      // O
-  { name: "Paul Quinn", username: "paulq" },          // P
-  { name: "Quinn Roberts", username: "quinnr" },      // Q
-  { name: "Rachel Smith", username: "rachels" },      // R
-  { name: "Samuel Taylor", username: "samuelt" },     // S
-  { name: "Tina Underwood", username: "tinau" },      // T
-  { name: "Umar Vaughn", username: "umarv" },         // U
-  { name: "Victoria White", username: "victoriaw" },  // V
-  { name: "William Xu", username: "williamx" },       // W
-  { name: "Xander Young", username: "xandery" },      // X
-  { name: "Yara Zimmerman", username: "yaraz" },      // Y
-  { name: "Zachary Adams", username: "zacha" }        // Z
-];
+    const names = [
+      { name: "Alice Brown", username: "aliceb" },
+      { name: "Brian Clark", username: "bclark" },
+      { name: "Catherine Davis", username: "catd" },
+      { name: "David Edwards", username: "davide" },
+      { name: "Emma Foster", username: "emmaf" },
+      { name: "Frank Green", username: "frankg" },
+      { name: "Grace Harris", username: "graceh" },
+      { name: "Henry Irvine", username: "henryi" },
+      { name: "Isla Johnson", username: "islaj" },
+      { name: "Jack King", username: "jackk" },
+      { name: "Kara Lewis", username: "karal" },
+      { name: "Liam Miller", username: "liamm" },
+      { name: "Mia Nelson", username: "mian" },
+      { name: "Noah Owens", username: "noaho" },
+      { name: "Olivia Perez", username: "oliviap" },
+      { name: "Paul Quinn", username: "paulq" },
+      { name: "Quinn Roberts", username: "quinnr" },
+      { name: "Rachel Smith", username: "rachels" },
+      { name: "Samuel Taylor", username: "samuelt" },
+      { name: "Tina Underwood", username: "tinau" },
+      { name: "Umar Vaughn", username: "umarv" },
+      { name: "Victoria White", username: "victoriaw" },
+      { name: "William Xu", username: "williamx" },
+      { name: "Xander Young", username: "xandery" },
+      { name: "Yara Zimmerman", username: "yaraz" },
+      { name: "Zachary Adams", username: "zacha" }
+    ];
 
-  const inputBox = document.getElementById('recipient');
-const nextBtn = document.getElementById('nextBtn');
+    const inputBox = document.getElementById('recipient');
+    const suggestionBox = document.getElementById('suggestions');
+    const nextBtn = document.getElementById('nextBtn');
 
-inputBox.addEventListener('input', () => {
-  if (inputBox.value.trim().length > 0) {
-    nextBtn.classList.remove('disabled');
-    nextBtn.disabled = false;
-  } else {
-    nextBtn.classList.add('disabled');
-    nextBtn.disabled = true;
-  }
-});
+    function updateNextButton() {
+      if (inputBox.value.trim().length > 0) {
+        nextBtn.classList.remove('disabled');
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.classList.add('disabled');
+        nextBtn.disabled = true;
+      }
+    }
 
-const suggestionBox = document.getElementById("suggestions");
-
-inputBox.addEventListener("input", () => {
-  const value = inputBox.value.toLowerCase();
-  suggestionBox.innerHTML = "";
-
-  if (value.length === 0) return;
-
-  const filtered = names.filter(n =>
-    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
-  );
-
-  filtered.forEach(person => {
-    const item = document.createElement("div");
-    item.className = "suggestion-item";
-    item.innerHTML = `
-      <div class="suggestion-avatar">${person.name[0]}</div>
-      <div>
-        <div><strong>${person.name}</strong></div>
-        <div style="font-size: 13px; color: gray;">${person.username}</div>
-      </div>
-    `;
-    item.addEventListener("click", () => {
-      inputBox.value = person.username;
+    inputBox.addEventListener('input', () => {
+      const value = inputBox.value.toLowerCase();
       suggestionBox.innerHTML = "";
-      
-      // عند اختيار اسم، فعل زر Next مباشرة
-      nextBtn.classList.remove('disabled');
-      nextBtn.disabled = false;
+
+      updateNextButton();
+
+      if (value.length === 0) return;
+
+      const filtered = names.filter(n =>
+        n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+      );
+
+      filtered.forEach(person => {
+        const item = document.createElement('div');
+        item.className = 'suggestion-item';
+        item.innerHTML = `
+          <div class="suggestion-avatar">${person.name[0]}</div>
+          <div>
+            <div><strong>${person.name}</strong></div>
+            <div style="font-size: 13px; color: gray;">${person.username}</div>
+          </div>
+        `;
+
+        item.addEventListener('click', () => {
+          inputBox.value = person.username;
+          suggestionBox.innerHTML = '';
+          updateNextButton();
+        });
+
+        suggestionBox.appendChild(item);
+      });
     });
-    suggestionBox.appendChild(item);
-  });
-}); 
+
+    // مثال: لما تضغط على Next تعمل شيء
+    nextBtn.addEventListener('click', () => {
+      if (!nextBtn.disabled) {
+        alert('You clicked Next with value: ' + inputBox.value);
+        // هنا تحط أي كود تاني أو تنتقل لصفحة تانية
+        // window.location.href = 'send.html';
+      }
+    });
   </script>
+
 </body>
 </html>
