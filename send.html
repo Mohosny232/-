@@ -165,18 +165,28 @@
     ];
 
     const inputBox = document.getElementById('recipient');
-    const suggestionBox = document.getElementById('suggestions');
-    const nextBtn = document.getElementById('nextBtn');
+const nextBtn = document.getElementById('nextBtn');
 
-    function updateNextButton() {
-      if (inputBox.value.trim().length > 0) {
-        nextBtn.classList.remove('disabled');
-        nextBtn.disabled = false;
-      } else {
-        nextBtn.classList.add('disabled');
-        nextBtn.disabled = true;
-      }
-    }
+inputBox.addEventListener('input', () => {
+  if (inputBox.value.trim().length > 0) {
+    nextBtn.classList.remove('disabled');
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.classList.add('disabled');
+    nextBtn.disabled = true;
+  }
+});
+
+// لما نضغط زر Next:
+nextBtn.addEventListener('click', () => {
+  const username = inputBox.value.trim();
+  if (username.length > 0) {
+    // خزن الاسم في localStorage
+    localStorage.setItem('selectedUsername', username);
+    // حول لصفحة balance.html
+    window.location.href = 'balance.html';
+  }
+});
 
     inputBox.addEventListener('input', () => {
       const value = inputBox.value.toLowerCase();
