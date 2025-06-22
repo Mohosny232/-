@@ -184,7 +184,7 @@
     // تحكم في الزر والنص داخل الزر حسب قيمة الإدخال
     const balanceInput = document.getElementById('balanceInput');
     const submitBtn = document.getElementById('submitBtn');
-
+    balanceInput.addEventListener('input', updateButton);
     function updateButton() {
       const val = parseFloat(balanceInput.value);
       if (!isNaN(val) && val > 0) {
