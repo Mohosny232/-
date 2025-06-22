@@ -2,50 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment Sent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transaction Complete</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url('hosny87.jpg') no-repeat center center fixed;
+      background-image: url('hosny87.jpg');
       background-size: cover;
+      background-position: center;
       font-family: Arial, sans-serif;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      color: white;
-      text-align: center;
     }
 
-    .message-box {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 30px 20px;
-      border-radius: 20px;
+    .message {
+      color: #000;
       font-size: 24px;
-      line-height: 1.6;
-      max-width: 90%;
-    }
-
-    strong {
-      color: #00c4ff;
+      font-weight: normal;
+      text-align: center;
+      padding: 0 20px;
     }
   </style>
 </head>
 <body>
-
-  <div class="message-box" id="confirmationMessage">
-    <!-- Message will be inserted by JavaScript -->
-  </div>
+  <div class="message" id="confirmationMessage">Loading...</div>
 
   <script>
-    const username = localStorage.getItem('selectedUsername') || 'User';
+    // جلب البيانات من localStorage
+    const username = localStorage.getItem('selectedUsername') || 'user';
     const amount = localStorage.getItem('sentAmount') || '0.00';
 
-    const message = `You have sent <strong>EUR ${amount}</strong> to <strong>${username}</strong>`;
-    document.getElementById('confirmationMessage').innerHTML = message;
+    // عرض الرسالة
+    const messageBox = document.getElementById('confirmationMessage');
+    messageBox.textContent = `You have sent EUR ${amount} to ${username}`;
   </script>
-
 </body>
 </html>
