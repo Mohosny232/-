@@ -1,132 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fake PayPal Send</title>
+  <title>Send Payment - Fake PayPal</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
       background-color: #fff;
-      padding: 20px;
-      margin: 0;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    .balance {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #111;
     }
 
     .container {
-      max-width: 400px;
-      margin: auto;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    label {
+    .container img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
       display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      font-weight: bold;
     }
 
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background-color: #0070ba;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005c99;
-    }
-
-    #fake-notification {
-      position: fixed;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #28a745;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      transition: top 0.5s ease;
-      z-index: 9999;
-    }
+    /* هنضيف هنا العناصر فوق الصورة بعدين */
   </style>
 </head>
 <body>
 
-  <div id="fake-notification">
-    <span id="notif-message">You sent $0 to @user</span>
-  </div>
-
-  <h2>Send Payment</h2>
-  <div class="balance">Balance: <span id="balance">5,379,758.00</span> USD</div>
-
   <div class="container">
-    <label for="username">To (username)</label>
-    <input type="text" id="username" placeholder="Enter username">
-
-    <label for="amount">Amount</label>
-    <input type="number" id="amount" placeholder="Enter amount">
-
-    <button id="sendBtn">Send Payment</button>
+    <img src="your-image.jpg" alt="Send Payment Background" />
   </div>
-
-  <script>
-    let currentBalance = parseFloat(localStorage.getItem("fakeBalance")) || 5379758.00;
-    const balanceDisplay = document.getElementById("balance");
-    balanceDisplay.innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
-
-    document.getElementById("sendBtn").addEventListener("click", function () {
-      const amount = parseFloat(document.getElementById("amount").value);
-      const username = document.getElementById("username").value.trim();
-
-      if (!username || isNaN(amount) || amount <= 0 || amount > currentBalance) {
-        alert("Please enter valid username and amount.");
-        return;
-      }
-
-      currentBalance -= amount;
-      localStorage.setItem("fakeBalance", currentBalance);
-      balanceDisplay.innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
-
-      // Show notification
-      const notif = document.getElementById("fake-notification");
-      document.getElementById("notif-message").innerText = `You sent $${amount.toFixed(2)} to @${username}`;
-      notif.style.top = "20px";
-
-      setTimeout(() => {
-        notif.style.top = "-100px";
-      }, 3000);
-
-      // Clear inputs
-      document.getElementById("username").value = "";
-      document.getElementById("amount").value = "";
-    });
-  </script>
 
 </body>
 </html>
