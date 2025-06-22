@@ -91,17 +91,23 @@
       justify-content: center;
       font-weight: bold;
     }
-    .btn.disabled {
-  background-color: gray;      /* اللون الرمادي */
-  cursor: not-allowed;         /* مؤشر ممنوع */
-  box-shadow: none;            /* شيل الظل */
+    .btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  background-color: #003d82; /* ← أزرق غامق */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
 }
 
-#nextBtn {
-  margin-top: 15px;            /* يبعد شوية تحت الخانة */
-  display: block;
-  width: 120px;                /* حجم زر مناسب */
-  text-align: center;
+.btn.disabled {
+  background-color: gray;      /* اللون الرمادي */
+  cursor: not-allowed;         /* مؤشر ممنوع */
+  box-shadow: none;
 }
   </style>
 </head>
