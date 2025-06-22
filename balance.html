@@ -101,7 +101,54 @@
   user-select: none;
   margin-top: 10%;  /* زيادة المسافة فوق الزر */
 }
+.transaction-log {
+  margin-top: 40px;
+}
 
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.transaction-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.transaction-avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #0070ba;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.transaction-right {
+  font-size: 18px;
+}
+
+.transaction-amount {
+  color: red;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.transaction-currency {
+  color: black;
+  font-weight: normal;
+}
     /* زر فعال */
     #submitBtn.active {
       background-color: #003d82; /* أزرق غامق */
@@ -125,7 +172,7 @@
 
     <button id="submitBtn" disabled>EUR 0.00</button>
   </div>
-
+<div id="transactionLog" class="transaction-log"></div>
   <script>
     // استلام اسم المستخدم من localStorage (مثلاً من صفحة send.html)
     const username = localStorage.getItem('selectedUsername') || "Username";
@@ -153,19 +200,39 @@
       }
     }
 
+    const logContainer = document.getElementById('transactionLog');
+
+function addTransaction(username, amount) {
+  const div = document.createElement('div');
+  div.className = 'transaction-item';
+  div.innerHTML = `
+    <div class="transaction-left">
+      <div class="transaction-avatar">${username.charAt(0).toUpperCase()}</div>
+      <div>${username}</div>
+    </div>
+    <div class="transaction-right">
+      <span class="transaction-amount">${amount.toFixed(2)}</span>
+      <span class="transaction-currency">EUR</span>
+    </div>
+  `;
+  logContainer.appendChild(div);
+        }
     balanceInput.addEventListener('input', updateButton);
 
     // مثال حدث عند الضغط على الزر
     submitBtn.addEventListener('click', () => {
   if (!submitBtn.disabled) {
-    // غير شكل الزر إلى Loading...
+    const amount = parseFloat(balanceInput.value);
+    addTransaction(username, amount);
+
+    // الزر يتحول لـ Loading...
     submitBtn.textContent = "Loading...";
-    submitBtn.style.backgroundColor = "#0070ba66"; // أزرق شفاف
+    submitBtn.style.backgroundColor = "#0070ba66";
     submitBtn.style.color = "white";
     submitBtn.style.cursor = "default";
     submitBtn.disabled = true;
 
-    // بعد 3 ثواني انقل لصفحة theend.html
+    // بعد 3 ثواني نروح لصفحة theend.html
     setTimeout(() => {
       window.location.href = "theend.html";
     }, 3000);
