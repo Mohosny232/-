@@ -166,8 +166,9 @@
 
     const inputBox = document.getElementById('recipient');
 const nextBtn = document.getElementById('nextBtn');
+const suggestionBox = document.getElementById('suggestions');
 
-inputBox.addEventListener('input', () => {
+function updateNextButton() {
   if (inputBox.value.trim().length > 0) {
     nextBtn.classList.remove('disabled');
     nextBtn.disabled = false;
@@ -175,60 +176,50 @@ inputBox.addEventListener('input', () => {
     nextBtn.classList.add('disabled');
     nextBtn.disabled = true;
   }
+}
+
+inputBox.addEventListener('input', () => {
+  const value = inputBox.value.toLowerCase();
+  suggestionBox.innerHTML = '';
+
+  updateNextButton();
+
+  if (value.length === 0) return;
+
+  const filtered = names.filter(n =>
+    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+  );
+
+  filtered.forEach(person => {
+    const item = document.createElement('div');
+    item.className = 'suggestion-item';
+    item.innerHTML = `
+      <div class="suggestion-avatar">${person.name[0]}</div>
+      <div>
+        <div><strong>${person.name}</strong></div>
+        <div style="font-size: 13px; color: gray;">${person.username}</div>
+      </div>
+    `;
+
+    item.addEventListener('click', () => {
+      inputBox.value = person.username;
+      suggestionBox.innerHTML = '';
+      updateNextButton();
+    });
+
+    suggestionBox.appendChild(item);
+  });
 });
 
-// لما نضغط زر Next:
 nextBtn.addEventListener('click', () => {
-  const username = inputBox.value.trim();
-  if (username.length > 0) {
-    // خزن الاسم في localStorage
+  if (!nextBtn.disabled) {
+    const username = inputBox.value.trim();
+    // خزن اسم المستخدم في localStorage
     localStorage.setItem('selectedUsername', username);
-    // حول لصفحة balance.html
+    // تحويل الصفحة
     window.location.href = 'balance.html';
   }
 });
-
-    inputBox.addEventListener('input', () => {
-      const value = inputBox.value.toLowerCase();
-      suggestionBox.innerHTML = "";
-
-      updateNextButton();
-
-      if (value.length === 0) return;
-
-      const filtered = names.filter(n =>
-        n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
-      );
-
-      filtered.forEach(person => {
-        const item = document.createElement('div');
-        item.className = 'suggestion-item';
-        item.innerHTML = `
-          <div class="suggestion-avatar">${person.name[0]}</div>
-          <div>
-            <div><strong>${person.name}</strong></div>
-            <div style="font-size: 13px; color: gray;">${person.username}</div>
-          </div>
-        `;
-
-        item.addEventListener('click', () => {
-          inputBox.value = person.username;
-          suggestionBox.innerHTML = '';
-          updateNextButton();
-        });
-
-        suggestionBox.appendChild(item);
-      });
-    });
-
-    // مثال: لما تضغط على Next تعمل شيء
-    nextBtn.addEventListener('click', () => {
-      if (!nextBtn.disabled) {
-        alert('You clicked Next with value: ' + inputBox.value);
-        // هنا تحط أي كود تاني أو تنتقل لصفحة تانية
-        // window.location.href = 'send.html';
-      }
-    });
   </script>
 
 </body>
