@@ -101,51 +101,64 @@
   user-select: none;
   margin-top: 10%;  /* زيادة المسافة فوق الزر */
 }
-.transaction-log {
-  margin-top: 30px;
+.log-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center; /* عشان يكون في النص */
 }
 
+/* العنصر الفردي */
 .transaction-item {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  font-weight: bold;
   align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
 }
 
+/* جهة اليسار: الاسم والأفتار */
 .transaction-left {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 16px;
-  font-weight: bold;
 }
 
 .transaction-avatar {
-  width: 32px;
-  height: 32px;
-  background-color: #0070ba;
+  width: 36px;
+  height: 36px;
+  background: #0070ba;
   color: white;
+  font-size: 18px;
+  font-weight: bold;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 16px;
+  justify-content: center;
 }
 
+/* جهة اليمين: المبلغ */
 .transaction-right {
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .transaction-amount {
   color: red;
   font-weight: bold;
-  margin-right: 4px;
+  font-size: 18px;
 }
 
 .transaction-currency {
   color: black;
+  font-size: 16px;
 }
     /* زر فعال */
     #submitBtn.active {
