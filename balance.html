@@ -4,93 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Balance Page</title>
-  <style>
+  <style> 
     body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background: url('hosny30.jpg') no-repeat center center fixed;
-  background-size: cover;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-height: 100vh;
 }
 
 .container {
-  width: 320px; /* نفس عرض الخانة */
-  margin: 0 auto; /* توسيط كامل للحاوية */
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* اسم المستخدم */
 .user-label {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin: 130px 0 8px 0; /* نزّلهم 15 بكسل عن فوق، مع 8 بكسل تحت */
+  margin-bottom: 10px;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 24px;
   color: #222;
-  user-select: none;
 }
 
 .user-avatar {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #0070ba;
   color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 28px;
-  margin-bottom: 0;   /* شيل المسافة تحت الدائرة */
+  font-size: 20px;
 }
-    
 
-    /* صندوق الإدخال */
-    .input-wrapper {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"], input[type="number"] {
-      width: 100%;
-      padding: 12px 50px 12px 12px; /* عشان مساحة كلمة EUR باليمين */
-      font-size: 20px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      outline-offset: 2px;
-      transition: border-color 0.3s ease;
-    }
-
-    /* كلمة EUR على يمين المربع */
-    .currency-label {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: bold;
-      color: #0070bacc; /* أزرق شفاف */
-      pointer-events: none;
-      user-select: none;
-      font-size: 18px;
-    }
-
-    /* تغير لون حدود الادخال لما نكتب */
+/* خانة الإدخال */
 .input-wrapper {
+  width: 100%;
   position: relative;
   margin-bottom: 20px;
-  margin-top: 10%; /* زيادة المسافة فوق خانة الإدخال */
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 12px 50px 12px 12px;
+  font-size: 20px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.currency-label {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  color: #0070bacc;
+  font-size: 18px;
 }
 
 #submitBtn {
   width: 100%;
   padding: 14px;
-  background-color: #0070ba66; /* أزرق شفاف */
+  background-color: #0070ba66;
   border: none;
   border-radius: 25px;
   color: white;
@@ -98,18 +85,23 @@
   font-weight: bold;
   cursor: not-allowed;
   transition: background-color 0.3s ease;
-  user-select: none;
-  margin-top: 10%;  /* زيادة المسافة فوق الزر */
 }
+
+#submitBtn.active {
+  background-color: #003d82;
+  cursor: pointer;
+}
+
+/* التحويلات */
 .log-container {
-  margin-top: 40px;
+  margin-top: 30px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: center; /* عشان يكون في النص */
+  align-items: center;
 }
 
-/* العنصر الفردي */
 .transaction-item {
   display: flex;
   justify-content: space-between;
@@ -123,7 +115,6 @@
   align-items: center;
 }
 
-/* جهة اليسار: الاسم والأفتار */
 .transaction-left {
   display: flex;
   align-items: center;
@@ -143,7 +134,6 @@
   justify-content: center;
 }
 
-/* جهة اليمين: المبلغ */
 .transaction-right {
   display: flex;
   align-items: center;
@@ -160,12 +150,6 @@
   color: black;
   font-size: 16px;
 }
-    /* زر فعال */
-    #submitBtn.active {
-      background-color: #003d82; /* أزرق غامق */
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
   </style>
 </head>
 <body>
