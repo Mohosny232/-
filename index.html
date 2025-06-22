@@ -26,7 +26,31 @@
       object-fit: cover;
       display: block;
     }
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
 
+  .container img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .balance-box {
+    position: absolute;
+    top: 50%; /* في وسط الصورة */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255,255,255,0.85);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 26px;
+    font-weight: bold;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+  }
     /* هنضيف هنا العناصر فوق الصورة بعدين */
   </style>
 </head>
@@ -35,6 +59,25 @@
   <div class="container">
     <img src="your-image.jpg" alt="Send Payment Background" />
   </div>
+<div class="container">
+  <img src="your-image.jpg" alt="Background" />
+  <div class="balance-box" id="main-balance">€ 0.00</div>
+</div>
 
+<script>
+  const defaultBalance = 5379758.00;
+
+  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+  if (!currentBalance) {
+    localStorage.setItem("currentBalance", defaultBalance);
+    currentBalance = defaultBalance;
+  }
+
+  document.getElementById("main-balance").innerText =
+    "€ " + currentBalance.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+</script>
 </body>
 </html>
