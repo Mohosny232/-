@@ -150,6 +150,22 @@ input[type="number"] {
   color: black;
   font-size: 16px;
 }
+#resetBtn {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: transparent;
+  color: #888;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 999;
+}
+
+#resetBtn:hover {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -173,7 +189,7 @@ input[type="number"] {
   <!-- التحويلات تظهر هنا -->
   <div id="transactionLog" class="log-container"></div>
 </div> 
-
+<button id="resetBtn" title="Reset Transactions">H</button>
   <script>
     // استلام اسم المستخدم من localStorage (مثلاً من صفحة send.html)
     const username = localStorage.getItem('selectedUsername') || "Username";
@@ -200,7 +216,9 @@ input[type="number"] {
         submitBtn.textContent = "EUR 0.00";
       }
     }
-
+balanceInput.addEventListener('input', () => {
+  updateButton();
+});
     const logContainer = document.getElementById('transactionLog');
 
 // جلب البيانات المحفوظة من localStorage عند فتح الصفحة
@@ -255,6 +273,21 @@ submitBtn.addEventListener('click', () => {
       window.location.href = "theend.html";
     }, 3000);
   }
+});
+    const resetBtn = document.getElementById('resetBtn');
+
+resetBtn.addEventListener('click', () => {
+  if (confirm("Are you sure you want to clear all transactions?")) {
+    localStorage.removeItem('transactions');
+    logContainer.innerHTML = ""; // مسح من الواجهة
+  }
+});
+    // Reset زر المبلغ لحالته الأصلية بعد العودة للصفحة
+window.addEventListener('load', () => {
+  submitBtn.textContent = "EUR 0.00";
+  submitBtn.classList.remove('active');
+  submitBtn.disabled = true;
+  balanceInput.value = "";
 });
   </script>
 </body>
