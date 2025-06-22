@@ -170,20 +170,26 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="user-label">
-      <div id="usernameDisplay">Username</div>
-      <div id="userAvatar" class="user-avatar">U</div>
-    </div>
-
-    <div class="input-wrapper">
-      <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
-      <div class="currency-label">EUR</div>
-    </div>
-
-    <button id="submitBtn" disabled>EUR 0.00</button>
+<div class="container">
+  <!-- اسم المستخدم + الأفتار -->
+  <div class="user-label">
+    <div id="usernameDisplay">Username</div>
+    <div id="userAvatar" class="user-avatar">U</div>
   </div>
-<div id="transactionLog" class="transaction-log"></div>
+
+  <!-- خانة إدخال المبلغ -->
+  <div class="input-wrapper">
+    <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
+    <div class="currency-label">EUR</div>
+  </div>
+
+  <!-- زر التحويل -->
+  <button id="submitBtn" disabled>EUR 0.00</button>
+
+  <!-- التحويلات تظهر هنا -->
+  <div id="transactionLog" class="log-container"></div>
+</div> 
+
   <script>
     // استلام اسم المستخدم من localStorage (مثلاً من صفحة send.html)
     const username = localStorage.getItem('selectedUsername') || "Username";
