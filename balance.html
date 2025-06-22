@@ -150,29 +150,32 @@
     }
     .toast {
   position: fixed;
-  top: -80px; /* مخفي فوق الشاشة */
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #fff; /* خلفية بيضاء */
-  color: #000; /* خط أسود */
-  padding: 15px 35px; /* زيادة الحشو من الجانبين */
-  border-radius: 25px; /* زوايا دائرية أكبر */
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* ظل ناعم عميق */
+  background-color: #fff;
+  color: #000;
+  padding: 15px 20px;  /* حشو متوازن من الجانبين */
+  border-radius: 25px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   font-weight: 600;
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* خطوط شبيهة بآبل */
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   transition: top 0.5s ease, opacity 0.5s ease;
   opacity: 0;
   z-index: 9999;
   pointer-events: none;
   user-select: none;
-  max-width: 350px; /* عرض أقصى */
-  text-align: center; /* توسيط النص */
+  
+  /* العرض الكامل مع حواف 20px من الجانبين */
+  width: calc(100% - 40px);
+  max-width: none;
+  text-align: center;
 }
 
 .toast.show {
-  top: 20px;    /* ينزل من فوق */
+  top: 20px;
   opacity: 1;
   pointer-events: auto;
 }
