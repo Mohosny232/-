@@ -75,24 +75,26 @@
     }
 
     /* تغير لون حدود الادخال لما نكتب */
-    input[type="number"]:focus, input[type="number"]:not(:placeholder-shown) {
-      border-color: #003d82; /* أزرق غامق */
-    }
+.input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+  margin-top: 50%; /* زيادة المسافة فوق خانة الإدخال */
+}
 
-    /* زر كبير */
-    #submitBtn {
-      width: 100%;
-      padding: 14px;
-      background-color: #0070ba66; /* أزرق شفاف */
-      border: none;
-      border-radius: 25px;
-      color: white;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: not-allowed;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
+#submitBtn {
+  width: 100%;
+  padding: 14px;
+  background-color: #0070ba66; /* أزرق شفاف */
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  margin-top: 50%;  /* زيادة المسافة فوق الزر */
+}
 
     /* زر فعال */
     #submitBtn.active {
