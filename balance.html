@@ -15,18 +15,18 @@
       min-height: 100vh;
     }
 
-    .container {
-      width: 320px;
-    }
+.container {
+  width: 320px; /* نفس عرض الخانة */
+  margin: 0 auto; /* توسيط كامل للحاوية */
+}
 
-    /* اسم المستخدم والعلامة الزرقاء فوق الخانة */
-    ..user-label {
+.user-label {
+  width: 100%; /* نفس عرض الحاوية */
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-top: 0;       /* خليها 0 عشان تبقى فوق الخانة مباشرة */
-  margin-bottom: 8px;  /* مسافة صغيرة تحت الاسم قبل الخانة */
+  margin: 0 0 8px 0; /* بدون مسافة فوق، ومسافة صغيرة تحت */
   font-weight: bold;
   font-size: 28px;
   color: #222;
