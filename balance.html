@@ -158,13 +158,17 @@
     // مثال حدث عند الضغط على الزر
     submitBtn.addEventListener('click', () => {
   if (!submitBtn.disabled) {
-    const amount = parseFloat(balanceInput.value).toFixed(2);
-    
-    // خزن المبلغ في localStorage
-    localStorage.setItem('sentAmount', amount);
-    
-    // الانتقال إلى صفحة theend.html
-    window.location.href = 'theend.html';
+    // غير شكل الزر إلى Loading...
+    submitBtn.textContent = "Loading...";
+    submitBtn.style.backgroundColor = "#0070ba66"; // أزرق شفاف
+    submitBtn.style.color = "white";
+    submitBtn.style.cursor = "default";
+    submitBtn.disabled = true;
+
+    // بعد 3 ثواني انقل لصفحة theend.html
+    setTimeout(() => {
+      window.location.href = "theend.html";
+    }, 3000);
   }
 });
   </script>
