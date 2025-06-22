@@ -20,13 +20,13 @@
     }
 
     /* اسم المستخدم والعلامة الزرقاء فوق الخانة */
-    .user-label {
+    ..user-label {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-top: 80px;  /* نزّلهم تحت بـ 50 بكسل */
-  margin-bottom: 20px;
+  margin-top: 0;       /* خليها 0 عشان تبقى فوق الخانة مباشرة */
+  margin-bottom: 8px;  /* مسافة صغيرة تحت الاسم قبل الخانة */
   font-weight: bold;
   font-size: 28px;
   color: #222;
@@ -34,7 +34,7 @@
 }
 
 .user-avatar {
-  width: 50px;              /* حجم أكبر للدائرة */
+  width: 50px;
   height: 50px;
   background-color: #0070ba;
   color: white;
@@ -43,8 +43,8 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  font-size: 28px;          /* حجم الخط داخل الدائرة */
- margin-bottom: 20px
+  font-size: 28px;
+  margin-bottom: 0;   /* شيل المسافة تحت الدائرة */
 }
     
 
