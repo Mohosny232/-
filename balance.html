@@ -157,11 +157,16 @@
 
     // مثال حدث عند الضغط على الزر
     submitBtn.addEventListener('click', () => {
-      if (!submitBtn.disabled) {
-        alert(`You entered: EUR ${parseFloat(balanceInput.value).toFixed(2)} for user ${username}`);
-        // هنا تقدر تعمل الانتقال للصفحة التالية أو أي شيء آخر
-      }
-    });
+  if (!submitBtn.disabled) {
+    const amount = parseFloat(balanceInput.value).toFixed(2);
+    
+    // خزن المبلغ في localStorage
+    localStorage.setItem('sentAmount', amount);
+    
+    // الانتقال إلى صفحة theend.html
+    window.location.href = 'theend.html';
+  }
+});
   </script>
 </body>
 </html>
