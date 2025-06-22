@@ -201,24 +201,37 @@ input[type="number"] {
     userAvatar.textContent = username.charAt(0).toUpperCase();
 
     // تحكم في الزر والنص داخل الزر حسب قيمة الإدخال
-    const balanceInput = document.getElementById('balanceInput');
-    const submitBtn = document.getElementById('submitBtn');
-    balanceInput.addEventListener('input', updateButton);
-    function updateButton() {
-      const val = parseFloat(balanceInput.value);
-      if (!isNaN(val) && val > 0) {
-        submitBtn.classList.add('active');
-        submitBtn.disabled = false;
-        submitBtn.textContent = `EUR ${val.toFixed(2)}`;
-      } else {
-        submitBtn.classList.remove('active');
-        submitBtn.disabled = true;
-        submitBtn.textContent = "EUR 0.00";
-      }
+    
+  const balanceInput = document.getElementById('balanceInput');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function updateButton() {
+    const val = parseFloat(balanceInput.value);
+    if (!isNaN(val) && val > 0) {
+      submitBtn.classList.add('active');
+      submitBtn.disabled = false;
+      submitBtn.textContent = `EUR ${val.toFixed(2)}`;
+      submitBtn.style.backgroundColor = "#003d82";
+      submitBtn.style.color = "white";
+      submitBtn.style.cursor = "pointer";
+    } else {
+      submitBtn.classList.remove('active');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "EUR 0.00";
+      submitBtn.style.backgroundColor = "#0070ba66";
+      submitBtn.style.color = "white";
+      submitBtn.style.cursor = "default";
     }
-balanceInput.addEventListener('input', () => {
-  updateButton();
-});
+  }
+
+  balanceInput.addEventListener('input', updateButton);
+
+  window.addEventListener('pageshow', () => {
+    updateButton();
+  });
+
+  // باقي الكود مثل التعامل مع الضغط على الزر ...
+
     const logContainer = document.getElementById('transactionLog');
 
 // جلب البيانات المحفوظة من localStorage عند فتح الصفحة
