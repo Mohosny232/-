@@ -1,181 +1,132 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0070ba"> 
-  <title>PayPal وهمي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fake PayPal Send</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      padding: 20px;
       margin: 0;
-      background: #f8f8f8;
-      font-family: 'Tajawal', sans-serif;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .balance {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #111;
     }
 
     .container {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
+      max-width: 400px;
+      margin: auto;
     }
 
-
-  #main-balance {
-    font-size: 27px; /* ← غيّر الرقم ده حسب ما تحب */
-    font-weight: bold;
-    color: black;
-  }
-
-    .container img {
-      width: 100%;
-      height: auto;
+    label {
       display: block;
-    }
-
-    .overlay-box {
-      position: absolute;
-      top: 36%; /* مكان الرصيد */
-      left: 40%;
+      margin-top: 15px;
+      margin-bottom: 5px;
       font-weight: bold;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 6px 12px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
     }
 
-    .euro-amount {
-      color: black;
-      font-size: 22px;
-      font-weight: bold;
-      margin-right: 8px;
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
-.overlay-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 11px; /* ← هنا اتحكم في المسافة بين الرقم وكلمة EUR */
-}
-    .currency {
-  color: black;
-  font-size: 22px;
-  font-weight: bold;
 
-    }
-  
-
-    .transfer-btn {
-      position: absolute;
-      top: 44%; /* مكان الزر */
-      left: 24%;
-      transform: translate(-50%, -50%);
-      background-color: #007bff;
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #0070ba;
       color: white;
-      padding: 8px 24px;
-      font-size: 6px;
+      font-size: 16px;
       border: none;
-      border-radius: 25px;
+      border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-decoration: none;
     }
 
-    .transfer-btn:hover {
-      background-color: #0056b3;
+    button:hover {
+      background-color: #005c99;
     }
-      #reset-button {
-    position: fixed;
-    bottom: 50px;
-    left: 10px;
-    background-color: transparent;
-    color: black;
-    border: none;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    opacity: 0.6;
-    z-index: 9999;
-  }
 
-  #reset-button:hover {
-    opacity: 1;
-    color: red;
-  }
+    #fake-notification {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: top 0.5s ease;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
 
+  <div id="fake-notification">
+    <span id="notif-message">You sent $0 to @user</span>
+  </div>
+
+  <h2>Send Payment</h2>
+  <div class="balance">Balance: <span id="balance">5,379,758.00</span> USD</div>
+
   <div class="container">
-    <img src="payhosny.jpg" alt="PayPal UI" />
+    <label for="username">To (username)</label>
+    <input type="text" id="username" placeholder="Enter username">
 
-    <div class="overlay-box">
-  <span id="main-balance">2.507.472</span>
-  <span class="currency">EUR</span>
-    </div>
-<a href="#" class="transfer-btn" onclick="goToPay()">Transfer Funds</a>
-<button id="reset-button" title="إعادة الرصيد">H</button>
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" placeholder="Enter amount">
 
-</body>
-</html>
-<!-- index.html -->
+    <button id="sendBtn">Send Payment</button>
+  </div>
 
   <script>
-    const defaultBalance = 2507472;
+    let currentBalance = parseFloat(localStorage.getItem("fakeBalance")) || 5379758.00;
+    const balanceDisplay = document.getElementById("balance");
+    balanceDisplay.innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
 
-    // تحميل الرصيد من localStorage أو تعيينه لأول مرة
-    let currentBalance = localStorage.getItem("currentBalance");
-    if (!currentBalance) {
-      localStorage.setItem("currentBalance", defaultBalance);
-      currentBalance = defaultBalance;
-    }
+    document.getElementById("sendBtn").addEventListener("click", function () {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const username = document.getElementById("username").value.trim();
 
-    document.getElementById("main-balance").innerText = parseFloat(currentBalance).toLocaleString();
+      if (!username || isNaN(amount) || amount <= 0 || amount > currentBalance) {
+        alert("Please enter valid username and amount.");
+        return;
+      }
 
-    // عند الضغط على زر Transfer Funds
-     function goToPay() {
-    localStorage.setItem("nextPage", "Pay.html");
-    window.location.href = "loading.html";
-  }
-    document.getElementById("reset-button").addEventListener("click", function () {
-    const confirmReset = confirm("هل تريد إعادة الرصيد إلى القيمة الأصلية؟");
-    if (confirmReset) {
-      const defaultBalance = 2507472;
-      localStorage.setItem("currentBalance", defaultBalance);
-      alert("تمت إعادة تعيين الرصيد.");
-      location.reload();
-    }
-  });
+      currentBalance -= amount;
+      localStorage.setItem("fakeBalance", currentBalance);
+      balanceDisplay.innerText = currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
 
-  
-  let deferredPrompt;
+      // Show notification
+      const notif = document.getElementById("fake-notification");
+      document.getElementById("notif-message").innerText = `You sent $${amount.toFixed(2)} to @${username}`;
+      notif.style.top = "20px";
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const addBtn = document.createElement('button');
-    addBtn.textContent = "📲 أضف التطبيق إلى الشاشة الرئيسية";
-    addBtn.style.position = "fixed";
-    addBtn.style.bottom = "20px";
-    addBtn.style.left = "20px";
-    addBtn.style.zIndex = "9999";
-    addBtn.style.padding = "10px";
-    addBtn.style.backgroundColor = "#0070ba";
-    addBtn.style.color = "white";
-    addBtn.style.border = "none";
-    addBtn.style.borderRadius = "8px";
-    document.body.appendChild(addBtn);
+      setTimeout(() => {
+        notif.style.top = "-100px";
+      }, 3000);
 
-    addBtn.addEventListener('click', () => {
-      addBtn.style.display = "none";
-      deferredPrompt.prompt();
+      // Clear inputs
+      document.getElementById("username").value = "";
+      document.getElementById("amount").value = "";
     });
-  });
-
   </script>
+
 </body>
 </html>
-
-
