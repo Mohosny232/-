@@ -162,7 +162,28 @@ input[type="number"] {
   opacity: 0.3;
   z-index: 999;
 }
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
 #resetBtn:hover {
   opacity: 1;
 }
@@ -182,7 +203,8 @@ input[type="number"] {
     <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
     <div class="currency-label">EUR</div>
   </div>
-
+<div id="toast" class="toast"></div>
+<audio id="notificationSound" src="https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg" preload="auto"></audio>
   <!-- زر التحويل -->
   <button id="submitBtn" disabled>EUR 0.00</button>
 
@@ -262,8 +284,12 @@ function renderTransaction(username, amount) {
 submitBtn.addEventListener('click', () => {
   if (!submitBtn.disabled) {
     const amount = parseFloat(balanceInput.value);
+    
+    // نجيب اسم المستخدم من localStorage
+    const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
+
     const transaction = {
-      username,
+      username: usernameFromSend,
       amount
     };
 
@@ -272,7 +298,7 @@ submitBtn.addEventListener('click', () => {
     localStorage.setItem('transactions', JSON.stringify(updatedList));
 
     // عرض في الواجهة
-    renderTransaction(username, amount);
+    renderTransaction(usernameFromSend, amount);
 
     // زر Loading
     submitBtn.textContent = "Loading...";
@@ -281,10 +307,24 @@ submitBtn.addEventListener('click', () => {
     submitBtn.style.cursor = "default";
     submitBtn.disabled = true;
 
-    // تحويل بعد 3 ثواني (لو تحب)
     setTimeout(() => {
-      window.location.href = "theend.html";
-    }, 3000);
+      // الإشعار
+      const toast = document.getElementById('toast');
+      const sound = document.getElementById('notificationSound');
+
+      toast.textContent = `The amount ${amount.toFixed(2)} EUR has been sent to ${usernameFromSend}`;
+      toast.classList.add('show');
+
+      // تشغيل صوت التنبيه
+      sound.currentTime = 0;
+      sound.play();
+
+      // بعد ثانيتين نخفي الإشعار ونتحول للصفحة التالية
+      setTimeout(() => {
+        toast.classList.remove('show');
+        window.location.href = "theend.html";
+      }, 2000);
+    }, 2000);
   }
 });
     const resetBtn = document.getElementById('resetBtn');
