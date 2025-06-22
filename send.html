@@ -153,7 +153,8 @@
   { name: "Yara Zimmerman", username: "yaraz" },      // Y
   { name: "Zachary Adams", username: "zacha" }        // Z
 ];
-const inputBox = document.getElementById('inputBox');
+
+  const inputBox = document.getElementById('recipient');
 const nextBtn = document.getElementById('nextBtn');
 
 inputBox.addEventListener('input', () => {
@@ -165,36 +166,40 @@ inputBox.addEventListener('input', () => {
     nextBtn.disabled = true;
   }
 });
-    const input = document.getElementById("recipient");
-    const suggestionBox = document.getElementById("suggestions");
 
-    input.addEventListener("input", () => {
-      const value = input.value.toLowerCase();
+const suggestionBox = document.getElementById("suggestions");
+
+inputBox.addEventListener("input", () => {
+  const value = inputBox.value.toLowerCase();
+  suggestionBox.innerHTML = "";
+
+  if (value.length === 0) return;
+
+  const filtered = names.filter(n =>
+    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+  );
+
+  filtered.forEach(person => {
+    const item = document.createElement("div");
+    item.className = "suggestion-item";
+    item.innerHTML = `
+      <div class="suggestion-avatar">${person.name[0]}</div>
+      <div>
+        <div><strong>${person.name}</strong></div>
+        <div style="font-size: 13px; color: gray;">${person.username}</div>
+      </div>
+    `;
+    item.addEventListener("click", () => {
+      inputBox.value = person.username;
       suggestionBox.innerHTML = "";
-
-      if (value.length === 0) return;
-
-      const filtered = names.filter(n =>
-        n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
-      );
-
-      filtered.forEach(person => {
-        const item = document.createElement("div");
-        item.className = "suggestion-item";
-        item.innerHTML = `
-          <div class="suggestion-avatar">${person.name[0]}</div>
-          <div>
-            <div><strong>${person.name}</strong></div>
-            <div style="font-size: 13px; color: gray;">${person.username}</div>
-          </div>
-        `;
-        item.addEventListener("click", () => {
-          input.value = person.username;
-          suggestionBox.innerHTML = "";
-        });
-        suggestionBox.appendChild(item);
-      });
+      
+      // عند اختيار اسم، فعل زر Next مباشرة
+      nextBtn.classList.remove('disabled');
+      nextBtn.disabled = false;
     });
+    suggestionBox.appendChild(item);
+  });
+}); 
   </script>
 </body>
 </html>
