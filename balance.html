@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
   <title>Balance Page</title>
   <style>
     /* ... نفس التنسيقات كما في كودك السابق ... */
@@ -13,7 +13,13 @@
   background-size: cover;
   font-family: Arial, sans-serif;
 }
-   .fixed-header {
+ input,
+button,
+select,
+textarea {
+  font-size: 16px !important; /* فوق 16px يمنع الزوم التلقائي */
+}
+    .fixed-header {
   position: fixed;
   top: 10%;
   left: 50%;
