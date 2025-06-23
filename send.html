@@ -26,16 +26,19 @@
     }
 
     .overlay-content {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      background: rgba(255,255,255,0.95);
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+
+  /* إلغاء الخلفية */
+  background: none;
+
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: none; /* لو مش عايز ظل */
     }
 
     .overlay-content h2 {
