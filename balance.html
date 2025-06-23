@@ -282,10 +282,9 @@ textarea {
     let savedTransactions = JSON.parse(localStorage.getItem('transactions') || "[]");
 
 // عرض العمليات المحفوظة عند تحميل الصفحة (الأحدث أولاً)
-savedTransactions.slice().reverse().forEach(t => {
+savedTransactions.forEach(t => {
   renderTransaction(t.username, parseFloat(t.amount));
 });
-
     function updateButton() {
       const val = parseFloat(balanceInput.value);
       if (!isNaN(val) && val > 0) {
