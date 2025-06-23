@@ -312,9 +312,19 @@
   renderRecentRecipients(value);
 });
     nextBtn.addEventListener('click', () => {
-  console.log("Next button clicked");
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
+
+    // ✅ احفظ الاسم الحالي في localStorage كتاريخ
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    // لو الاسم مش موجود بالفعل في التاريخ
+    if (!history.includes(username)) {
+      history.unshift(username); // ضيفه في أول القائمة
+      if (history.length > 10) history = history.slice(0, 10); // اختياري: أقصى 10 أسماء
+      localStorage.setItem('searchHistory', JSON.stringify(history));
+    }
+
+    // حفظ الاسم للصفحة التالية
     localStorage.setItem('selectedUsername', username);
     window.location.href = 'balance.html';
   }
