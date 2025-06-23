@@ -42,32 +42,12 @@
       font-size: 30px;
       font-weight: 600;
       color: #003d82;
-      text-align: right; /* ← النص على اليمين */
-      direction: rtl;    /* ← علشان اليورو تكون على الشمال */
+      text-align: right;   /* ← الرقم على اليمين */
+      direction: rtl;      /* ← علشان اليورو تيجي على الشمال */
       width: 100%;
       padding: 0 20px;
       box-sizing: border-box;
-    #main-balance {
-  font-size: 34px;
-  font-weight: 600;
-  color: black;             /* ← اللون أسود */
-  text-align: left;         /* ← محاذاة لليسار */
-  padding-left: 20px;
-  box-sizing: border-box;
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  direction: ltr;           /* ← علشان اليورو تيجي على الشمال */
-}
-
-#main-balance .euro {
-  font-weight: bold;
-}
-
-#main-balance .amount {
-  font-weight: 600;
-}
+    }
 
     .buttons {
       position: absolute;
@@ -107,51 +87,54 @@
     <img src="your-image.jpg" alt="Send Payment Background" />
     
     <div class="balance-box">
-      <div id="main-balance"><span class="euro">€</span><span class="amount">0.00</span></div>
-    
+      <div id="main-balance">€ 0.00</div>
+    </div>
+
     <div class="buttons">
       <button class="btn" onclick="location.href='send.html'">Send</button>
       <button class="btn">Request</button>
     </div>
   </div>
   
-<script>
-  const defaultBalance = 5379758.00;
+  <script>
+    const defaultBalance = 5379758.00;
 
-  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-  if (isNaN(currentBalance)) {
-    currentBalance = defaultBalance;
-    localStorage.setItem("currentBalance", currentBalance);
-  }
-
-  function updateBalanceDisplay() {
-  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-  if (isNaN(currentBalance)) {
-    currentBalance = defaultBalance;
-  }
-
-  document.querySelector("#main-balance .amount").innerText =
-    currentBalance.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  }
-  function deductAmountIfNeeded() {
-    const amount = parseFloat(localStorage.getItem('amountToDeduct'));
-    if (!isNaN(amount) && amount > 0) {
-      let currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-      currentBalance -= amount;
-      if (currentBalance < 0) currentBalance = 0;
-
-      localStorage.setItem("currentBalance", currentBalance.toFixed(2));
-      localStorage.removeItem('amountToDeduct');
+    let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+    if (isNaN(currentBalance)) {
+      currentBalance = defaultBalance;
+      localStorage.setItem("currentBalance", currentBalance);
     }
-  }
 
-  window.addEventListener('load', () => {
-    deductAmountIfNeeded();
-    updateBalanceDisplay();
-  });
-</script>
+    function updateBalanceDisplay() {
+      let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+      if (isNaN(currentBalance)) {
+        currentBalance = defaultBalance;
+      }
+
+      document.getElementById("main-balance").innerText =
+        "€ " + currentBalance.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+    }
+
+    function deductAmountIfNeeded() {
+      const amount = parseFloat(localStorage.getItem('amountToDeduct'));
+      if (!isNaN(amount) && amount > 0) {
+        let currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+        currentBalance -= amount;
+        if (currentBalance < 0) currentBalance = 0;
+
+        localStorage.setItem("currentBalance", currentBalance.toFixed(2));
+        localStorage.removeItem('amountToDeduct');
+      }
+    }
+
+    window.addEventListener('load', () => {
+      deductAmountIfNeeded();
+      updateBalanceDisplay();
+    });
+  </script>
+
 </body>
 </html>
