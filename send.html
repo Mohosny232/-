@@ -311,6 +311,14 @@
 
   renderRecentRecipients(value);
 });
+    nextBtn.addEventListener('click', () => {
+  console.log("Next button clicked");
+  if (!nextBtn.disabled) {
+    const username = inputBox.value.trim();
+    localStorage.setItem('selectedUsername', username);
+    window.location.href = 'balance.html';
+  }
+});
   </script>
 </body>
 </html>
