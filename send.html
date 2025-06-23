@@ -262,14 +262,7 @@ inputBox.addEventListener("input", () => {
     return;
   }
 
-  // ✅ اقتراح الاسم المكتوب مع أفاتار
-  
   // ✅ اقتراحات من قائمة الأسماء
-  const filtered = names.filter(n =>
-    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
-  );
-  renderSuggestions(filtered);
-// ✅ اقتراحات من قائمة الأسماء
 const filtered = names.filter(n =>
   n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
 );
