@@ -159,93 +159,72 @@
     </div>
   </div>
 
-  <script>
-    const names = [
-      { name: "Alice Brown", username: "aliceb" },
-      { name: "Brian Clark", username: "bclark" },
-      { name: "Catherine Davis", username: "catd" },
-      { name: "David Edwards", username: "davide" },
-      { name: "Emma Foster", username: "emmaf" },
-      { name: "Frank Green", username: "frankg" },
-      { name: "Grace Harris", username: "graceh" },
-      { name: "Henry Irvine", username: "henryi" },
-      { name: "Isla Johnson", username: "islaj" },
-      { name: "Jack King", username: "jackk" },
-      { name: "Kara Lewis", username: "karal" },
-      { name: "Liam Miller", username: "liamm" },
-      { name: "Mia Nelson", username: "mian" },
-      { name: "Noah Owens", username: "noaho" },
-      { name: "Olivia Perez", username: "oliviap" },
-      { name: "Paul Quinn", username: "paulq" },
-      { name: "Quinn Roberts", username: "quinnr" },
-      { name: "Rachel Smith", username: "rachels" },
-      { name: "Samuel Taylor", username: "samuelt" },
-      { name: "Tina Underwood", username: "tinau" },
-      { name: "Umar Vaughn", username: "umarv" },
-      { name: "Victoria White", username: "victoriaw" },
-      { name: "William Xu", username: "williamx" },
-      { name: "Xander Young", username: "xandery" },
-      { name: "Yara Zimmerman", username: "yaraz" },
-      { name: "Zachary Adams", username: "zacha" },
-      { name: "Hazem Saleh", username: "hazemz" },
-      { name: "Sami Hassan", username: "samih" },
-      { name: "Lara Badr", username: "larab" },
-      { name: "Nour ElDin", username: "noureldin" },
-      { name: "Hana Ali", username: "hanaali" },
-      { name: "Tamer Hosny", username: "tamerh" }
-    ];
+<script>
+const names = [
+  { name: "Alice Brown", username: "aliceb" },
+  { name: "Brian Clark", username: "bclark" },
+  { name: "Catherine Davis", username: "catd" },
+  { name: "David Edwards", username: "davide" },
+  { name: "Emma Foster", username: "emmaf" },
+  { name: "Frank Green", username: "frankg" },
+  { name: "Grace Harris", username: "graceh" },
+  { name: "Hazem Saleh", username: "hazemz" },
+  { name: "Sami Hassan", username: "samih" },
+  { name: "Nour ElDin", username: "noureldin" },
+  { name: "Tamer Hosny", username: "tamerh" }
+];
 
-    const inputBox = document.getElementById('recipient');
-    const nextBtn = document.getElementById('nextBtn');
-    const suggestionBox = document.getElementById('suggestions');
-    const logContainer = document.getElementById('recentRecipients');
+const inputBox = document.getElementById('recipient');
+const nextBtn = document.getElementById('nextBtn');
+const suggestionBox = document.getElementById('suggestions');
+const logContainer = document.getElementById('recentRecipients');
 
-    function updateNextButton() {
-      if (inputBox.value.trim().length > 0) {
-        nextBtn.classList.remove('disabled');
-        nextBtn.disabled = false;
-      } else {
-        nextBtn.classList.add('disabled');
-        nextBtn.disabled = true;
-      }
-    }
+function updateNextButton() {
+  if (inputBox.value.trim().length > 0) {
+    nextBtn.classList.remove('disabled');
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.classList.add('disabled');
+    nextBtn.disabled = true;
+  }
+}
 
-    function renderSuggestions(list) {
-      suggestionBox.innerHTML = "";
-      list.forEach(person => {
-        const item = document.createElement("div");
-        item.className = "suggestion-item";
-        item.innerHTML = `
-          <div class="suggestion-avatar">${person.name[0]}</div>
-          <div>
-            <div><strong>${person.name}</strong></div>
-            <div style="font-size: 13px; color: gray;">${person.username}</div>
-          </div>
-        `;
-        item.addEventListener("click", () => {
-  inputBox.value = person.username;
-  updateNextButton();
+function renderSuggestions(list) {
   suggestionBox.innerHTML = "";
-  logContainer.innerHTML = ""; // ← أضف هذا السطر
-});
-    }
+  list.forEach(person => {
+    const item = document.createElement("div");
+    item.className = "suggestion-item";
+    item.innerHTML = `
+      <div class="suggestion-avatar">${person.name[0]}</div>
+      <div>
+        <div><strong>${person.name}</strong></div>
+        <div style="font-size: 13px; color: gray;">${person.username}</div>
+      </div>
+    `;
+    item.addEventListener("click", () => {
+      inputBox.value = person.username;
+      updateNextButton();
+      suggestionBox.innerHTML = "";
+      logContainer.innerHTML = "";
+    });
+    suggestionBox.appendChild(item);
+  });
+}
 
-    function saveRecipient(username) {
-      let saved = JSON.parse(localStorage.getItem("recentRecipients") || "[]");
-      saved = saved.filter(name => name !== username);
-      saved.unshift(username);
-      if (saved.length > 10) saved = saved.slice(0, 10);
-      localStorage.setItem("recentRecipients", JSON.stringify(saved));
-      renderRecentRecipients();
-    }
+function saveRecipient(username) {
+  let saved = JSON.parse(localStorage.getItem("recentRecipients") || "[]");
+  saved = saved.filter(name => name !== username);
+  saved.unshift(username);
+  if (saved.length > 10) saved = saved.slice(0, 10);
+  localStorage.setItem("recentRecipients", JSON.stringify(saved));
+  renderRecentRecipients();
+}
 
-    function renderRecentRecipients(filter = "") {
+function renderRecentRecipients(filter = "") {
   let saved = JSON.parse(localStorage.getItem("recentRecipients") || "[]");
 
   if (filter.trim() !== "") {
     const filterLower = filter.toLowerCase();
-
-    // ترتيب بحيث إذا الاسم يحتوي البحث، نرفعه أولاً
     saved.sort((a, b) => {
       const aMatch = a.toLowerCase().includes(filterLower);
       const bMatch = b.toLowerCase().includes(filterLower);
@@ -253,8 +232,6 @@
       if (!aMatch && bMatch) return 1;
       return 0;
     });
-
-    // يمكنك لو تريد فلترة أيضاً الحاجات اللي ما فيهاش التطابق، لكن هنا خليتهم يظهروا كلهم مع الترتيب
   }
 
   logContainer.innerHTML = "";
@@ -266,14 +243,16 @@
       <div>${username}</div>
     `;
     div.addEventListener("click", () => {
-  inputBox.value = username;
-  updateNextButton();
-  suggestionBox.innerHTML = "";
-  logContainer.innerHTML = ""; // ← أضف هذا السطر برضو
-});
-    }
+      inputBox.value = username;
+      updateNextButton();
+      suggestionBox.innerHTML = "";
+      logContainer.innerHTML = "";
+    });
+    logContainer.appendChild(div);
+  });
+}
 
-    inputBox.addEventListener("input", () => {
+inputBox.addEventListener("input", () => {
   const value = inputBox.value.trim().toLowerCase();
   suggestionBox.innerHTML = "";
   updateNextButton();
@@ -283,7 +262,7 @@
     return;
   }
 
-  // إضافة ما كتبه المستخدم كأول خيار في الاقتراحات
+  // اقتراح ما كتبه المستخدم
   const userItem = document.createElement("div");
   userItem.className = "suggestion-item";
   userItem.innerHTML = `
@@ -295,38 +274,34 @@
   `;
   userItem.addEventListener("click", () => {
     inputBox.value = value;
-    suggestionBox.innerHTML = "";
     updateNextButton();
-    renderRecentRecipients(value);
+    suggestionBox.innerHTML = "";
+    logContainer.innerHTML = "";
   });
   suggestionBox.appendChild(userItem);
 
   const filtered = names.filter(n =>
     n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
   );
+
   renderSuggestions(filtered);
-
   renderRecentRecipients(value);
-});
-      // لو مفيش نتائج في الاقتراحات ولا في التاريخ، نخفي القائمة القديمة
-const isInSaved = JSON.parse(localStorage.getItem("recentRecipients") || "[]").some(name =>
-  name.toLowerCase().includes(value)
-);
 
-// لو الاسم الجديد مش في قائمة المسجلين، نخفي القائمة
-if (!isInSaved && filtered.length === 0) {
-  logContainer.innerHTML = ""; // 🧼 اخفاء القائمة
-} else {
-  renderRecentRecipients(value); // ✅ عرض الماتشات فقط
-}
-    nextBtn.addEventListener('click', () => {
+  // ✅ لو مفيش نتائج لا هنا ولا في السجل، نخفي السجل
+  const isInSaved = JSON.parse(localStorage.getItem("recentRecipients") || "[]").some(name =>
+    name.toLowerCase().includes(value)
+  );
+  if (!isInSaved && filtered.length === 0) {
+    logContainer.innerHTML = "";
+  }
+});
+
+nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
 
-    // ✅ احفظ الاسم الحالي في recentRecipients
     saveRecipient(username);
 
-    // ✅ احفظه في searchHistory كمان
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(username)) {
       history.unshift(username);
@@ -334,11 +309,8 @@ if (!isInSaved && filtered.length === 0) {
       localStorage.setItem('searchHistory', JSON.stringify(history));
     }
 
-    // ✅ حفظ الاسم للصفحة التالية
     localStorage.setItem('selectedUsername', username);
     window.location.href = 'balance.html';
   }
 });
-  </script>
-</body>
-</html>
+</script>
