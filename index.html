@@ -105,46 +105,64 @@
     </div>
   </div>
   
-  <script>
-    const defaultBalance = 8256788.00;
+  <button id="resetBalanceBtn" title="Reset Balance" style="
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: transparent;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.5;
+  z-index: 1000;
+">H</button>
 
-let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-if (isNaN(currentBalance)) {
-  currentBalance = defaultBalance;
-  localStorage.setItem("currentBalance", currentBalance);
-}
+<script>
+  const defaultBalance = 8256788.00;
 
-function updateBalanceDisplay() {
   let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
   if (isNaN(currentBalance)) {
     currentBalance = defaultBalance;
+    localStorage.setItem("currentBalance", currentBalance);
   }
 
-  // تحديث الرقم بس داخل span.amount
-  document.querySelector("#main-balance .amount").innerText =
-    currentBalance.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-}
+  function updateBalanceDisplay() {
+    let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+    if (isNaN(currentBalance)) {
+      currentBalance = defaultBalance;
+    }
 
-function deductAmountIfNeeded() {
-  const amount = parseFloat(localStorage.getItem('amountToDeduct'));
-  if (!isNaN(amount) && amount > 0) {
-    let currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
-    currentBalance -= amount;
-    if (currentBalance < 0) currentBalance = 0;
-
-    localStorage.setItem("currentBalance", currentBalance.toFixed(2));
-    localStorage.removeItem('amountToDeduct');
+    document.querySelector("#main-balance .amount").innerText =
+      currentBalance.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
   }
-}
 
-window.addEventListener('load', () => {
-  deductAmountIfNeeded();
-  updateBalanceDisplay();
-});
-  </script>
+  function deductAmountIfNeeded() {
+    const amount = parseFloat(localStorage.getItem('amountToDeduct'));
+    if (!isNaN(amount) && amount > 0) {
+      let currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
+      currentBalance -= amount;
+      if (currentBalance < 0) currentBalance = 0;
+
+      localStorage.setItem("currentBalance", currentBalance.toFixed(2));
+      localStorage.removeItem('amountToDeduct');
+    }
+  }
+
+  window.addEventListener('load', () => {
+    deductAmountIfNeeded();
+    updateBalanceDisplay();
+  });
+
+  // زر إعادة تعيين الرصيد للافتراضي
+  document.getElementById('resetBalanceBtn').addEventListener('click', () => {
+    localStorage.setItem("currentBalance", defaultBalance);
+    updateBalanceDisplay();
+  });
+</script>
 </body>
 </html>
 
