@@ -282,7 +282,8 @@ textarea {
     let savedTransactions = JSON.parse(localStorage.getItem('transactions') || "[]");
 
 // عرض العمليات المحفوظة عند تحميل الصفحة (الأحدث أولاً)
-savedTransactions.forEach(t => {
+logContainer.innerHTML = "";
+savedTransactions.slice().reverse().forEach(t => {
   renderTransaction(t.username, parseFloat(t.amount));
 });
     function updateButton() {
@@ -339,10 +340,14 @@ savedTransactions.forEach(t => {
         amount
       };
 
-      savedTransactions = [transaction, ...savedTransactions];
-      localStorage.setItem('transactions', JSON.stringify(savedTransactions));
-      renderTransaction(usernameFromSend, amount);
+      savedTransactions.unshift(transaction);  // ضيف في بداية المصفوفة
+localStorage.setItem('transactions', JSON.stringify(savedTransactions));
 
+// امسح اللوج واعرض كل السجلات من الأول للأخير
+logContainer.innerHTML = "";
+savedTransactions.forEach(t => {
+  renderTransaction(t.username, parseFloat(t.amount));
+});
       // حالة الزر وقت التحميل
       submitBtn.textContent = "Loading...";
       submitBtn.style.backgroundColor = "#0070ba66";
