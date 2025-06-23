@@ -308,6 +308,17 @@
 
   renderRecentRecipients(value);
 });
+      // لو مفيش نتائج في الاقتراحات ولا في التاريخ، نخفي القائمة القديمة
+const isInSaved = JSON.parse(localStorage.getItem("recentRecipients") || "[]").some(name =>
+  name.toLowerCase().includes(value)
+);
+
+// لو الاسم الجديد مش في قائمة المسجلين، نخفي القائمة
+if (!isInSaved && filtered.length === 0) {
+  logContainer.innerHTML = ""; // 🧼 اخفاء القائمة
+} else {
+  renderRecentRecipients(value); // ✅ عرض الماتشات فقط
+}
     nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
