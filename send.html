@@ -262,39 +262,38 @@ inputBox.addEventListener("input", () => {
     return;
   }
 
-  // اقتراح ما كتبه المستخدم
-  if (value.length > 0) {
-    const customItem = document.createElement("div");
-    customItem.className = "suggestion-item";
-    customItem.innerHTML = `
-      <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
-      <div>
-        <div><strong>${value}</strong></div>
-        <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
-      </div>
-    `;
-    customItem.addEventListener("click", () => {
-      inputBox.value = value;
-      suggestionBox.innerHTML = "";
-      logContainer.innerHTML = "";
-      updateNextButton();
-    });
-    suggestionBox.appendChild(customItem);
-   } 
+  // ✅ اقتراح الاسم المكتوب مع أفاتار
+  const userItem = document.createElement("div");
+  userItem.className = "suggestion-item";
+  userItem.innerHTML = `
+    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+    <div>
+      <div><strong>${value}</strong></div>
+      <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
+    </div>
+  `;
+  userItem.addEventListener("click", () => {
+    inputBox.value = value;
+    updateNextButton();
+    suggestionBox.innerHTML = "";
+    logContainer.innerHTML = "";
+  });
+  suggestionBox.appendChild(userItem);
 
+  // ✅ اقتراحات من قائمة الأسماء
   const filtered = names.filter(n =>
     n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
   );
-
   renderSuggestions(filtered);
-  renderRecentRecipients(value);
 
-  // ✅ لو مفيش نتائج لا هنا ولا في السجل، نخفي السجل
+  // ✅ إظهار السجل المحفوظ لو فيه تطابق
   const isInSaved = JSON.parse(localStorage.getItem("recentRecipients") || "[]").some(name =>
     name.toLowerCase().includes(value)
   );
   if (!isInSaved && filtered.length === 0) {
-    logContainer.innerHTML = "";
+    logContainer.innerHTML = ""; // 🧼 اخفاء القائمة
+  } else {
+    renderRecentRecipients(value); // ✅ عرض الماتشات فقط
   }
 });
 
