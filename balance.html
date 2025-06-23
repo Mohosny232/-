@@ -290,8 +290,8 @@
     const toast = document.getElementById('toast');
 
     setTimeout(() => {
-  toast.innerHTML = `The amount <strong>${amount.toFixed(2)} EUR</strong> has been sent to <strong>${usernameFromSend}</strong>`;
-  toast.classList.add('show');
+  toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
+    toast.classList.add('show');
 
   setTimeout(() => {
     toast.classList.remove('show');
