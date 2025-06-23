@@ -263,22 +263,24 @@ inputBox.addEventListener("input", () => {
   }
 
   // اقتراح ما كتبه المستخدم
-  const userItem = document.createElement("div");
-  userItem.className = "suggestion-item";
-  userItem.innerHTML = `
-    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
-    <div>
-      <div><strong>${value}</strong></div>
-      <div style="font-size: 13px; color: gray;">${value}</div>
-    </div>
-  `;
-  userItem.addEventListener("click", () => {
-    inputBox.value = value;
-    updateNextButton();
-    suggestionBox.innerHTML = "";
-    logContainer.innerHTML = "";
-  });
-  suggestionBox.appendChild(userItem);
+  if (value.length > 0) {
+    const customItem = document.createElement("div");
+    customItem.className = "suggestion-item";
+    customItem.innerHTML = `
+      <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+      <div>
+        <div><strong>${value}</strong></div>
+        <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
+      </div>
+    `;
+    customItem.addEventListener("click", () => {
+      inputBox.value = value;
+      suggestionBox.innerHTML = "";
+      logContainer.innerHTML = "";
+      updateNextButton();
+    });
+    suggestionBox.appendChild(customItem);
+       
 
   const filtered = names.filter(n =>
     n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
