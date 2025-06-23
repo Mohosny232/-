@@ -19,6 +19,9 @@ select,
 textarea {
   font-size: 16px !important; /* فوق 16px يمنع الزوم التلقائي */
 }
+    body, html {
+  overflow-x: hidden;
+    }
     .fixed-header {
   position: fixed;
   top: 10%;
@@ -117,16 +120,18 @@ textarea {
       align-items: center;
     }
     .transaction-item {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 320px;
-      padding: 10px 15px;
-      background: #f9f9f9;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      font-weight: bold;
-      align-items: center;
+  width: 100%;           /* خلي العرض كامل */
+  max-width: 360px;      /* أو العرض اللي يناسبك */
+  margin: 0 auto;        /* يوسّط العنصر */
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  font-weight: bold;
+  align-items: center;
+  overflow: hidden;      /* يمنع الفائض */
     }
     .transaction-left {
       display: flex;
