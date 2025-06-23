@@ -290,14 +290,14 @@
     const toast = document.getElementById('toast');
 
     setTimeout(() => {
-      toast.textContent = `The amount ${amount.toFixed(2)} EUR has been sent to ${usernameFromSend}`;
-      toast.classList.add('show');
+  toast.innerHTML = `The amount <strong>${amount.toFixed(2)} EUR</strong> has been sent to <strong>${usernameFromSend}</strong>`;
+  toast.classList.add('show');
 
-      setTimeout(() => {
-        toast.classList.remove('show');
-        window.location.href = "index.html";
-      }, 2000);
-    }, 2000);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    window.location.href = "index.html";
+  }, 2000);
+}, 2000);
   }
 });
     // زر إعادة تعيين (مسح التحويلات)
