@@ -276,19 +276,41 @@
   });
     }
 
-    nextBtn.addEventListener('click', () => {
-      if (!nextBtn.disabled) {
-        const username = inputBox.value.trim();
-        localStorage.setItem('selectedUsername', username);
-        saveRecipient(username);
-        window.location.href = 'balance.html';
-      }
-    });
+    inputBox.addEventListener("input", () => {
+  const value = inputBox.value.trim().toLowerCase();
+  suggestionBox.innerHTML = "";
+  updateNextButton();
 
-    window.addEventListener('load', () => {
-      renderSuggestions(names);
-      renderRecentRecipients();
-    });
+  if (value.length === 0) {
+    renderRecentRecipients("");
+    return;
+  }
+
+  // إضافة ما كتبه المستخدم كأول خيار في الاقتراحات
+  const userItem = document.createElement("div");
+  userItem.className = "suggestion-item";
+  userItem.innerHTML = `
+    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+    <div>
+      <div><strong>${value}</strong></div>
+      <div style="font-size: 13px; color: gray;">${value}</div>
+    </div>
+  `;
+  userItem.addEventListener("click", () => {
+    inputBox.value = value;
+    suggestionBox.innerHTML = "";
+    updateNextButton();
+    renderRecentRecipients(value);
+  });
+  suggestionBox.appendChild(userItem);
+
+  const filtered = names.filter(n =>
+    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+  );
+  renderSuggestions(filtered);
+
+  renderRecentRecipients(value);
+});
   </script>
 </body>
 </html>
