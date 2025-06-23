@@ -137,37 +137,43 @@
     </div>
   </div>
 
-  <script>
-    const names = [
-      { name: "Alice Brown", username: "aliceb" },
-      { name: "Brian Clark", username: "bclark" },
-      { name: "Catherine Davis", username: "catd" },
-      { name: "David Edwards", username: "davide" },
-      { name: "Emma Foster", username: "emmaf" },
-      { name: "Frank Green", username: "frankg" },
-      { name: "Grace Harris", username: "graceh" },
-      { name: "Henry Irvine", username: "henryi" },
-      { name: "Isla Johnson", username: "islaj" },
-      { name: "Jack King", username: "jackk" },
-      { name: "Kara Lewis", username: "karal" },
-      { name: "Liam Miller", username: "liamm" },
-      { name: "Mia Nelson", username: "mian" },
-      { name: "Noah Owens", username: "noaho" },
-      { name: "Olivia Perez", username: "oliviap" },
-      { name: "Paul Quinn", username: "paulq" },
-      { name: "Quinn Roberts", username: "quinnr" },
-      { name: "Rachel Smith", username: "rachels" },
-      { name: "Samuel Taylor", username: "samuelt" },
-      { name: "Tina Underwood", username: "tinau" },
-      { name: "Umar Vaughn", username: "umarv" },
-      { name: "Victoria White", username: "victoriaw" },
-      { name: "William Xu", username: "williamx" },
-      { name: "Xander Young", username: "xandery" },
-      { name: "Yara Zimmerman", username: "yaraz" },
-      { name: "Zachary Adams", username: "zacha" }
-    ];
+<script>
+const names = [
+  { name: "Alice Brown", username: "aliceb" },
+  { name: "Brian Clark", username: "bclark" },
+  { name: "Catherine Davis", username: "catd" },
+  { name: "David Edwards", username: "davide" },
+  { name: "Emma Foster", username: "emmaf" },
+  { name: "Frank Green", username: "frankg" },
+  { name: "Grace Harris", username: "graceh" },
+  { name: "Henry Irvine", username: "henryi" },
+  { name: "Isla Johnson", username: "islaj" },
+  { name: "Jack King", username: "jackk" },
+  { name: "Kara Lewis", username: "karal" },
+  { name: "Liam Miller", username: "liamm" },
+  { name: "Mia Nelson", username: "mian" },
+  { name: "Noah Owens", username: "noaho" },
+  { name: "Olivia Perez", username: "oliviap" },
+  { name: "Paul Quinn", username: "paulq" },
+  { name: "Quinn Roberts", username: "quinnr" },
+  { name: "Rachel Smith", username: "rachels" },
+  { name: "Samuel Taylor", username: "samuelt" },
+  { name: "Tina Underwood", username: "tinau" },
+  { name: "Umar Vaughn", username: "umarv" },
+  { name: "Victoria White", username: "victoriaw" },
+  { name: "William Xu", username: "williamx" },
+  { name: "Xander Young", username: "xandery" },
+  { name: "Yara Zimmerman", username: "yaraz" },
+  { name: "Zachary Adams", username: "zacha" },
+  { name: "Hazem Saleh", username: "hazemz" },
+  { name: "Sami Hassan", username: "samih" },
+  { name: "Lara Badr", username: "larab" },
+  { name: "Nour ElDin", username: "noureldin" },
+  { name: "Hana Ali", username: "hanaali" },
+  { name: "Tamer Hosny", username: "tamerh" }
+];
 
-    const inputBox = document.getElementById('recipient');
+const inputBox = document.getElementById('recipient');
 const nextBtn = document.getElementById('nextBtn');
 const suggestionBox = document.getElementById('suggestions');
 
@@ -180,37 +186,10 @@ function updateNextButton() {
     nextBtn.disabled = true;
   }
 }
-inputBox.addEventListener("input", () => {
-  const value = inputBox.value.trim().toLowerCase();
+
+function renderSuggestions(list) {
   suggestionBox.innerHTML = "";
-
-  updateNextButton();
-
-  if (value.length === 0) return;
-
-  // أولاً، أضف الاسم اللي المستخدم كتبه كأول اقتراح
-  const userItem = document.createElement("div");
-  userItem.className = "suggestion-item";
-  userItem.innerHTML = `
-    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
-    <div>
-      <div><strong>${value}</strong></div>
-      <div style="font-size: 13px; color: gray;">${value}</div>
-    </div>
-  `;
-  userItem.addEventListener("click", () => {
-    inputBox.value = value;
-    suggestionBox.innerHTML = "";
-    updateNextButton();
-  });
-  suggestionBox.appendChild(userItem);
-
-  // بعد كده نعرض الأسماء العشوائية المطابقة
-  const filtered = names.filter(n =>
-    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
-  );
-
-  filtered.forEach(person => {
+  list.forEach(person => {
     const item = document.createElement("div");
     item.className = "suggestion-item";
     item.innerHTML = `
@@ -227,17 +206,52 @@ inputBox.addEventListener("input", () => {
     });
     suggestionBox.appendChild(item);
   });
-});  
+}
+
+inputBox.addEventListener("input", () => {
+  const value = inputBox.value.trim().toLowerCase();
+  suggestionBox.innerHTML = "";
+  updateNextButton();
+
+  if (value.length === 0) return; // ❌ لما يكتب، تختفي القائمة العشوائية
+
+  // إضافة ما كتبه المستخدم كأول خيار
+  const userItem = document.createElement("div");
+  userItem.className = "suggestion-item";
+  userItem.innerHTML = `
+    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+    <div>
+      <div><strong>${value}</strong></div>
+      <div style="font-size: 13px; color: gray;">${value}</div>
+    </div>
+  `;
+  userItem.addEventListener("click", () => {
+    inputBox.value = value;
+    suggestionBox.innerHTML = "";
+    updateNextButton();
+  });
+  suggestionBox.appendChild(userItem);
+
+  // اقتراحات متطابقة
+  const filtered = names.filter(n =>
+    n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+  );
+
+  renderSuggestions(filtered);
+});
+
+// ✅ عند تحميل الصفحة: عرض قائمة الأسماء العشوائية
+window.addEventListener('load', () => {
+  renderSuggestions(names); // نعرض كل الأسماء
+});
+
 nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
-    // خزن اسم المستخدم في localStorage
     localStorage.setItem('selectedUsername', username);
-    // تحويل الصفحة
     window.location.href = 'balance.html';
   }
 });
-  </script>
-
+</script>
 </body>
 </html>
