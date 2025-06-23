@@ -341,40 +341,36 @@ savedTransactions.slice().reverse().forEach(t => {
 
     savedTransactions.unshift(transaction);
     localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+    renderTransaction(usernameFromSend, amount);
 
-    renderTransaction(usernameFromSend, amount); // ✅ بس أضف آخر واحدة فوق
+    // ✅ حالة الزر وقت التحميل
+    submitBtn.textContent = "Loading...";
+    submitBtn.style.backgroundColor = "#0070ba66";
+    submitBtn.style.color = "white";
+    submitBtn.style.cursor = "default";
+    submitBtn.disabled = true;
 
-    // باقي الكود بتاع التحميل والتوست ...
-  }
-});
-      // حالة الزر وقت التحميل
-      submitBtn.textContent = "Loading...";
-      submitBtn.style.backgroundColor = "#0070ba66";
-      submitBtn.style.color = "white";
-      submitBtn.style.cursor = "default";
-      submitBtn.disabled = true;
+    const toast = document.getElementById('toast');
 
-      const toast = document.getElementById('toast');
+    setTimeout(() => {
+      toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
+      toast.classList.add('show');
 
       setTimeout(() => {
-        toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
-        toast.classList.add('show');
+        toast.classList.remove('show');
 
-        setTimeout(() => {
-          toast.classList.remove('show');
+        // ✅ نرجّع الزر لحالته الأصلية
+        submitBtn.disabled = true;
+        submitBtn.classList.remove('active');
+        submitBtn.textContent = "EUR 0.00";
+        submitBtn.style.backgroundColor = "#0070ba66";
+        submitBtn.style.cursor = "not-allowed";
+        balanceInput.value = "";
 
-          // ✅ نرجّع الزر لحالته الأصلية
-          submitBtn.disabled = true;
-          submitBtn.classList.remove('active');
-          submitBtn.textContent = "EUR 0.00";
-          submitBtn.style.backgroundColor = "#0070ba66";
-          submitBtn.style.cursor = "not-allowed";
-          balanceInput.value = "";
-
-        }, 2000);
       }, 2000);
-    }
-  });
+    }, 2000);
+  }
+});
 
   // زر إعادة تعيين (مسح التحويلات)
   resetBtn.addEventListener('click', () => {
