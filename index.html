@@ -79,37 +79,41 @@
       <button class="btn">Request</button>
     </div>
   </div>
-  <script>
-    const defaultBalance = 5379758.00;
+<script>
+  const defaultBalance = 5379758.00;
 
-    let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-    if (!currentBalance) {
-      localStorage.setItem("currentBalance", defaultBalance);
-      currentBalance = defaultBalance;
-    }
+  // تحقق من وجود الرصيد في التخزين، وإن لم يكن خزنه
+  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+  if (isNaN(currentBalance)) {
+    currentBalance = defaultBalance;
+    localStorage.setItem("currentBalance", currentBalance);
+  }
 
+  // دالة لتحديث الرصيد في الصفحة
+  function updateBalanceDisplay() {
     document.getElementById("main-balance").innerText =
       "€ " + currentBalance.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
-    // خصم المبلغ من الرصيد عند العودة من balance.html
-function deductAmountIfNeeded() {
-  const amount = parseFloat(localStorage.getItem('amountToDeduct'));
-  if (!isNaN(amount) && amount > 0) {
-    let current = parseFloat(localStorage.getItem('userBalance')) || 0;
-    current -= amount;
-    if (current < 0) current = 0;
-    localStorage.setItem('userBalance', current.toFixed(2));
-    localStorage.removeItem('amountToDeduct');
   }
-}
 
-// نفذها عند تحميل الصفحة
-window.addEventListener('load', () => {
-  deductAmountIfNeeded();
-  updateBalanceDisplay(); // لو عندك وظيفة بتحدث الرصيد
-});
-  </script>
+  // خصم المبلغ من الرصيد إذا تم التحويل من balance.html
+  function deductAmountIfNeeded() {
+    const amount = parseFloat(localStorage.getItem('amountToDeduct'));
+    if (!isNaN(amount) && amount > 0) {
+      currentBalance -= amount;
+      if (currentBalance < 0) currentBalance = 0;
+      localStorage.setItem('currentBalance', currentBalance.toFixed(2));
+      localStorage.removeItem('amountToDeduct');
+    }
+  }
+
+  // عند تحميل الصفحة: خصم إن وجد، وتحديث الرصيد
+  window.addEventListener('load', () => {
+    deductAmountIfNeeded();
+    updateBalanceDisplay();
+  });
+</script>
 </body>
 </html>
