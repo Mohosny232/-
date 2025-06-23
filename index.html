@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Your Page Title</title>
-  <!-- باقي أكوادك -->
-  </head>
   <title>Send Payment - Fake PayPal</title>
   <style>
     body {
@@ -14,21 +11,18 @@
       font-family: Arial, sans-serif;
       background-color: #fff;
     }
-
     .container {
       position: relative;
       width: 100%;
       height: 100vh;
       overflow: hidden;
     }
-
     .container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
     .balance-box {
       position: absolute;
       top: 55%;
@@ -40,26 +34,23 @@
       font-weight: 400;
       color: black;
     }
-
     #main-balance {
-  font-size: 38px;
-  font-weight: 400;
-  color: black;
-  text-align: left;
-  direction: ltr;
-  padding-left: 20px;
-  box-sizing: border-box;
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  gap: 10px;  
-}  
-
-#main-balance .euro {
-  margin-left: 12px;
-  font-weight: 415;
-}
-
+      font-size: 38px;
+      font-weight: 400;
+      color: black;
+      text-align: left;
+      direction: ltr;
+      padding-left: 20px;
+      box-sizing: border-box;
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;  
+    }  
+    #main-balance .euro {
+      margin-left: 12px;
+      font-weight: 415;
+    }
     .buttons {
       position: absolute;
       top: 90%;
@@ -68,12 +59,10 @@
       display: flex;
       gap: 20px;
     }
-
     .buttons button:first-child {
       background-color: #003d82;
       padding: 14px 60px;
     }
-
     .btn {
       padding: 14px 46px;
       border: none;
@@ -86,7 +75,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       transition: background-color 0.3s ease;
     }
-
     .btn:hover {
       background-color: #002f66;
     }
@@ -98,9 +86,9 @@
     <img src="your-image.jpg" alt="Send Payment Background" />
     
     <div class="balance-box">
-  <div id="main-balance">
-    <span class="amount">0.00</span><span class="euro"> €</span>
-  </div>
+      <div id="main-balance">
+        <span class="amount">0.00</span><span class="euro"> €</span>
+      </div>
     </div>
     <div class="buttons">
       <button class="btn" onclick="location.href='send.html'">Send</button>
@@ -109,17 +97,17 @@
   </div>
   
   <button id="resetBalanceBtn" title="Reset Balance" style="
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  background-color: transparent;
-  border: none;
-  color: #888;
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0.5;
-  z-index: 1000;
-">H</button>
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.5;
+    z-index: 1000;
+  ">H</button>
 
 <script>
   const defaultBalance = 8256788.00;
@@ -168,4 +156,3 @@
 </script>
 </body>
 </html>
-
