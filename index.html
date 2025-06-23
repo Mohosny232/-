@@ -99,37 +99,41 @@
 <script>
   const defaultBalance = 5379758.00;
 
-  // تحقق من وجود الرصيد في التخزين، وإن لم يكن خزنه
+  // التأكد من وجود الرصيد في التخزين المحلي
   let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
   if (isNaN(currentBalance)) {
     currentBalance = defaultBalance;
     localStorage.setItem("currentBalance", currentBalance);
   }
 
+  // تحديث الرصيد في الواجهة
   function updateBalanceDisplay() {
-  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-  if (isNaN(currentBalance)) {
-    currentBalance = 5379758.00;
+    let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+    if (isNaN(currentBalance)) {
+      currentBalance = defaultBalance;
+    }
+
+    document.getElementById("main-balance").innerText =
+      "€ " + currentBalance.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
   }
 
-  document.getElementById("main-balance").innerText =
-    "€ " + currentBalance.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-}
-  // خصم المبلغ من الرصيد إذا تم التحويل من balance.html
+  // خصم المبلغ المحفوظ في localStorage
   function deductAmountIfNeeded() {
     const amount = parseFloat(localStorage.getItem('amountToDeduct'));
     if (!isNaN(amount) && amount > 0) {
+      let currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
       currentBalance -= amount;
       if (currentBalance < 0) currentBalance = 0;
-      localStorage.setItem('currentBalance', currentBalance.toFixed(2));
+
+      localStorage.setItem("currentBalance", currentBalance.toFixed(2));
       localStorage.removeItem('amountToDeduct');
     }
   }
 
-  // عند تحميل الصفحة: خصم إن وجد، وتحديث الرصيد
+  // تنفيذ الوظائف عند تحميل الصفحة
   window.addEventListener('load', () => {
     deductAmountIfNeeded();
     updateBalanceDisplay();
