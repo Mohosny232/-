@@ -263,29 +263,35 @@ inputBox.addEventListener("input", () => {
   }
 
   // ✅ اقتراح الاسم المكتوب مع أفاتار
-  const userItem = document.createElement("div");
-  userItem.className = "suggestion-item";
-  userItem.innerHTML = `
-    <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
-    <div>
-      <div><strong>${value}</strong></div>
-      <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
-    </div>
-  `;
-  userItem.addEventListener("click", () => {
-    inputBox.value = value;
-    updateNextButton();
-    suggestionBox.innerHTML = "";
-    logContainer.innerHTML = "";
-  });
-  suggestionBox.appendChild(userItem);
-
+  
   // ✅ اقتراحات من قائمة الأسماء
   const filtered = names.filter(n =>
     n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
   );
   renderSuggestions(filtered);
+// ✅ اقتراحات من قائمة الأسماء
+const filtered = names.filter(n =>
+  n.name.toLowerCase().includes(value) || n.username.toLowerCase().includes(value)
+);
+renderSuggestions(filtered);
 
+// ✅ بعد عرض الاقتراحات العادية، ضيف الاسم اللي المستخدم كتبه يدويًا
+const userItem = document.createElement("div");
+userItem.className = "suggestion-item";
+userItem.innerHTML = `
+  <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+  <div>
+    <div><strong>${value}</strong></div>
+    <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
+  </div>
+`;
+userItem.addEventListener("click", () => {
+  inputBox.value = value;
+  updateNextButton();
+  suggestionBox.innerHTML = "";
+  logContainer.innerHTML = "";
+});
+suggestionBox.appendChild(userItem);
   // ✅ إظهار السجل المحفوظ لو فيه تطابق
   const isInSaved = JSON.parse(localStorage.getItem("recentRecipients") || "[]").some(name =>
     name.toLowerCase().includes(value)
