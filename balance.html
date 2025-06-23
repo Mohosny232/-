@@ -25,7 +25,7 @@ textarea {
     
 .fixed-header {
   position: fixed;
-  top: 10%; /* صححت الوحدة */
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -36,17 +36,14 @@ textarea {
   border-radius: 0 0 12px 12px;
   z-index: 1000;
   box-sizing: border-box;
-  height: 120px; /* ثابت */
-  overflow: hidden;
+  height: 120px; /* ارتفاع ثابت للهيدر */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* تخلي زر المبلغ داخل الهيدر ويبقى ظاهر */
 .fixed-header #submitBtn {
-  position: absolute;
-  top: calc(100% + 15px); /* تحت العنصر الأساسي بـ 15px */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1100; /* أعلى من الهيدر */
+  margin-top: 10px;
   width: 90%;
   max-width: 320px;
   padding: 14px;
@@ -56,12 +53,14 @@ textarea {
   border-radius: 25px;
   border: none;
   cursor: pointer;
+  align-self: center;
+  z-index: 1100;
+  position: relative;
 }
 
-/* حاوية التحويلات */
 .transaction-log-container {
   position: fixed;
-  top: 180px; /* تحت الهيدر */
+  top: 140px; /* أعلى من الهيدر + الزر (120 + 20) */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -71,6 +70,7 @@ textarea {
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.95);
   box-sizing: border-box;
+  border-radius: 0 0 12px 12px;
 }
 
 
