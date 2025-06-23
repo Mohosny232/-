@@ -11,8 +11,8 @@
       font-family: Arial, sans-serif;
       background-color: #fff;
     }
-  input, textarea, select, button {
-  font-size: 16px; /* على الأقل 16px لمنع zoom التلقائي على iOS */
+  input, select, textarea {
+  -webkit-text-size-adjust: 100%;
   }
     .container {
       position: relative;
@@ -155,6 +155,13 @@
   document.getElementById('resetBalanceBtn').addEventListener('click', () => {
     localStorage.setItem("currentBalance", defaultBalance);
     updateBalanceDisplay();
+  });
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('focus', () => {
+    document.querySelector('meta[name=viewport]').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+  });
+  el.addEventListener('blur', () => {
+    document.querySelector('meta[name=viewport]').setAttribute('content', 'width=device-width, initial-scale=1');
   });
 </script>
 </body>
