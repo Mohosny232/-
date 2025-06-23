@@ -39,16 +39,22 @@
     }
 
     #main-balance {
-      font-size: 30px;
-      font-weight: 600;
-      color: black;
-      text-align: right;   /* ← الرقم على اليمين */
-      direction: rtl;      /* ← علشان اليورو تيجي على الشمال */
-      margin-left: 15px; 
-      width: 100%;
-      padding: 0 20px;
-      box-sizing: border-box;
-    }
+  font-size: 34px;
+  font-weight: 600;
+  color: black;
+  text-align: left;
+  direction: ltr;
+  padding-left: 20px;
+  box-sizing: border-box;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+
+#main-balance .euro {
+  margin-left: 6px;
+  font-weight: 600;
+}
 
     .buttons {
       position: absolute;
@@ -88,9 +94,10 @@
     <img src="your-image.jpg" alt="Send Payment Background" />
     
     <div class="balance-box">
-      <div id="main-balance">€ 0.00</div>
+  <div id="main-balance">
+    <span class="amount">0.00</span><span class="euro"> €</span>
+  </div>
     </div>
-
     <div class="buttons">
       <button class="btn" onclick="location.href='send.html'">Send</button>
       <button class="btn">Request</button>
@@ -136,6 +143,5 @@
       updateBalanceDisplay();
     });
   </script>
-
 </body>
 </html>
