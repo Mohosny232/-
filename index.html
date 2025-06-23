@@ -95,15 +95,16 @@
     localStorage.setItem("currentBalance", currentBalance);
   }
 
-  // دالة لتحديث الرصيد في الصفحة
   function updateBalanceDisplay() {
-    document.getElementById("main-balance").innerText =
-      "€ " + currentBalance.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-  }
+  const currentBalance = parseFloat(localStorage.getItem("currentBalance")) || 0;
 
+  // تحديث الرصيد في العنصر
+  document.getElementById("main-balance").innerText =
+    "€ " + currentBalance.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
   // خصم المبلغ من الرصيد إذا تم التحويل من balance.html
   function deductAmountIfNeeded() {
     const amount = parseFloat(localStorage.getItem('amountToDeduct'));
