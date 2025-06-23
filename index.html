@@ -111,10 +111,10 @@
 
   // تحديث الرصيد في العنصر
   document.getElementById("main-balance").innerText =
-    "€ " + currentBalance.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+  "€ " + currentBalance.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
   }
   // خصم المبلغ من الرصيد إذا تم التحويل من balance.html
   function deductAmountIfNeeded() {
