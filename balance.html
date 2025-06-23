@@ -269,7 +269,8 @@
     submitBtn.addEventListener('click', () => {
       if (!submitBtn.disabled) {
         const amount = parseFloat(balanceInput.value);
-
+// حفظ المبلغ في localStorage ليتم خصمه لاحقًا
+ localStorage.setItem('amountToDeduct', amount.toFixed(2));
         // تحديث اسم المستخدم من localStorage
         const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
 
