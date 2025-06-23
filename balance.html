@@ -312,41 +312,40 @@ savedTransactions.slice().reverse().forEach(t => {
     });
 
     function renderTransaction(username, amount) {
-      const div = document.createElement('div');
-      div.className = 'transaction-item';
-      div.innerHTML = `
-        <div class="transaction-left">
-          <div class="transaction-avatar">${username.charAt(0).toUpperCase()}</div>
-          <div>${username}</div>
-        </div>
-        <div class="transaction-right">
-          <span class="transaction-amount">${amount.toFixed(2)}</span>
-          <span class="transaction-currency">EUR</span>
-        </div>
-      `;
-      // نضيفه أول القائمة
-      logContainer.prepend(div);
+  const div = document.createElement('div');
+  div.className = 'transaction-item';
+  div.innerHTML = `
+    <div class="transaction-left">
+      <div class="transaction-avatar">${username.charAt(0).toUpperCase()}</div>
+      <div>${username}</div>
+    </div>
+    <div class="transaction-right">
+      <span class="transaction-amount">${amount.toFixed(2)}</span>
+      <span class="transaction-currency">EUR</span>
+    </div>
+  `;
+  logContainer.prepend(div); // ✅ الأحدث يطلع فوق
     }
 
     
   submitBtn.addEventListener('click', () => {
-    if (!submitBtn.disabled) {
-      const amount = parseFloat(balanceInput.value);
-      localStorage.setItem('amountToDeduct', amount.toFixed(2));
-      const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
+  if (!submitBtn.disabled) {
+    const amount = parseFloat(balanceInput.value);
+    localStorage.setItem('amountToDeduct', amount.toFixed(2));
+    const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
 
-      const transaction = {
-        username: usernameFromSend,
-        amount
-      };
+    const transaction = {
+      username: usernameFromSend,
+      amount
+    };
 
-      savedTransactions.unshift(transaction);  // ضيف في بداية المصفوفة
-localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+    savedTransactions.unshift(transaction);
+    localStorage.setItem('transactions', JSON.stringify(savedTransactions));
 
-// امسح اللوج واعرض كل السجلات من الأول للأخير
-logContainer.innerHTML = "";
-savedTransactions.forEach(t => {
-  renderTransaction(t.username, parseFloat(t.amount));
+    renderTransaction(usernameFromSend, amount); // ✅ بس أضف آخر واحدة فوق
+
+    // باقي الكود بتاع التحميل والتوست ...
+  }
 });
       // حالة الزر وقت التحميل
       submitBtn.textContent = "Loading...";
