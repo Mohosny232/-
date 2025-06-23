@@ -267,49 +267,39 @@
     }
 
     submitBtn.addEventListener('click', () => {
-      if (!submitBtn.disabled) {
-        const amount = parseFloat(balanceInput.value);
-// حفظ المبلغ في localStorage ليتم خصمه لاحقًا
- localStorage.setItem('amountToDeduct', amount.toFixed(2));
-        // تحديث اسم المستخدم من localStorage
-        const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
+  if (!submitBtn.disabled) {
+    const amount = parseFloat(balanceInput.value);
+    localStorage.setItem('amountToDeduct', amount.toFixed(2));
+    const usernameFromSend = localStorage.getItem('selectedUsername') || "Username";
 
-        const transaction = {
-          username: usernameFromSend,
-          amount
-        };
+    const transaction = {
+      username: usernameFromSend,
+      amount
+    };
 
-        // حفظ في localStorage مع تحديث القائمة
-        savedTransactions = [transaction, ...savedTransactions];
-        localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+    savedTransactions = [transaction, ...savedTransactions];
+    localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+    renderTransaction(usernameFromSend, amount);
 
-        // عرض في الواجهة
-        renderTransaction(usernameFromSend, amount);
+    submitBtn.textContent = "Loading...";
+    submitBtn.style.backgroundColor = "#0070ba66";
+    submitBtn.style.color = "white";
+    submitBtn.style.cursor = "default";
+    submitBtn.disabled = true;
 
-        // زر Loading
-        submitBtn.textContent = "Loading...";
-        submitBtn.style.backgroundColor = "#0070ba66";
-        submitBtn.style.color = "white";
-        submitBtn.style.cursor = "default";
-        submitBtn.disabled = true;
+    const toast = document.getElementById('toast');
 
-        // بعد ثانيتين إظهار الإشعار وتشغيل الصوت
-        setTimeout(() => {
-          toast.textContent = `The amount ${amount.toFixed(2)} EUR has been sent to ${usernameFromSend}`;
-          toast.classList.add('show');
+    setTimeout(() => {
+      toast.textContent = `The amount ${amount.toFixed(2)} EUR has been sent to ${usernameFromSend}`;
+      toast.classList.add('show');
 
-          sound.currentTime = 0;
-          sound.play();
-
-          // بعد ثانيتين إخفاء الإشعار والتحويل للصفحة الرئيسية
-          setTimeout(() => {
-            toast.classList.remove('show');
-            window.location.href = "index.html";
-          }, 2000);
-        }, 2000);
-      }
-    });
-
+      setTimeout(() => {
+        toast.classList.remove('show');
+        window.location.href = "index.html";
+      }, 2000);
+    }, 2000);
+  }
+});
     // زر إعادة تعيين (مسح التحويلات)
     resetBtn.addEventListener('click', () => {
       if (confirm("Are you sure you want to clear all transactions?")) {
