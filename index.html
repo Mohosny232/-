@@ -25,33 +25,30 @@
       object-fit: cover;
       display: block;
     }
-#main-balance {
-  position: absolute;
-  top: 56%;
-  left: 30%;
-  font-size: 30px;
-  font-weight: 415;
-  color: #003d82;
-}
+
     .balance-box {
       position: absolute;
       top: 56%;
       left: 30%;
       transform: translate(-50%, -50%);
-
       padding: 110px 20px;
       border-radius: 14px;
       font-size: 28px;
-      font-weight: 415;
+      font-weight: 600;
       color: black;
-      
     }
-           /* مسافة من الأعلى */
-    
-.buttons button:first-child {
-  background-color: #003d82;
-  padding: 14px 60px;
-}
+
+    #main-balance {
+      font-size: 30px;
+      font-weight: 600;
+      color: #003d82;
+      text-align: right; /* ← النص على اليمين */
+      direction: rtl;    /* ← علشان اليورو تكون على الشمال */
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
     .buttons {
       position: absolute;
       top: 90%;
@@ -61,31 +58,38 @@
       gap: 20px;
     }
 
-    
-.btn {
-  padding: 14px 46px;
-  border: none;
-  border-radius: 25px;
-  background-color: #003d82; /* ← أزرق غامق */
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: background-color 0.3s ease;
-}
+    .buttons button:first-child {
+      background-color: #003d82;
+      padding: 14px 60px;
+    }
 
-.btn:hover {
-  background-color: #002f66; /* لون أغمق عند التمرير */
-}
+    .btn {
+      padding: 14px 46px;
+      border: none;
+      border-radius: 25px;
+      background-color: #003d82;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
 
+    .btn:hover {
+      background-color: #002f66;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <img src="your-image.jpg" alt="Send Payment Background" />
-<div class="balance-box" id="main-balance">€ 0.00</div>
+    
+    <div class="balance-box">
+      <div id="main-balance">€ 0.00</div>
+    </div>
+    
     <div class="buttons">
       <button class="btn" onclick="location.href='send.html'">Send</button>
       <button class="btn">Request</button>
@@ -95,14 +99,12 @@
 <script>
   const defaultBalance = 5379758.00;
 
-  // التأكد من وجود الرصيد في التخزين المحلي
   let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
   if (isNaN(currentBalance)) {
     currentBalance = defaultBalance;
     localStorage.setItem("currentBalance", currentBalance);
   }
 
-  // تحديث الرصيد في الواجهة
   function updateBalanceDisplay() {
     let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
     if (isNaN(currentBalance)) {
@@ -110,13 +112,12 @@
     }
 
     document.getElementById("main-balance").innerText =
-      "€ " + currentBalance.toLocaleString('en-US', {
+      currentBalance.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-      });
+      }) + " €";
   }
 
-  // خصم المبلغ المحفوظ في localStorage
   function deductAmountIfNeeded() {
     const amount = parseFloat(localStorage.getItem('amountToDeduct'));
     if (!isNaN(amount) && amount > 0) {
@@ -129,7 +130,6 @@
     }
   }
 
-  // تنفيذ الوظائف عند تحميل الصفحة
   window.addEventListener('load', () => {
     deductAmountIfNeeded();
     updateBalanceDisplay();
