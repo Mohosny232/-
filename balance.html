@@ -43,7 +43,7 @@ textarea {
 /* تخلي زر المبلغ داخل الهيدر ويبقى ظاهر */
 .fixed-header #submitBtn {
   position: absolute;
-  top: 50%;
+  top: calc(100% + 15px); /* تحت العنصر الأساسي بـ 15px */
   left: 50%;
   transform: translateX(-50%);
   z-index: 1100; /* أعلى من الهيدر */
