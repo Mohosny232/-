@@ -173,7 +173,12 @@ const names = [
   { name: "Nour ElDin", username: "noureldin" },
   { name: "Tamer Hosny", username: "tamerh" }
 ];
-
+const avatarColors = [
+  "#FF6B6B", "#6BCB77", "#4D96FF", "#FFD93D", "#C084FC",
+  "#FF9F1C", "#F15BB5", "#00BBF9", "#00F5D4", "#9B5DE5",
+  "#FFBE0B", "#3A86FF", "#EF476F", "#06D6A0", "#118AB2",
+  "#FFB5E8", "#B28DFF", "#85E3FF", "#FFABAB", "#D291BC"
+];
 const inputBox = document.getElementById('recipient');
 const nextBtn = document.getElementById('nextBtn');
 const suggestionBox = document.getElementById('suggestions');
@@ -192,10 +197,14 @@ function updateNextButton() {
 function renderSuggestions(list) {
   suggestionBox.innerHTML = "";
   list.forEach(person => {
+    const randomColor = avatarColors[Math.floor(Math.random() * avatarColors.length)];
+
     const item = document.createElement("div");
     item.className = "suggestion-item";
     item.innerHTML = `
-      <div class="suggestion-avatar">${person.name[0]}</div>
+      <div class="suggestion-avatar" style="background-color: ${randomColor};">
+        ${person.name[0]}
+      </div>
       <div>
         <div><strong>${person.name}</strong></div>
         <div style="font-size: 13px; color: gray;">${person.username}</div>
