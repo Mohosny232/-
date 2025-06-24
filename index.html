@@ -114,24 +114,28 @@
   ">H</button>
 
 <script>
-const returnFlag = localStorage.getItem("returnFromBalance");
-if (returnFlag === "true") {
+window.addEventListener('load', () => {
+  const returnFlag = localStorage.getItem("returnFromBalance");
   const amountToDeduct = parseFloat(localStorage.getItem("amountToDeduct") || "0");
-  let currentBalance = parseFloat(localStorage.getItem("currentBalance") || "0");
-  const newBalance = currentBalance - amountToDeduct;
+  let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
+  const defaultBalance = 8256788.00;
 
-  // ✅ تشغيل العداد المتحرك
-  animateBalance(currentBalance, newBalance, 1500); // ← المدة: 1.5 ثانية
-
-  // تحديث الـ localStorage بالقيمة الجديدة
-  localStorage.setItem("currentBalance", newBalance.toFixed(2));
-
-  // 🧼 مسح الفلاج
-  localStorage.removeItem("returnFromBalance");
-  localStorage.removeItem("amountToDeduct");
-} else {
-  updateBalanceDisplay(); // ← تحميل الرصيد بشكل عادي
+  if (isNaN(currentBalance)) {
+    currentBalance = defaultBalance;
+    localStorage.setItem("currentBalance", currentBalance);
   }
+
+  if (returnFlag === "true" && amountToDeduct > 0) {
+    const newBalance = currentBalance - amountToDeduct;
+    animateBalance(currentBalance, newBalance, 1500);
+
+    localStorage.setItem("currentBalance", newBalance.toFixed(2));
+    localStorage.removeItem("returnFromBalance");
+    localStorage.removeItem("amountToDeduct");
+  } else {
+    updateBalanceDisplay();
+  }
+});
   function animateBalance(start, end, duration) {
   const amountSpan = document.querySelector("#main-balance .amount");
   const startTime = performance.now();
