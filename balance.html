@@ -258,7 +258,10 @@ textarea {
   </div>
   <button id="resetBtn" title="Reset Transactions">H</button>
 <div id="toast" class="toast">Notification Text</div>
-
+<!-- سهم العودة -->
+<button id="backBtn" style="position: fixed; bottom: 20px; right: 20px; background: none; border: none;">
+  <img src="back-arrow.svg" alt="Back" style="width: 30px; transform: rotate(180deg);" />
+</button>
   <!-- صوت الاشعار -->
 
   <script>
@@ -285,6 +288,10 @@ textarea {
 logContainer.innerHTML = "";
 savedTransactions.slice().reverse().forEach(t => {
   renderTransaction(t.username, parseFloat(t.amount));
+});
+    document.getElementById("backBtn").addEventListener("click", () => {
+  localStorage.setItem("returnFromBalance", "true");
+  window.location.href = "index.html";
 });
     function updateButton() {
       const val = parseFloat(balanceInput.value);
