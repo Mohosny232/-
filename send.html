@@ -312,7 +312,8 @@ suggestionBox.appendChild(userItem);
     renderRecentRecipients(value); // ✅ عرض الماتشات فقط
   }
 });
-
+// عند تحميل الصفحة مباشرة، أظهر السجل
+renderRecentRecipients("");
 nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
