@@ -90,7 +90,7 @@
     
     <div class="balance-box">
       <div id="main-balance">
-        <span class="amount">0.00</span><span class="euro"> €</span>
+        <span class="amount">&nbsp;</span><span class="euro"> €</span>
       </div>
     </div>
     <div class="buttons">
@@ -166,6 +166,9 @@
       document.querySelector('meta[name=viewport]').setAttribute('content', 'width=device-width, initial-scale=1');
     });
   });
+    // كودك كله هنا...
+    updateBalanceDisplay(); // ← استدعاء سريع
+  
 </script>
 </body>
 </html>
