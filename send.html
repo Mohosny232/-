@@ -283,10 +283,13 @@ const filtered = names.filter(n =>
 renderSuggestions(filtered);
 
 // ✅ بعد عرض الاقتراحات العادية، ضيف الاسم اللي المستخدم كتبه يدويًا
+const color = avatarColors[Math.floor(Math.random() * avatarColors.length)];
 const userItem = document.createElement("div");
 userItem.className = "suggestion-item";
 userItem.innerHTML = `
-  <div class="suggestion-avatar">${value.charAt(0).toUpperCase()}</div>
+  <div class="suggestion-avatar" style="background-color: ${color};">
+    ${value.charAt(0).toUpperCase()}
+  </div>
   <div>
     <div><strong>${value}</strong></div>
     <div style="font-size: 13px; color: gray;">Send to "${value}"</div>
