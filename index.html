@@ -91,7 +91,7 @@
     
     <div class="balance-box">
       <div id="main-balance">
-<span class="amount"></span><span class="euro"> €</span>      
+     <span class="amount" id="initialAmount"></span><span class="euro"> €</span>
     </div>
     </div>
     <div class="buttons">
@@ -114,6 +114,14 @@
   ">H</button>
 
 <script>
+  const saved = localStorage.getItem("currentBalance");
+  const fallback = "8,256,788.00";
+  const formatted = parseFloat(saved).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  document.getElementById("initialAmount").textContent = !isNaN(saved) ? formatted : fallback;
+
 window.addEventListener('load', () => {
   const returnFlag = localStorage.getItem("returnFromBalance");
   const amountToDeduct = parseFloat(localStorage.getItem("amountToDeduct") || "0");
