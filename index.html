@@ -6,11 +6,16 @@
   <title>Send Payment - Fake PayPal</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  visibility: hidden; /* ⛔️ اخفي الصفحة أولاً */
+}
+body.show {
+  visibility: visible; /* ✅ تظهر بعد التحميل */
     }
+    
   input, select, textarea {
   -webkit-text-size-adjust: 100%;
   }
@@ -21,10 +26,13 @@
       overflow: hidden;
     }
     .container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
     }
     .balance-box {
       position: absolute;
@@ -87,8 +95,7 @@
 <body>
 
   <div class="container">
-    <img src="your-image.jpg" alt="Send Payment Background" />
-    
+<img src="your-image.jpg" alt="Send Payment Background" loading="eager" />
     <div class="balance-box">
       <div id="main-balance">
      <span class="amount" id="initialAmount"></span><span class="euro"> €</span>
@@ -214,6 +221,10 @@ window.addEventListener('pageshow', () => {
 
 window.addEventListener('load', () => {
   window.scrollTo(0, 0); // نرجع فوق وقت التحميل كمان
+});
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+  document.body.classList.add("show"); // 👈 إظهار الصفحة بعد التهيئة
 });
 </script>
 </body>
