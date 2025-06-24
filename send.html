@@ -245,21 +245,25 @@ function renderRecentRecipients(filter = "") {
 
   logContainer.innerHTML = "";
   saved.forEach(username => {
-    const div = document.createElement("div");
-    div.className = "recent-item";
-    div.innerHTML = `
-      <div class="recent-avatar">${username.charAt(0).toUpperCase()}</div>
-      <div>${username}</div>
-    `;
-    div.addEventListener("click", () => {
-      inputBox.value = username;
-      updateNextButton();
-      suggestionBox.innerHTML = "";
-      logContainer.innerHTML = "";
-    });
-    logContainer.appendChild(div);
+  const div = document.createElement("div");
+  div.className = "recent-item";
+
+  const color = avatarColors[Math.floor(Math.random() * avatarColors.length)];
+  div.innerHTML = `
+    <div class="recent-avatar" style="background-color: ${color};">
+      ${username.charAt(0).toUpperCase()}
+    </div>
+    <div>${username}</div>
+  `;
+
+  div.addEventListener("click", () => {
+    inputBox.value = username;
+    updateNextButton();
+    suggestionBox.innerHTML = "";
+    logContainer.innerHTML = "";
   });
-}
+  logContainer.appendChild(div);
+});
 
 inputBox.addEventListener("input", () => {
   const value = inputBox.value.trim().toLowerCase();
