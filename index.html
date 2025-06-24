@@ -203,6 +203,18 @@ window.addEventListener('load', () => {
   document.addEventListener("DOMContentLoaded", function () {
   updateBalanceDisplay();
 });
+  // ✅ منع الصفحة من النزول أو الزوم عند الرجوع من صفحة تانية
+window.addEventListener('pageshow', () => {
+  window.scrollTo(0, 0); // نرجّع الصفحة فوق
+  setTimeout(() => {
+    document.activeElement?.blur(); // نشيل التركيز من أي عنصر (مثلاً input)
+    window.scrollTo(0, 0); // نأكد مرة تانية
+  }, 50);
+});
+
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0); // نرجع فوق وقت التحميل كمان
+});
 </script>
 </body>
 </html>
