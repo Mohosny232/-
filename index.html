@@ -114,6 +114,18 @@
   ">H</button>
 
 <script>
+const returnFlag = localStorage.getItem("returnFromBalance");
+if (returnFlag === "true") {
+  // ✅ خصم ديناميكي
+  const amountToDeduct = parseFloat(localStorage.getItem("amountToDeduct") || "0");
+  let balance = parseFloat(localStorage.getItem("currentBalance") || "0");
+  balance -= amountToDeduct;
+  localStorage.setItem("currentBalance", balance.toFixed(2));
+
+  // 🧼 إزالة الفلاج علشان مايتكرر الخصم
+  localStorage.removeItem("returnFromBalance");
+  localStorage.removeItem("amountToDeduct");
+  }
   const defaultBalance = 8256788.00;
 
   let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
