@@ -348,11 +348,6 @@ savedTransactions.slice().reverse().forEach(t => {
       username: usernameFromSend,
       amount
     };
-
-    savedTransactions.unshift(transaction);
-    localStorage.setItem('transactions', JSON.stringify(savedTransactions));
-    renderTransaction(usernameFromSend, amount);
-
     // ✅ حالة الزر وقت التحميل
     submitBtn.textContent = "Loading...";
     submitBtn.style.backgroundColor = "#0070ba66";
@@ -360,16 +355,25 @@ savedTransactions.slice().reverse().forEach(t => {
     submitBtn.style.cursor = "default";
     submitBtn.disabled = true;
 
-    const toast = document.getElementById('toast');
+    // أول حاجة: عرض التوست
+toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
+toast.classList.add('show');
 
-    setTimeout(() => {
-      toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
-      toast.classList.add('show');
+// بعد ما التوست يختفي، ضيف العملية في السجل
+setTimeout(() => {
+  toast.classList.remove('show');
 
-      setTimeout(() => {
-        toast.classList.remove('show');
+  // ✨ دلوقتي نسجل العملية
+  const transaction = {
+    username: usernameFromSend,
+    amount
+  };
 
-        // ✅ نرجّع الزر لحالته الأصلية
+  savedTransactions.unshift(transaction);
+  localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+  renderTransaction(usernameFromSend, amount);
+   
+  // ✅ نرجّع الزر لحالته الأصلية
         submitBtn.disabled = true;
         submitBtn.classList.remove('active');
         submitBtn.textContent = "EUR 0.00";
