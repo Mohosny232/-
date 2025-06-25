@@ -120,7 +120,38 @@
       justify-content: center;
       font-weight: bold;
     }
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin: 20px auto;
+}
 
+.search-container input {
+  width: 100%;
+  padding: 12px 40px 12px 40px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.clear-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: none;
+    }
     .btn {
       padding: 12px 30px;
       border: none;
@@ -158,7 +189,26 @@
       <button id="nextBtn" class="btn disabled" disabled>Next</button>
     </div>
   </div>
+<div class="search-container">
+  <span class="search-icon">
+    <!-- أيقونة البحث SVG -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M21 21L15.8 15.8M17 10C17 13.9 13.9 17 10 17C6.1 17 3 13.9 3 10C3 6.1 6.1 3 10 3C13.9 3 17 6.1 17 10Z" 
+            stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
 
+  <input type="text" id="usernameInput" placeholder="Search username..." />
+
+  <span class="clear-icon" id="clearBtn">
+    <!-- X داخل دائرة -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+      <circle cx="12" cy="12" r="10" fill="#444" />
+      <path d="M15 9L9 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </span>
+</div>
 <script>
 const names = [
   { name: "Alice Brown", username: "aliceb" },
@@ -330,6 +380,18 @@ nextBtn.addEventListener('click', () => {
     localStorage.setItem('selectedUsername', username);
     window.location.href = 'balance.html';
   }
+});
+  const input = document.getElementById("usernameInput");
+const clearBtn = document.getElementById("clearBtn");
+
+input.addEventListener("input", () => {
+  clearBtn.style.display = input.value.length > 0 ? "block" : "none";
+});
+
+clearBtn.addEventListener("click", () => {
+  input.value = "";
+  clearBtn.style.display = "none";
+  input.focus();
 });
 </script>
 </body>  
