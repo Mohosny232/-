@@ -20,9 +20,11 @@ body.show {
   -webkit-text-size-adjust: 100%;
   }
     html, body {
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
+  scroll-behavior: auto;
     }
+    
     .container {
       position: relative;
       width: 100%;
@@ -214,21 +216,18 @@ window.addEventListener('load', () => {
   document.addEventListener("DOMContentLoaded", function () {
   updateBalanceDisplay();
 });
-  // ✅ منع الصفحة من النزول أو الزوم عند الرجوع من صفحة تانية
-window.addEventListener('pageshow', () => {
-  window.scrollTo(0, 0); // نرجّع الصفحة فوق
-  setTimeout(() => {
-    document.activeElement?.blur(); // نشيل التركيز من أي عنصر (مثلاً input)
-    window.scrollTo(0, 0); // نأكد مرة تانية
-  }, 50);
-});
-
-window.addEventListener('load', () => {
-  window.scrollTo(0, 0); // نرجع فوق وقت التحميل كمان
-});
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   window.scrollTo(0, 0);
-  document.body.classList.add("show"); // 👈 إظهار الصفحة بعد التهيئة
+});
+  window.addEventListener("pageshow", (event) => {
+  // لو راجع من الباك كاش أو صفحة تانية
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    window.scrollTo(0, 0); // ارجع لفوق
+    setTimeout(() => {
+      document.activeElement?.blur(); // ألغي التركيز من أي input
+      window.scrollTo(0, 0); // تاني تأكيد
+    }, 50);
+  }
 });
 </script>
 </body>
