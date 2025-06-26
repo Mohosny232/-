@@ -335,7 +335,8 @@ userItem.innerHTML = `
 `;
     
 userItem.addEventListener("click", () => {
-  inputBox.value = `@${value}`;
+  const cleanUsername = value.replace(/^@/, "");
+  inputBox.value = `@${cleanUsername}`;
   updateNextButton();
   suggestionBox.innerHTML = "";
   logContainer.innerHTML = "";
@@ -357,8 +358,8 @@ nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
 
-    saveRecipient(username);
-
+    saveRecipient(username.replace(/^@/, ""));
+ 
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(username)) {
       history.unshift(username);
