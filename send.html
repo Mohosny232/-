@@ -372,11 +372,7 @@ suggestionBox.appendChild(userItem);
 });
 // عند تحميل الصفحة مباشرة، أظهر السجل
 renderRecentRecipients("");
-nextBtn.addEventListener('click', () => {
-  if (!nextBtn.disabled) {
-    const username = inputBox.value.trim();
-
-    saveRecipient(username.replace(/^@/, ""));
+  saveRecipient(username.replace(/^@/, ""));
  nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
