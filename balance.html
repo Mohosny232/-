@@ -342,20 +342,21 @@ savedTransactions.slice().reverse().forEach(t => {
 
   const color = avatarColors[Math.floor(Math.random() * avatarColors.length)];
 
+  function renderTransaction(username, amount) {
   const div = document.createElement('div');
-div.className = 'transaction-item';
-div.innerHTML = `
-  <div class="transaction-avatar-img">
-    <img src="pay77.jpg" alt="avatar" />
-  </div>
-  <div class="transaction-username">
-    ${username}
-  </div>
-  <div class="transaction-right">
-    <span class="transaction-amount">${amount.toFixed(2)}</span>
-    <span class="transaction-currency">EUR</span>
-  </div>
-`;
+  div.className = 'transaction-item';
+  div.innerHTML = `
+    <div class="transaction-avatar-img">
+      <img src="pay77.jpg" alt="avatar" />
+    </div>
+    <div class="transaction-username">
+      ${username}
+    </div>
+    <div class="transaction-right">
+      <span class="transaction-amount">${amount.toFixed(2)}</span>
+      <span class="transaction-currency">EUR</span>
+    </div>
+  `;
 
 logContainer.prepend(div); // الأحدث يظهر فوق  
     
