@@ -245,6 +245,13 @@ textarea {
   opacity: 1;
   pointer-events: auto;
 }
+    .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -255,9 +262,10 @@ textarea {
   <!-- العناصر الثابتة -->
   <div class="fixed-header">
     <div class="user-label">
-      <div id="usernameDisplay">Username</div>
-      <div id="userAvatar" class="user-avatar">U</div>
-    </div>
+      <div class="user-info">
+  <div id="userAvatar" class="avatar"></div>
+  <div id="usernameDisplay"></div>
+      </div>
 
     <div class="input-wrapper">
       <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
@@ -280,11 +288,15 @@ textarea {
 
 <script>
   const username = localStorage.getItem('selectedUsername') || "Username";
-  const usernameDisplay = document.getElementById('usernameDisplay');
-  const userAvatar = document.getElementById('userAvatar');
-  usernameDisplay.textContent = username;
-  userAvatar.textContent = username.charAt(0).toUpperCase();
 
+const usernameDisplay = document.getElementById('usernameDisplay');
+const userAvatar = document.getElementById('userAvatar');
+
+// عرض الاسم
+usernameDisplay.textContent = username;
+
+// عرض الصورة بدل الحرف
+userAvatar.innerHTML = `<img src="pay77.jpg" alt="avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />`;
   const balanceInput = document.getElementById('balanceInput');
   const submitBtn = document.getElementById('submitBtn');
   const toast = document.getElementById('toast');
