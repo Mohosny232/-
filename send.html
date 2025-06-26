@@ -370,26 +370,40 @@ suggestionBox.appendChild(userItem);
     renderRecentRecipients(value); // ✅ عرض الماتشات فقط
   }
 });
-// عند تحميل الصفحة مباشرة، أظهر السجل
+// إظهار السجل عند التحميل
 renderRecentRecipients("");
-  saveRecipient(username.replace(/^@/, ""));
- nextBtn.addEventListener('click', () => {
+
+// زر Next
+const nextBtn = document.getElementById('nextBtn');
+
+nextBtn.addEventListener('click', () => {
   if (!nextBtn.disabled) {
     const username = inputBox.value.trim();
 
-    saveRecipient(username);
-    localStorage.setItem('selectedUsername', username);
+    // إزالة @ من البداية لو موجودة
+    const cleanUsername = username.replace(/^@/, "");
 
-    // ✨ إظهار اللودينج داخل الزر
+    // حفظ الاسم
+    saveRecipient(cleanUsername);
+    localStorage.setItem('selectedUsername', cleanUsername);
+
+    // إظهار لودينج داخل الزر
     nextBtn.querySelector('.btn-text').style.display = 'none';
     nextBtn.querySelector('.loader').style.display = 'inline-block';
 
-    // 🕓 تأخير وهمي قبل التحويل (تقدر تحذفه لو مش محتاج)
+    // انتظار 2 ثانية قبل النقل
     setTimeout(() => {
       window.location.href = 'balance.html';
     }, 2000);
   }
 });
+
+// عند الرجوع للصفحة من balance.html، نظّف الزر
+window.addEventListener('pageshow', () => {
+  nextBtn.querySelector('.btn-text').style.display = 'inline';
+  nextBtn.querySelector('.loader').style.display = 'none';
+});
+  
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     if (!history.includes(username)) {
       history.unshift(username);
