@@ -331,10 +331,11 @@ userItem.innerHTML = `
   <div class="suggestion-avatar" style="background-color: ${color};">
     ${value.charAt(0).toUpperCase()}
   </div>
-  <div>
-    <div style="font-weight: bold; font-size: 16px;">@${value}</div>
+  <div style="font-weight: bold; font-size: 16px;">@${value}</div>
+`;
+    
 userItem.addEventListener("click", () => {
-  inputBox.value = value;
+  inputBox.value = `@${value}`;
   updateNextButton();
   suggestionBox.innerHTML = "";
   logContainer.innerHTML = "";
