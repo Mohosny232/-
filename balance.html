@@ -304,9 +304,12 @@ textarea {
 
 <script>
   const username = localStorage.getItem('selectedUsername') || "Username";
-  document.getElementById('usernameDisplay').textContent = username;
-  usernameDisplay.textContent = username;
-  userAvatar.textContent = username.charAt(0).toUpperCase();
+  
+  const usernameDisplay = document.getElementById('usernameDisplay');
+  const userAvatar = document.getElementById('userAvatar');
+
+  if (usernameDisplay) usernameDisplay.textContent = username;
+  if (userAvatar) userAvatar.textContent = username.charAt(0).toUpperCase();
 
   const balanceInput = document.getElementById('balanceInput');
   const submitBtn = document.getElementById('submitBtn');
