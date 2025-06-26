@@ -345,13 +345,16 @@ savedTransactions.slice().reverse().forEach(t => {
   const div = document.createElement('div');
   div.className = 'transaction-item';
   div.innerHTML = `
-    <div class="transaction-avatar-img">
+<div class="transaction-avatar-img">
   <img src="pay77.jpg" alt="avatar" />
 </div>
-      </div>
-      <div>${username}</div>
-    </div>
-    <div class="transaction-right">
+<div class="transaction-username">
+  ${username}
+</div>
+<div class="transaction-right">
+  <!-- محتوى آخر في الجهة اليمنى إن وُجد -->
+</div>
+
   logContainer.prepend(div); // الأحدث يظهر فوق
     }
     
