@@ -406,17 +406,6 @@ window.addEventListener('pageshow', () => {
   nextBtn.querySelector('.loader').style.display = 'none';
 });
   
-    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    if (!history.includes(username)) {
-      history.unshift(username);
-      if (history.length > 10) history = history.slice(0, 10);
-      localStorage.setItem('searchHistory', JSON.stringify(history));
-    }
-
-    localStorage.setItem('selectedUsername', username);
-    window.location.href = 'balance.html';
-  }
-});
   const input = document.getElementById("recipient");
 const clearBtn = document.getElementById("clearBtn");
 
