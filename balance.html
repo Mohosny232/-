@@ -282,14 +282,11 @@ textarea {
 
 <script>
   const username = localStorage.getItem('selectedUsername') || "Username";
+  const usernameDisplay = document.getElementById('usernameDisplay');
+  const userAvatar = document.getElementById('userAvatar');
+  usernameDisplay.textContent = username;
+  userAvatar.textContent = username.charAt(0).toUpperCase();
 
-const usernameDisplay = document.getElementById('usernameDisplay');
-const userAvatar = document.getElementById('userAvatar');
-
-// عرض الاسم
-usernameDisplay.textContent = username;
-
-// عرض الصورة بدل الحرف
   const balanceInput = document.getElementById('balanceInput');
   const submitBtn = document.getElementById('submitBtn');
   const toast = document.getElementById('toast');
