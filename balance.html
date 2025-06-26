@@ -173,6 +173,25 @@ textarea {
       align-items: center;
       gap: 10px;
     }
+    .user-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.avatar-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.username-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
     .transaction-avatar {
       width: 36px;
       height: 36px;
@@ -257,8 +276,10 @@ textarea {
   <div class="fixed-header">
     <div class="user-label">
       <div class="user-info">
-  <div id="userAvatar" class="avatar"></div>
-  <div id="usernameDisplay"></div>
+<div class="user-header">
+  <img src="pay77.jpg" alt="Avatar" class="avatar-img" />
+  <div id="usernameDisplay" class="username-text"></div>
+</div>
       </div>
       </div>
 
@@ -283,8 +304,7 @@ textarea {
 
 <script>
   const username = localStorage.getItem('selectedUsername') || "Username";
-  const usernameDisplay = document.getElementById('usernameDisplay');
-  const userAvatar = document.getElementById('userAvatar');
+  document.getElementById('usernameDisplay').textContent = username;
   usernameDisplay.textContent = username;
   userAvatar.textContent = username.charAt(0).toUpperCase();
 
