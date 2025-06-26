@@ -333,16 +333,6 @@ savedTransactions.slice().reverse().forEach(t => {
     });
 
     function renderTransaction(username, amount) {
-  const avatarColors = [
-    '#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF7',
-    '#FF33A8', '#F3FF33', '#33FFA8', '#A833FF', '#FF8F33',
-    '#33FF8F', '#8FFF33', '#FF338F', '#338FFF', '#8F33FF',
-    '#FF6F33', '#33FF6F', '#6FFF33', '#FF336F', '#336FFF'
-  ];
-
-  const color = avatarColors[Math.floor(Math.random() * avatarColors.length)];
-
-  function renderTransaction(username, amount) {
   const div = document.createElement('div');
   div.className = 'transaction-item';
   div.innerHTML = `
@@ -357,7 +347,7 @@ savedTransactions.slice().reverse().forEach(t => {
       <span class="transaction-currency">EUR</span>
     </div>
   `;
-
+  
 logContainer.prepend(div); // الأحدث يظهر فوق  
     
   submitBtn.addEventListener('click', () => {
