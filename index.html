@@ -159,22 +159,18 @@ window.addEventListener('load', () => {
     updateBalanceDisplay();
   }
 });
-  function updateBalanceDisplay() {
+function updateBalanceDisplay() {
   const balance = parseFloat(localStorage.getItem("currentBalance") || "8256788.00");
   const formatted = balance.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-  document.getElementById("initialAmount").textContent = formatted;
-  }                                                                }
-
-    if (progress < 1) {
-      requestAnimationFrame(update);
-    }
+  
+  const initialAmountEl = document.getElementById("initialAmount");
+  if (initialAmountEl) {
+    initialAmountEl.textContent = formatted;
   }
-
-  requestAnimationFrame(update);
-  }
+}
 
   function deductAmountIfNeeded() {
     const amount = parseFloat(localStorage.getItem('amountToDeduct'));
