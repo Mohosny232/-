@@ -129,6 +129,7 @@ body.show {
   📲 تثبيت التطبيق
 </button>
 <script>
+ const defaultBalance = 8256788.00; // 🔁 القيمة الافتراضية للرصيد
   const saved = localStorage.getItem("currentBalance");
   const fallback = "8,256,788.00";
   const formatted = parseFloat(saved).toLocaleString('en-US', {
@@ -141,7 +142,7 @@ window.addEventListener('load', () => {
   const returnFlag = localStorage.getItem("returnFromBalance");
   const amountToDeduct = parseFloat(localStorage.getItem("amountToDeduct") || "0");
   let currentBalance = parseFloat(localStorage.getItem("currentBalance"));
-  const defaultBalance = 8256788.00;
+  
 
   if (isNaN(currentBalance)) {
     currentBalance = defaultBalance;
@@ -206,10 +207,9 @@ function animateBalanceDisplay(from, to, duration = 2000) {
 
   // زر إعادة تعيين الرصيد للافتراضي
   document.getElementById('resetBalanceBtn').addEventListener('click', () => {
-    localStorage.setItem("currentBalance", defaultBalance);
-    updateBalanceDisplay();
-  });
-
+  localStorage.setItem("currentBalance", defaultBalance.toFixed(2));
+  updateBalanceDisplay();
+});
   // حل مشكلة الزوم في بعض الأجهزة
   document.querySelectorAll('input, textarea, select').forEach(el => {
     el.addEventListener('focus', () => {
