@@ -159,19 +159,14 @@ window.addEventListener('load', () => {
     updateBalanceDisplay();
   }
 });
-  function animateBalance(start, end, duration) {
-  const amountSpan = document.querySelector("#main-balance .amount");
-  const startTime = performance.now();
-
-  function update(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1); // بين 0 و 1
-
-    const currentValue = start - (start - end) * progress;
-    amountSpan.innerText = currentValue.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+  function updateBalanceDisplay() {
+  const balance = parseFloat(localStorage.getItem("currentBalance") || "8256788.00");
+  const formatted = balance.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  document.getElementById("initialAmount").textContent = formatted;
+  }                                                                }
 
     if (progress < 1) {
       requestAnimationFrame(update);
