@@ -274,7 +274,14 @@ window.addEventListener("load", () => {
       .then(() => console.log('✅ Service Worker registered'))
       .catch(err => console.log('❌ Service Worker registration failed:', err));
   }
-
+function updateBalanceDisplay() {
+  const balance = parseFloat(localStorage.getItem("currentBalance") || "8256788.00");
+  const formatted = balance.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  document.getElementById("initialAmount").textContent = formatted;
+    }
 </script>
 </body>
 </html>
