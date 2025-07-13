@@ -129,7 +129,8 @@ body.show {
   📲 تثبيت التطبيق
 </button>
 <script>
- const saved = localStorage.getItem("currentBalance");
+  const defaultBalance = 8256788.00;
+  const saved = localStorage.getItem("currentBalance");
 const savedParsed = parseFloat(saved);
 const fallback = "8,256,788.00";
 
