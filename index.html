@@ -124,7 +124,9 @@ body.show {
     opacity: 0.5;
     z-index: 1000;
   ">H</button>
-
+<button id="installBtn" style="position:fixed; bottom:20px; left:20px; padding:10px 15px; background:black; color:white; border:none; border-radius:6px; cursor:pointer; z-index:9999; display:none;">
+  📲 تثبيت التطبيق
+</button>
 <script>
   const saved = localStorage.getItem("currentBalance");
   const fallback = "8,256,788.00";
@@ -231,6 +233,32 @@ window.addEventListener("load", () => {
   window.addEventListener('load', () => {
   document.body.classList.add('show'); // ✅ يظهر الصفحة
 });
+  
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  // حفظ الحدث وقت جاهزية التثبيت
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block'; // إظهار زر التثبيت
+  });
+
+  // لما يضغط المستخدم على الزر
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt(); // إظهار نافذة التثبيت
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('✅ تم التثبيت');
+        installBtn.style.display = 'none'; // إخفاء الزر
+      } else {
+        console.log('❌ المستخدم رفض التثبيت');
+      }
+      deferredPrompt = null;
+    }
+  });
+
 </script>
 </body>
 </html>
