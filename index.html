@@ -153,7 +153,7 @@ window.addEventListener('load', () => {
 
   if (returnFlag === "true" && amountToDeduct > 0) {
     const newBalance = currentBalance - amountToDeduct;
-    animateBalance(currentBalance, newBalance, 1500);
+    animateBalanceDisplay(currentBalance, newBalance, 1500);
 
     localStorage.setItem("currentBalance", newBalance.toFixed(2));
     localStorage.removeItem("returnFromBalance");
@@ -203,7 +203,7 @@ function animateBalanceDisplay(from, to, duration = 2000) {
   }
 
   window.addEventListener('load', () => {
-    deductAmountIfNeeded();
+    
     updateBalanceDisplay();
   });
 
