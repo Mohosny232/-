@@ -159,18 +159,33 @@ window.addEventListener('load', () => {
     updateBalanceDisplay();
   }
 });
-function updateBalanceDisplay() {
-  const balance = parseFloat(localStorage.getItem("currentBalance") || "8256788.00");
-  const formatted = balance.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-  
+function animateBalanceDisplay(from, to, duration = 2000) {
+  const start = performance.now();
   const initialAmountEl = document.getElementById("initialAmount");
-  if (initialAmountEl) {
-    initialAmountEl.textContent = formatted;
+
+  function update(currentTime) {
+    const elapsed = currentTime - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const currentValue = from + (to - from) * progress;
+
+    const formatted = currentValue.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
+    if (initialAmountEl) {
+      initialAmountEl.textContent = formatted;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
   }
+
+  requestAnimationFrame(update);
 }
+
+// مثال:
 
   function deductAmountIfNeeded() {
     const amount = parseFloat(localStorage.getItem('amountToDeduct'));
