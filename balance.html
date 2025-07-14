@@ -336,7 +336,7 @@ textarea {
     if (!isNaN(val) && val > 0) {
       submitBtn.classList.add('active');
       submitBtn.disabled = false;
-      submitBtn.textContent = `EUR ${val.toFixed(2)}`;
+      submitBtn.textContent = `USD ${val.toFixed(2)}`;
       submitBtn.style.backgroundColor = "#003d82";
       submitBtn.style.color = "white";
       submitBtn.style.cursor = "pointer";
@@ -366,7 +366,7 @@ textarea {
       </div>
       <div class="transaction-right">
         <span class="transaction-amount">${amount.toFixed(2)}</span>
-        <span class="transaction-currency">EUR</span>
+        <span class="transaction-currency">USD</span>
       </div>
     `;
     logContainer.prepend(div);
@@ -395,7 +395,7 @@ textarea {
         localStorage.setItem('transactions', JSON.stringify(savedTransactions));
         renderTransaction(usernameFromSend, amount);
 
-        toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} EUR</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
+        toast.innerHTML = `The amount <span style="font-weight:bold;">${amount.toFixed(2)} USD</span> has been sent to <span style="font-weight:bold;">${usernameFromSend}</span>`;
         toast.classList.add('show');
 
         setTimeout(() => {
