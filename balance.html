@@ -285,10 +285,10 @@ textarea {
 
     <div class="input-wrapper">
       <input type="number" id="balanceInput" placeholder="Enter amount" min="0" step="0.01" />
-      <div class="currency-label">EUR</div>
+      <div class="currency-label">USD</div>
     </div>
 
-    <button id="submitBtn" disabled>EUR 0.00</button>
+    <button id="submitBtn" disabled>USD 0.00</button>
   </div>
 
   <!-- التحويلات المتحركة -->
@@ -343,7 +343,7 @@ textarea {
     } else {
       submitBtn.classList.remove('active');
       submitBtn.disabled = true;
-      submitBtn.textContent = "EUR 0.00";
+      submitBtn.textContent = "USD 0.00";
       submitBtn.style.backgroundColor = "#0070ba66";
       submitBtn.style.color = "white";
       submitBtn.style.cursor = "default";
@@ -402,7 +402,7 @@ textarea {
           toast.classList.remove('show');
           submitBtn.disabled = true;
           submitBtn.classList.remove('active');
-          submitBtn.textContent = "EUR 0.00";
+          submitBtn.textContent = "USD 0.00";
           submitBtn.style.backgroundColor = "#0070ba66";
           submitBtn.style.cursor = "not-allowed";
           balanceInput.value = "";
@@ -421,7 +421,7 @@ textarea {
 
   // ✅ حالة الزر عند تحميل الصفحة
   window.addEventListener('load', () => {
-    submitBtn.textContent = "EUR 0.00";
+    submitBtn.textContent = "USD 0.00";
     submitBtn.classList.remove('active');
     submitBtn.disabled = true;
     balanceInput.value = "";
